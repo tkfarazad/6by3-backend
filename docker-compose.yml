@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.3
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  app: &app
+    build: .
+    command: bash
+    volumes:
+      - .:/app
+      - bundler-data:/usr/local/bundle/:cached
+      - bin-data:/usr/local/bin/:cached
+    environment:
+      - RAILS_ENV=${RAILS_ENV:-development}
+    depends_on:
+      - db
+
+  api:
+    <<: *app
+    command: bundle exec rails s -p 3001 -b '0.0.0.0'
+    environment:
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-0}
+    ports:
+      - "3001:3001"
+
+volumes:
+  bundler-data:
+  bin-data:
+  pg-data:

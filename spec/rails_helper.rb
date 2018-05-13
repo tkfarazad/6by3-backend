@@ -8,9 +8,18 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'database_cleaner'
 require 'factory_bot_rails'
+require 'rspec_api_documentation/dsl'
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+RspecApiDocumentation.configure do |config|
+  config.api_name = 'API Documentation'
+  config.format = :api_blueprint
+  config.request_headers_to_include = ['Authorization', 'Content-Type']
+  config.response_headers_to_include = ['Content-Type']
+  config.request_body_formatter = :json
+end
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
 

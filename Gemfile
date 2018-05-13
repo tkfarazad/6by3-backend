@@ -31,6 +31,9 @@ group :development, :test do
   gem 'sequel_pretty_print', '~> 0.2'
 
   gem 'dotenv-rails', '~> 2.2'
+  gem 'rspec-rails', '~> 3.7'
+  gem 'ffaker', '~> 2.9'
+  gem 'factory_bot_rails', '~> 4.8', require: false
 end
 
 group :development do
@@ -39,7 +42,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -19,3 +19,5 @@
 /config/master.key
 
 .env.development.local
+
+spec/examples.txt

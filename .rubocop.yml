@@ -1,0 +1,34 @@
+AllCops:
+  TargetRubyVersion: 2.5
+
+Style/Documentation:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/ClassLength:
+  Max: 200
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/initializers/knock.rb'
+    - 'lib/tasks/*'
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/controllers/**/*'

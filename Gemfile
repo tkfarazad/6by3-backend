@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -27,13 +29,14 @@ gem 'sequel', '~> 5.8'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug', platforms: %i[mri mingw x64_mingw]
   gem 'sequel_pretty_print', '~> 0.2'
 
   gem 'dotenv-rails', '~> 2.2'
   gem 'rspec-rails', '~> 3.7'
   gem 'ffaker', '~> 2.9'
   gem 'factory_bot_rails', '~> 4.8', require: false
+  gem 'rubocop', '~> 0.55'
 end
 
 group :development do
@@ -44,4 +47,4 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

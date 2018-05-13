@@ -44,3 +44,6 @@ build:
 
 rebuild:
 	${DOCKER_COMPOSE} build --force-rm
+
+rubocop:
+	${DOCKER_COMPOSE_RUN} app rubocop

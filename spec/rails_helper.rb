@@ -30,6 +30,9 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
+  config.include Helpers
+  config.include SerializerHelpers, type: :serializer
+
   config.before(:suite) do
     FactoryBot.to_create(&:save)
     DatabaseCleaner.strategy = :transaction

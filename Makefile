@@ -37,7 +37,7 @@ test:
 	${DOCKER_COMPOSE_RUN} -e "RAILS_ENV=test" app bundle exec rspec ${T}
 
 psql:
-	${DOCKER_COMPOSE_RUN} app psql postgresql://postgres@db/matchmaking_${RAILS_ENV}
+	${DOCKER_COMPOSE_RUN} app psql postgresql://postgres@db/lyfta_${RAILS_ENV}
 
 build:
 	${DOCKER_COMPOSE} build

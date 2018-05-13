@@ -5,27 +5,23 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
-# Use Puma as the app server
 gem 'puma', '~> 3.11'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors', '~> 1.0'
 
 gem 'pg', '~> 1.0'
 gem 'sequel-rails', '~> 1.0'
 gem 'sequel', '~> 5.8'
+
+gem 'dry-validation', '~> 0.11', github: 'dry-rb/dry-validation'
+gem 'dry-monads', '~> 0.4'
+gem 'dry-container', '~> 0.6'
+gem 'dry-transaction', '~> 0.11'
+
+gem 'jsonapi-rails', github: 'jsonapi-rb/jsonapi-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -49,6 +45,7 @@ end
 
 group :test do
   gem 'rspec_api_documentation', '~> 5.1'
+  gem 'database_cleaner', '1.6'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

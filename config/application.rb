@@ -31,5 +31,18 @@ module App
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Sequel config
+    config.sequel.schema_format = :sql
+    config.sequel.after_connect = proc do
+      Sequel::Model.plugin :timestamps, update_on_create: true
+      Sequel::Model.plugin :boolean_readers
+      Sequel::Model.plugin :tactical_eager_loading
+      Sequel::Model.plugin :pretty_print if Rails.env.development? || Rails.env.test?
+
+      Sequel::Model.db.extension :pg_json,
+                                 :pg_array,
+                                 :pg_range
+    end
   end
 end

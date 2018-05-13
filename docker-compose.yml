@@ -3,6 +3,7 @@ services:
   db:
     image: postgres:10.3
     volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
       - pg-data:/var/lib/postgresql/data
 
   app: &app

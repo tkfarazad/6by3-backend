@@ -1,0 +1,151 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+
+references:
+  install_pg_tools: &install_pg_tools
+    run:
+      name: Install pg tools
+      command: |
+        echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+        wget --no-check-certificate -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo -u root apt-key add -
+        sudo apt-get update
+        sudo apt-get install postgresql-client-10
+
+  install_bundler: &install_bundler
+    run:
+      name: Install latest Bundler
+      command: gem install bundler
+
+  restore_cache: &restore_cache
+    restore_cache:
+      keys:
+      - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # fallback to using the latest cache if no exact match is found
+      - v1-dependencies-
+
+  install_dependencies: &install_dependencies
+    run:
+      name: install dependencies
+      command: bundle install --path vendor/bundle
+
+  save_cache: &save_cache
+    save_cache:
+      paths:
+        - ./vendor/bundle
+      key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  setup_database: &setup_database
+    run:
+      name: Database setup
+      command: |
+        bundle exec rake db:structure:load --trace
+        bundle exec rake db:migrate
+
+defaults: &defaults
+  docker:
+    - image: circleci/ruby:2.5.1
+      environment:
+        - RAILS_ENV: test
+        - BUNDLE_JOBS: 3
+        - BUNDLE_RETRY: 3
+        - PG_HOST: localhost
+        - PG_USER: circleci
+        - DATABASE_URL: postgresql://circleci@localhost/matchmaking_test
+    - image: circleci/postgres:10.1
+      environment:
+        - POSTGRES_DB: matchmaking_test
+        - POSTGRES_USER: circleci
+
+  working_directory: ~/repo
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - add_ssh_keys
+      - checkout
+      - *install_pg_tools
+      - *install_bundler
+      - *restore_cache
+      - *install_dependencies
+      - *save_cache
+      - *setup_database
+
+      - run:
+          name: run rubocop
+          command: bundle exec rubocop
+
+      - run:
+          name: run tests
+          command: bundle exec rspec
+
+  generate_docs:
+    <<: *defaults
+    steps:
+      - add_ssh_keys
+      - checkout
+      - *install_pg_tools
+      - *install_bundler
+      - *restore_cache
+      - *install_dependencies
+      - *save_cache
+      - *setup_database
+
+      - run:
+          name: build documentation
+          command: bundle exec rake docs:generate
+
+      - run:
+          name: move doc file to correct path
+          command: |
+            rm apiary.apib
+            mv doc/api/index.apib apiary.apib
+
+      - run:
+          name: commit actualized documentation
+          command: |
+            git config --global user.email "<>"
+            git config --global user.name "CircleCI"
+            git add apiary.apib
+            git commit -m "actualize documentation [ci skip]"
+            git push origin ${CIRCLE_BRANCH}
+
+  deploy:
+    docker:
+      - image: circleci/python:2.7
+        environment:
+          - AWS_DEFAULT_REGION: us-east-1
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Set default profile
+          command: |
+            mkdir -p ~/.aws
+            touch ~/.aws/config
+            echo '[default]' >> ~/.aws/config
+      - run: sudo pip install --upgrade awscli
+      - run: sudo pip install ansible
+      - run: sudo pip install -U docker-py
+      - run: ansible-playbook ansible/release-deploy.yml -i ansible/staging --extra-vars "branch=master aws_profile=default" -v
+
+workflows:
+  version: 2
+  build_and_generate_docs_and_deploy:
+    jobs:
+      - build
+      - generate_docs:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

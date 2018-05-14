@@ -1,0 +1,58 @@
+{
+  "family": "backend",
+  "volumes": [],
+  "networkMode": "bridge",
+  "placementConstraints": [],
+  "taskRoleArn": "{{ task_role_arn }}",
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "{{ nginx_image_repository }}:{{ image_tag }}",
+      "memory": {{ nginx_memory }},
+      "cpu": {{ nginx_cpu }},
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "links": [
+        "app"
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "{{ env }}/var/log/nginx.log",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "nginx"
+        }
+      }
+    },
+    {
+      "name": "app",
+      "image": "{{ backend_image_repository }}:{{ image_tag }}",
+      "memory": {{ backend_memory }},
+      "cpu": {{ backend_cpu }},
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "{{ env }}/var/log/backend.log",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "backend"
+        }
+      },
+      "environment": [
+        {
+          "name": "RAILS_ENV",
+          "value": "{{ env }}"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "us-east-1"
+        }
+      ]
+    }
+  ]
+}

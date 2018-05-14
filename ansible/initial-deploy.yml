@@ -1,0 +1,100 @@
+---
+- hosts: all
+  gather_facts: no
+
+  vars_prompt:
+    - name: "branch"
+      prompt: "branch"
+      private: no
+
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+
+  tasks:
+    - name: Fetch branch
+      git:
+        repo: git@github.com:Matchmakingproject/matchmaking-api.git
+        dest: checkout
+        version: "{{ branch }}"
+
+    - name: get last commit sha
+      shell: git rev-parse --short HEAD
+      register: last_commit
+      args:
+        chdir: checkout/
+
+    - set_fact:
+        image_tag: "{{ last_commit.stdout }}"
+
+    - name: ECR authentication
+      shell: eval $(aws ecr get-login --no-include-email)
+
+    - name: Build and push backend container
+      docker_image:
+        path: checkout
+        name: "{{ backend_image_name }}"
+        repository: "{{ backend_image_repository }}"
+        tag: "{{ image_tag }}"
+        push: yes
+        force: yes
+      environment:
+        PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
+
+    - name: Build and push nginx container
+      docker_image:
+        path: checkout/docker/nginx
+        name: "{{ nginx_image_name }}"
+        repository: "{{ nginx_image_repository }}"
+        tag: "{{ image_tag }}"
+        push: yes
+        force: yes
+      environment:
+        PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
+
+    - name: Prepare backend task definition
+      local_action: template src=templates/backend_task_definition.json.j2 dest=./backend_task_definition.json
+
+    - name: Register backend task definition
+      shell:  aws ecs register-task-definition --cli-input-json file://backend_task_definition.json
+      register: backend_task_definition
+
+    - name: Prepare service
+      local_action: template src=templates/create_backend_service.json.j2 dest=./create_backend_service.json
+      vars:
+        task_definition_arn: "{{ (backend_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+
+    - name: Create backend service
+      shell:  aws ecs create-service --cli-input-json file://create_backend_service.json
+
+    - name: Prepare background task definition
+      local_action: template src=templates/background_task_definition.json.j2 dest=./background_task_definition.json
+
+    - name: Register background task definition
+      shell:  aws ecs register-task-definition --cli-input-json file://background_task_definition.json
+      register: background_task_definition
+
+    # - name: Prepare service
+    #   local_action: template src=templates/create_background_service.json.j2 dest=./create_background_service.json
+    #   vars:
+    #     task_definition_arn: "{{ (background_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+
+    # - name: Create background service
+    #   shell:  aws ecs create-service --cli-input-json file://create_background_service.json
+
+    - name: Prepare migration task
+      local_action: template src=templates/backend_run_command.json.j2 dest=./backend_run_command.json
+      vars:
+        task_definition_arn: "{{ (backend_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+        command: "[\"bundle\", \"exec\", \"rails\", \"db:migrate\"]"
+
+    - name: Run migrations
+      shell:  aws ecs run-task --cli-input-json file://backend_run_command.json
+
+    - name: Prepare db seed command
+      local_action: template src=templates/backend_run_command.json.j2 dest=./backend_run_command.json
+      vars:
+        task_definition_arn: "{{ (backend_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+        command: "[\"bundle\", \"exec\", \"rails\", \"db:seed\"]"
+
+    - name: Run db seed command
+      shell:  aws ecs run-task --cli-input-json file://backend_run_command.json

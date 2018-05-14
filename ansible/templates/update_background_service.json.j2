@@ -1,0 +1,10 @@
+{
+  "cluster": "{{ cluster }}",
+  "service": "background",
+  "taskDefinition": "{{ task_definition_arn }}",
+  "desiredCount": {{ background_desired_count }},
+  "deploymentConfiguration": {
+      "maximumPercent": 200,
+      "minimumHealthyPercent": 50
+  }
+}

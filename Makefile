@@ -7,6 +7,8 @@ WEB_CONCURRENCY := 0
 
 default: bin-rspec
 
+include make-deployment.mk
+
 bin-rspec:
 	bin/rspec
 

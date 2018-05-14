@@ -64,6 +64,17 @@ GEM
       tzinfo (~> 1.1)
     arel (9.0.0)
     ast (2.4.0)
+    aws-partitions (1.86.0)
+    aws-sdk-core (3.20.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-ssm (1.13.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.2)
+    aws-ssm-env (0.1.1)
+      aws-sdk-ssm (~> 1)
     bootsnap (1.3.0)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -122,6 +133,7 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    jmespath (1.4.0)
     jsonapi-deserializable (0.2.0)
     jsonapi-parser (0.1.1)
     jsonapi-rb (0.5.0)
@@ -164,6 +176,8 @@ GEM
       pry (~> 0.10)
     puma (3.11.4)
     rack (2.0.5)
+    rack-attack (5.2.0)
+      rack
     rack-cors (1.0.2)
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
@@ -265,6 +279,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-ssm-env (~> 0.1)
   bootsnap (>= 1.1.0)
   database_cleaner (= 1.6)
   dotenv-rails (~> 2.2)
@@ -279,6 +294,7 @@ DEPENDENCIES
   pg (~> 1.0)
   pry-byebug
   puma (~> 3.11)
+  rack-attack (~> 5.0)
   rack-cors (~> 1.0)
   rails (~> 5.2.0)
   rspec-rails (~> 3.7)

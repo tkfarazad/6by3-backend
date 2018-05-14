@@ -1,0 +1,43 @@
+- name: Fetch branch
+  git:
+    repo: git@github.com:Matchmakingproject/matchmaking-api.git
+    dest: checkout
+    version: "{{ branch }}"
+
+- name: get last commit sha
+  shell: git rev-parse --short HEAD
+  register: last_commit
+  args:
+    chdir: checkout/
+
+- set_fact:
+    image_tag: "{{ last_commit.stdout }}"
+
+- name: ECR authentication
+  shell: eval $(aws ecr get-login --no-include-email)
+
+- name: Build and push backend container
+  docker_image:
+    path: checkout
+    name: "{{ backend_image_name }}"
+    repository: "{{ backend_image_repository }}"
+    tag: "{{ image_tag }}"
+    push: yes
+    force: yes
+  environment:
+    PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
+
+- name: Build and push nginx container
+  docker_image:
+    path: checkout/docker/nginx
+    name: "{{ nginx_image_name }}"
+    repository: "{{ nginx_image_repository }}"
+    tag: "{{ image_tag }}"
+    push: yes
+    force: yes
+  environment:
+    PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages"
+
+- name: Print tag
+  debug:
+    msg: "Docker tag: {{ image_tag }}"

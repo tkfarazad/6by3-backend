@@ -1,0 +1,55 @@
+- name: Prepare background task definition
+  local_action: template src=templates/background_task_definition.json.j2 dest=./background_task_definition.json
+
+- name: Register background task definition
+  shell:  aws ecs register-task-definition --cli-input-json file://background_task_definition.json
+  register: background_task_definition
+
+- name: Prepare backend task definition
+  local_action: template src=templates/backend_task_definition.json.j2 dest=./backend_task_definition.json
+
+- name: Register backend task definition
+  shell:  aws ecs register-task-definition --cli-input-json file://backend_task_definition.json
+  register: backend_task_definition
+
+- name: Prepare migration task
+  local_action: template src=templates/backend_run_command.json.j2 dest=./backend_run_command.json
+  vars:
+    task_definition_arn: "{{ (background_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+    command: "[\"bundle\", \"exec\", \"rails\", \"db:migrate\"]"
+
+- name: Run migrations
+  shell:  aws ecs run-task --cli-input-json file://backend_run_command.json
+  register: run_task_result
+
+- set_fact:
+    migration_task_arn: "{{ (run_task_result.stdout | from_json).tasks[0].taskArn }}"
+
+- name: Wait migrations
+  shell: aws ecs describe-tasks --tasks {{ migration_task_arn }} --cluster {{ cluster }}
+  register: task_description
+  until: (task_description.stdout | from_json).tasks[0].lastStatus == 'STOPPED'
+  retries: 10
+
+- set_fact:
+    exit_codes: "{{ (task_description.stdout | from_json).tasks[0].containers | selectattr(\"exitCode\", \"equalto\", 1) | list }}"
+
+- fail:
+    msg: "Migrations failed"
+  when: exit_codes != []
+
+- name: Prepare backend service
+  local_action: template src=templates/update_backend_service.json.j2 dest=./update_backend_service.json
+  vars:
+    task_definition_arn: "{{ (backend_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+
+- name: Update backend service
+  shell:  aws ecs update-service --cli-input-json file://update_backend_service.json
+
+- name: Prepare background service
+  local_action: template src=templates/update_background_service.json.j2 dest=./update_background_service.json
+  vars:
+    task_definition_arn: "{{ (background_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+
+- name: Update background service
+  shell:  aws ecs update-service --cli-input-json file://update_background_service.json

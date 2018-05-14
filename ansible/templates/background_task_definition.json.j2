@@ -1,0 +1,34 @@
+{
+  "family": "background",
+  "volumes": [],
+  "placementConstraints": [],
+  "taskRoleArn": "{{ task_role_arn }}",
+  "containerDefinitions": [
+    {
+      "name": "background",
+      "image": "{{ backend_image_repository }}:{{ image_tag }}",
+      "memory": {{ background_memory}},
+      "cpu": {{ background_cpu}},
+      "essential": true,
+      "command": ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "{{ env }}/var/log/background.log",
+            "awslogs-region": "eu-central-1",
+            "awslogs-stream-prefix": "background"
+        }
+      },
+      "environment": [
+        {
+          "name": "RAILS_ENV",
+          "value": "{{ env }}"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "eu-central-1"
+        }
+      ]
+    }
+  ]
+}

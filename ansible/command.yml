@@ -1,0 +1,33 @@
+---
+- hosts: all
+  gather_facts: no
+
+  vars_prompt:
+    - name: "image_tag"
+      prompt: "Docker image tag"
+      private: no
+
+    - name: "run_command"
+      prompt: "Input backend command (example: bundle exec rails db:migrate)"
+      private: no
+
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+
+  tasks:
+    # TODO: use latest task definition
+    - name: Prepare background task definition
+      local_action: template src=templates/background_task_definition.json.j2 dest=./background_task_definition.json
+
+    - name: Register background task definition
+      shell:  aws ecs register-task-definition --cli-input-json file://background_task_definition.json
+      register: background_task_definition
+
+    - name: Prepare command
+      local_action: template src=templates/backend_run_command.json.j2 dest=./backend_run_command.json
+      vars:
+        task_definition_arn: "{{ (background_task_definition.stdout | from_json).taskDefinition.taskDefinitionArn }}"
+        command: "{{ run_command.split(' ') | to_json }}"
+
+    - name: Run command
+      shell: aws ecs run-task --cli-input-json file://backend_run_command.json

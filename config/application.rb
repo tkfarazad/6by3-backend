@@ -19,6 +19,8 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+AwsSsmEnv.load(path: "/newproject-#{ENV['RAILS_ENV']}", recursive: true) if defined?(AwsSsmEnv)
+
 module App
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

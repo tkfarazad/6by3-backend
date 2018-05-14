@@ -53,10 +53,10 @@ defaults: &defaults
         - BUNDLE_RETRY: 3
         - PG_HOST: localhost
         - PG_USER: circleci
-        - DATABASE_URL: postgresql://circleci@localhost/6by3_test
+        - DATABASE_URL: postgresql://circleci@localhost/six_by_three_test
     - image: circleci/postgres:10.1
       environment:
-        - POSTGRES_DB: 6by3_test
+        - POSTGRES_DB: six_by_three_test
         - POSTGRES_USER: circleci
 
   working_directory: ~/repo

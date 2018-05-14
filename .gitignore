@@ -21,3 +21,5 @@
 .env.development.local
 
 spec/examples.txt
+
+*.orig

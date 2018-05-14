@@ -7,7 +7,7 @@ services:
       - pg-data:/var/lib/postgresql/data
 
   app: &app
-    build: .
+    image: startupcraftio/ruby:2.5
     command: bash
     volumes:
       - .:/app

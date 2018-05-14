@@ -1,6 +1,6 @@
 - name: Fetch branch
   git:
-    repo: git@github.com:Matchmakingproject/matchmaking-api.git
+    repo: git@github.com:Jetfuelcoordinator/6by3-backend.git
     dest: checkout
     version: "{{ branch }}"
 

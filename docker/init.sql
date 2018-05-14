@@ -1,2 +1,2 @@
-CREATE DATABASE lyfta_development;
-CREATE DATABASE lyfta_test;
+CREATE DATABASE 6by3_development;
+CREATE DATABASE 6by3_test;

@@ -1,4 +1,4 @@
-AWS_PROFILE := matchmaking
+AWS_PROFILE := 6by3
 STAGING_BRANCH := master
 PRODUCTION_BRANCH := production
 ANSIBLE_CONFIG := ansible/ansible.cfg

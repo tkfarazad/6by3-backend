@@ -1,3 +1,7 @@
+# 6by3 API
+
+[![CircleCI](https://circleci.com/gh/Jetfuelcoordinator/6by3-backend/tree/master.svg?style=svg&circle-token=df6512fdc20505fcf2ed59ab81be9255554cc640)](https://circleci.com/gh/Jetfuelcoordinator/6by3-backend/tree/master)
+
 ## Requirements
 
 * [Docker & Docker compose](https://docs.docker.com/compose/install/)

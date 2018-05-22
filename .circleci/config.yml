@@ -101,7 +101,7 @@ jobs:
       - run:
           name: move doc file to correct path
           command: |
-            rm apiary.apib
+            rm -f apiary.apib
             mv doc/api/index.apib apiary.apib
 
       - run:

@@ -23,6 +23,10 @@ gem 'dry-transaction', '~> 0.11'
 
 gem 'jsonapi-rails', github: 'jsonapi-rb/jsonapi-rails'
 
+gem 'bcrypt', '~> 3.1'
+gem 'sequel_secure_password', '~> 0.2'
+gem 'knock', '~> 2.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', platforms: %i[mri mingw x64_mingw]
@@ -46,6 +50,7 @@ end
 group :test do
   gem 'rspec_api_documentation', '~> 5.1'
   gem 'database_cleaner', '1.6'
+  gem 'json_matchers', '~> 0.9'
 end
 
 group :staging, :production do

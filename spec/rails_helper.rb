@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'database_cleaner'
 require 'factory_bot_rails'
 require 'rspec_api_documentation/dsl'
+require 'json_matchers/rspec'
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -22,6 +23,7 @@ RspecApiDocumentation.configure do |config|
 end
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
+JsonMatchers.schema_root = "spec/support/schemas/api"
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -32,6 +34,8 @@ RSpec.configure do |config|
 
   config.include Helpers
   config.include SerializerHelpers, type: :serializer
+
+  config.include_context 'authenticated_user', :auth
 
   config.before(:suite) do
     FactoryBot.to_create(&:save)

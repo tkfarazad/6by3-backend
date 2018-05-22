@@ -49,3 +49,6 @@ rebuild:
 
 rubocop:
 	${DOCKER_COMPOSE_RUN} app rubocop
+
+docs:
+	${DOCKER_COMPOSE_RUN} -e "RAILS_ENV=test" app bundle exec rake docs:generate

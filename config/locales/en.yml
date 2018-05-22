@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  errors:
+    email?: '%{value} is invalid email'

@@ -16,6 +16,7 @@ JSONAPI::Rails.configure do |config|
 
   config.jsonapi_errors_class.tap do |h|
     h[:'Sequel::NoMatchingRow'] = JSONAPI::Rails::SequelErrorsSerializer
+    h[:'Sequel::UniqueConstraintViolation'] = JSONAPI::Rails::SequelErrorsSerializer
     h[:'Dry::Validation::Result'] = JSONAPI::Rails::DryValidationErrorsSerializer
     h[:Hash] = JSONAPI::Rails::HashErrorsSerializer
   end

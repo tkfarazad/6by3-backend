@@ -9,11 +9,11 @@ module Params
       self.deserializer = deserializer
     end
 
-    def call(input)
-      input = input.dig(:_jsonapi)
-      JSONAPI.parse_response!(input)
+    def call(input, skip_validation: false)
+      input = input.fetch(:_jsonapi, {})
+      JSONAPI.parse_resource!(input) unless skip_validation
 
-      deserializer.call(input.fetch(:data))
+      deserializer.call(input.fetch(:data, {}))
     end
   end
 end

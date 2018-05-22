@@ -15,7 +15,8 @@ Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RspecApiDocumentation.configure do |config|
-  config.api_name = 'API Documentation'
+  config.template_path = 'lib'
+  config.api_name = '6by3 API'
   config.format = :api_blueprint
   config.request_headers_to_include = ['Authorization', 'Content-Type']
   config.response_headers_to_include = ['Content-Type']

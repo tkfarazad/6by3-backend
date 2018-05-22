@@ -1,5 +1,5 @@
 RAILS_ENV ?= development
-PROJECT_NAME := 6by3api
+PROJECT_NAME := sixbythreeapi
 RUN := run --rm
 DOCKER_COMPOSE := docker-compose --project-name $(PROJECT_NAME)
 DOCKER_COMPOSE_RUN := $(DOCKER_COMPOSE) $(RUN)
@@ -39,7 +39,7 @@ test:
 	${DOCKER_COMPOSE_RUN} -e "RAILS_ENV=test" app bundle exec rspec ${T}
 
 psql:
-	${DOCKER_COMPOSE_RUN} app psql postgresql://postgres@db/6by3_${RAILS_ENV}
+	${DOCKER_COMPOSE_RUN} app psql postgresql://postgres@db/six_by_three_${RAILS_ENV}
 
 build:
 	${DOCKER_COMPOSE} build
@@ -49,3 +49,6 @@ rebuild:
 
 rubocop:
 	${DOCKER_COMPOSE_RUN} app rubocop
+
+docs:
+	${DOCKER_COMPOSE_RUN} -e "RAILS_ENV=test" app bundle exec rake docs:generate

@@ -3,6 +3,13 @@
 Rails.application.routes.draw do
   current_api_routes = lambda do
     constraints(id: /\d+/) do
+      resource :user, only: [] do
+        scope module: :user do
+          resources :tokens, only: :create
+        end
+      end
+      resources :users, only: %i[create]
+      resource :user, only: %i[show], controller: :user
     end
   end
 

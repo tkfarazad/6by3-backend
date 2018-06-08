@@ -1,7 +1,13 @@
 RAILS_ENV ?= development
 PROJECT_NAME := sixbythreeapi
 RUN := run --rm
-DOCKER_COMPOSE := docker-compose --project-name $(PROJECT_NAME)
+
+ifeq ($(USE_NFSMOUNT), true)
+	DOCKER_COMPOSE_FILES := -f docker-compose.yml -f docker-compose.nfsmount.yml
+else
+	DOCKER_COMPOSE_FILES := -f docker-compose.yml
+endif
+DOCKER_COMPOSE := docker-compose $(DOCKER_COMPOSE_FILES) --project-name $(PROJECT_NAME)
 DOCKER_COMPOSE_RUN := $(DOCKER_COMPOSE) $(RUN)
 WEB_CONCURRENCY := 0
 

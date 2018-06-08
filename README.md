@@ -61,3 +61,8 @@ down and remove all volumes:
 ```
 make down-v
 ```
+
+## To use nfsmount
+
+1. set `export USE_NFSMOUNT=true` in your shell config
+2. setup and run `setup_native_nfs_docker_osx.sh` script from https://gist.github.com/seanhandley/7dad300420e5f8f02e7243b7651c6657

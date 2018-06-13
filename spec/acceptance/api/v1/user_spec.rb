@@ -7,7 +7,7 @@ RSpec.describe 'Users' do
         parameter :include
 
         context 'when user is authenticated', :auth do
-          example 'Responds with 200', :aggregate_failures do
+          example 'Responds with 200' do
             do_request
 
             expect(status).to eq(200)

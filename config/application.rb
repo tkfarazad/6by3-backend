@@ -48,7 +48,8 @@ module App
 
       Sequel::Model.db.extension :pg_json,
                                  :pg_array,
-                                 :pg_range
+                                 :pg_range,
+                                 :pagination
     end
   end
 end

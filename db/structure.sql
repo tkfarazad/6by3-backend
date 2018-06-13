@@ -65,7 +65,11 @@ CREATE TABLE public.users (
     email public.citext NOT NULL,
     password_digest text NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    fullname text,
+    avatar text,
+    admin boolean DEFAULT false NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 
@@ -113,3 +117,4 @@ ALTER TABLE ONLY public.users
 
 SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180515114415_create_users.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180613132421_add_fullname_and_avatar_and_admin_and_deleted_at_to_user.rb');

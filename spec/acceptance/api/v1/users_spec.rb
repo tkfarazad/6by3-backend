@@ -18,7 +18,7 @@ RSpec.describe 'Users' do
         let(:password_confirmation) { password }
 
         context 'when user created' do
-          example 'Responds with 201', :aggregate_failures do
+          example 'Responds with 201' do
             do_request
 
             expect(status).to eq(201)
@@ -29,7 +29,7 @@ RSpec.describe 'Users' do
         context 'when params are invalid' do
           let(:password) { nil }
 
-          example 'Responds with 422', :aggregate_failures do
+          example 'Responds with 422' do
             do_request
 
             expect(status).to eq(422)

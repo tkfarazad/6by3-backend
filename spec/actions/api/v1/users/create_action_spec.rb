@@ -42,7 +42,7 @@ RSpec.describe Api::V1::Users::CreateAction do
         }.with_indifferent_access
       end
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
           email: ['is missing', ' is invalid email'],
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::Users::CreateAction do
         create(:user, email: email)
       end
 
-      it 'return failure', :aggregate_failures do
+      it 'return failure' do
         expect(call).to be_failure
         expect(call.failure).to be_kind_of(Sequel::UniqueConstraintViolation)
       end

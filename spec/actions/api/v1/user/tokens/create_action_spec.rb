@@ -26,7 +26,7 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
     context 'when params are invalid' do
       let(:input) { {} }
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
           email: ['is missing'],
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
     end
 
     context 'when user does not exist' do
-      it 'return failure', :aggregate_failures do
+      it 'return failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(:user_not_found)
       end
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       let!(:user) { create(:user, email: email) }
 
       context 'when password does not match' do
-        it 'returns failure', :aggregate_failures do
+        it 'returns failure' do
           expect(call).to be_failure
           expect(call.failure).to eq(:password_not_matched)
         end
@@ -55,7 +55,7 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       context 'when password matches' do
         let!(:user) { create(:user, email: email, password: password, password_confirmation: password) }
 
-        it 'returns success', :aggregate_failures do
+        it 'returns success' do
           expect(call).to be_success
         end
       end

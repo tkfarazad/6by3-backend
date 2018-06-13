@@ -8,7 +8,7 @@ RSpec.describe Api::V1::Users::CreateSchema do
       end
 
       it { expect(schema('email@example.com')).to be_success }
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         result = schema('email')
 
         expect(result).to be_failure
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::Users::CreateSchema do
 
       it { expect(schema('123456', '123456')).to be_success }
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         result = schema(nil, nil)
 
         expect(result).to be_failure
@@ -32,7 +32,7 @@ RSpec.describe Api::V1::Users::CreateSchema do
         )
       end
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         result = schema('123', '123')
 
         expect(result).to be_failure
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Users::CreateSchema do
         )
       end
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         result = schema('123456', '234567')
 
         expect(result).to be_failure

@@ -22,4 +22,6 @@
 
 spec/examples.txt
 
+coverage/
+
 *.orig

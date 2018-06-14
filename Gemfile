@@ -37,6 +37,15 @@ group :development, :test do
   gem 'ffaker', '~> 2.9'
   gem 'factory_bot_rails', '~> 4.8', require: false
   gem 'rubocop', '~> 0.55'
+
+  # Provides a better error page for Rails and other Rack apps
+  gem 'better_errors', '~> 2.4'
+
+  # Retrieve the binding of a method's caller
+  gem 'binding_of_caller', '~> 0.8.0'
+
+  # Code coverage for Ruby
+  gem 'simplecov', '~> 0.16.1', require: false
 end
 
 group :development do

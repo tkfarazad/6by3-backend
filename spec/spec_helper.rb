@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require './spec/support/simplecov_env'
+
+SimpleCovEnv.start!
+
 RSpec.configure do |config|
   config.define_derived_metadata do |meta|
     meta[:aggregate_failures] = true

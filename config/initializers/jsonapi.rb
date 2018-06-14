@@ -85,5 +85,5 @@ JSONAPI::Rails.configure do |config|
   # config.logger = Logger.new(STDOUT)
   #
   # # Uncomment the following to disable logging.
-  # config.logger = Logger.new('/dev/null')
+  config.logger = Logger.new('/dev/null')
 end

@@ -14,15 +14,6 @@ require 'json_matchers/rspec'
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-RspecApiDocumentation.configure do |config|
-  config.template_path = 'lib'
-  config.api_name = '6by3 API'
-  config.format = :api_blueprint
-  config.request_headers_to_include = ['Authorization', 'Content-Type']
-  config.response_headers_to_include = ['Content-Type']
-  config.request_body_formatter = :json
-end
-
 RSpec::Matchers.define_negated_matcher :not_change, :change
 JsonMatchers.schema_root = "spec/support/schemas/api"
 
@@ -36,7 +27,8 @@ RSpec.configure do |config|
   config.include Helpers
   config.include SerializerHelpers, type: :serializer
 
-  config.include_context 'authenticated_user', :auth
+  config.include_context 'authenticated_user', :authenticated_user
+  config.include_context 'authenticated_admin', :authenticated_admin
 
   config.before(:suite) do
     FactoryBot.to_create(&:save)

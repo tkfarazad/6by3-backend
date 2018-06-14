@@ -6,7 +6,7 @@ RSpec.describe 'Users' do
       get 'Get current' do
         parameter :include
 
-        context 'when user is authenticated', :auth do
+        context 'when user is authenticated', :authenticated_user do
           example 'Responds with 200' do
             do_request
 

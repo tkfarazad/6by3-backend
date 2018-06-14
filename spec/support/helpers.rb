@@ -3,9 +3,9 @@
 module Helpers
   def parsed_body
     if respond_to?(:response_body)
-      JSON.parse(response_body)
+      JSON.parse(response_body, symbolize_names: true)
     else
-      JSON.parse(response.body)
+      JSON.parse(response.body, symbolize_names: true)
     end
   end
 end

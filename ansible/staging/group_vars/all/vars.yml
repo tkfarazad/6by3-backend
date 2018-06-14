@@ -1,12 +1,11 @@
 env: staging
-cluster:
-lb_target_group_arn:
-ecs_lb_role: staging_ecs_lb_role
-backend_image_name:
-backend_image_repository:
-nginx_image_name:
-nginx_image_repository:
-task_role_arn:
+aws_region: us-east-1
+cluster: six-by-three-staging
+backend_image_name: 6by3-backend
+backend_image_repository: 328211036245.dkr.ecr.us-east-1.amazonaws.com/6by3-backend
+nginx_image_name: 6by3-nginx
+nginx_image_repository: 328211036245.dkr.ecr.us-east-1.amazonaws.com/6by3-nginx
+task_role_arn: arn:aws:iam::328211036245:role/ecs/six-by-three-staging_default_task
 nginx_cpu: 64
 nginx_memory: 64
 backend_cpu: 384

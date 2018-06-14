@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   scope module: :api do
     namespace :v1, &current_api_routes
   end
+
+  resource :status, only: %i[show]
 end

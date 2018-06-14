@@ -29,7 +29,7 @@
   shell: aws ecs describe-tasks --tasks {{ migration_task_arn }} --cluster {{ cluster }}
   register: task_description
   until: (task_description.stdout | from_json).tasks[0].lastStatus == 'STOPPED'
-  retries: 10
+  retries: 50
 
 - set_fact:
     exit_codes: "{{ (task_description.stdout | from_json).tasks[0].containers | selectattr(\"exitCode\", \"equalto\", 1) | list }}"

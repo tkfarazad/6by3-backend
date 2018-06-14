@@ -24,7 +24,7 @@
         "logDriver": "awslogs",
         "options": {
             "awslogs-group": "{{ env }}/var/log/nginx.log",
-            "awslogs-region": "us-east-1",
+            "awslogs-region": "{{ aws_region }}",
             "awslogs-stream-prefix": "nginx"
         }
       }
@@ -39,7 +39,7 @@
         "logDriver": "awslogs",
         "options": {
             "awslogs-group": "{{ env }}/var/log/backend.log",
-            "awslogs-region": "us-east-1",
+            "awslogs-region": "{{ aws_region }}",
             "awslogs-stream-prefix": "backend"
         }
       },
@@ -50,7 +50,7 @@
         },
         {
           "name": "AWS_REGION",
-          "value": "us-east-1"
+          "value": "{{ aws_region }}"
         }
       ]
     }

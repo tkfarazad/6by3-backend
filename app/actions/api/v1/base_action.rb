@@ -17,5 +17,9 @@ module Api::V1
     def resolve_policy
       "#{self.class.name.deconstantize.singularize}Policy".constantize
     end
+
+    def error(message = nil)
+      {parameters: [message]}
+    end
   end
 end

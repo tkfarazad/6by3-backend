@@ -6,12 +6,12 @@ module Api::V1
 
     def create
       api_action do |m|
-        m.success do |user|
-          render jsonapi: user, status: :created
+        m.success do
+          head 202
         end
 
         m.failure(:create) do
-          head 409
+          head 202
         end
       end
     end

@@ -38,6 +38,8 @@ module App
 
     config.eager_load_paths << Rails.root.join('lib')
 
+    config.active_job.queue_adapter = :sidekiq
+
     # Sequel config
     config.sequel.schema_format = :sql
     config.sequel.after_connect = proc do

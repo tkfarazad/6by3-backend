@@ -20,6 +20,9 @@ bin-rspec:
 
 provision: bundle db-migrate
 
+up:
+	rm -f tmp/pids/server.pid && ${DOCKER_COMPOSE} up
+
 api:
 	${DOCKER_COMPOSE_RUN} --service-ports -e "WEB_CONCURRENCY=${WEB_CONCURRENCY}" api
 

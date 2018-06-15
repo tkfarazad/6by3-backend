@@ -31,6 +31,8 @@ gem 'knock', '~> 2.1'
 gem 'pundit', '~> 1.1'
 gem 'redis', '~> 4.0'
 
+gem 'sidekiq', '~> 5.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', platforms: %i[mri mingw x64_mingw]

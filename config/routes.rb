@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   end
 
   resource :status, only: %i[show]
+
+  draw :sidekiq
 end

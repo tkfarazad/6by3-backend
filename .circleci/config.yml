@@ -95,23 +95,16 @@ jobs:
       - *setup_database
 
       - run:
+          name: install apiaryio gem
+          command: gem install apiaryio
+
+      - run:
           name: build documentation
           command: bundle exec rake docs:generate
 
       - run:
-          name: move doc file to correct path
-          command: |
-            rm -f apiary.apib
-            mv doc/api/index.apib apiary.apib
-
-      - run:
-          name: commit actualized documentation
-          command: |
-            git config --global user.email "<>"
-            git config --global user.name "CircleCI"
-            git add apiary.apib
-            git commit -m "actualize documentation [ci skip]"
-            git push origin ${CIRCLE_BRANCH}
+          name: publish documentation
+          command: apiary publish --path="doc/api/index.apib" --api-name="6by3api"
 
   deploy:
     docker:

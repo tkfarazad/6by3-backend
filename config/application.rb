@@ -53,5 +53,7 @@ module App
                                  :pg_range,
                                  :pagination
     end
+
+    config.site_url = ENV.fetch('SITE_URL')
   end
 end

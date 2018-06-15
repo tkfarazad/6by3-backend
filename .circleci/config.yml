@@ -54,10 +54,12 @@ defaults: &defaults
         - PG_HOST: localhost
         - PG_USER: circleci
         - DATABASE_URL: postgresql://circleci@localhost/six_by_three_test
+        - SIDEKIQ_REDIS_URL: redis://localhost:6379/0
     - image: circleci/postgres:10.1
       environment:
         - POSTGRES_DB: six_by_three_test
         - POSTGRES_USER: circleci
+    - image: redis:alpine
 
   working_directory: ~/repo
 

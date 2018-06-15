@@ -8,47 +8,87 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       action.call(input)
     end
 
-    let(:email) { FFaker::Internet.email }
-    let(:password) { FFaker::Internet.password }
-
-    let(:input) do
-      jsonapi_params(attributes: {email: email, password: password})
-    end
-
     context 'when params are invalid' do
       let(:input) { {} }
 
-      it 'returns failure' do
+      it 'returns failure', :aggregate_failures do
         expect(call).to be_failure
         expect(call.failure).to eq(
-          email: ['is missing'],
-          password: ['is missing']
+          email_or_token: ['must be filled']
         )
       end
     end
 
-    context 'when user does not exist' do
-      it 'return failure' do
-        expect(call).to be_failure
-        expect(call.failure).to eq(:user_not_found)
+    context 'when authenticate by email and password' do
+      let(:input) do
+        jsonapi_params(
+          attributes: {
+            email: email,
+            password: password
+          }
+        )
       end
-    end
+      let(:email) { FFaker::Internet.email }
+      let(:password) { FFaker::Internet.password }
 
-    context 'when user exists' do
-      let!(:user) { create(:user, email: email) }
-
-      context 'when password does not match' do
-        it 'returns failure' do
+      context 'when user does not exist' do
+        it 'return failure', :aggregate_failures do
           expect(call).to be_failure
-          expect(call.failure).to eq(:password_not_matched)
+          expect(call.failure).to eq(:user_not_found)
         end
       end
 
-      context 'when password matches' do
-        let!(:user) { create(:user, email: email, password: password, password_confirmation: password) }
+      context 'when user exists' do
+        let!(:user) { create(:user, email: email) }
+
+        context 'when password does not match' do
+          it 'returns failure', :aggregate_failures do
+            expect(call).to be_failure
+            expect(call.failure).to eq(:password_not_matched)
+          end
+        end
+
+        context 'when password matches' do
+          let!(:user) { create(:user, email: email, password: password, password_confirmation: password) }
+
+          it 'returns success', :aggregate_failures do
+            expect(call).to be_success
+          end
+        end
+      end
+    end
+
+    context 'when authenticate by auth token' do
+      let(:input) do
+        jsonapi_params(
+          attributes: {
+            token: token
+          }
+        )
+      end
+      let(:token) { SecureRandom.uuid }
+
+      context 'when user does not exist' do
+        it 'return failure', :aggregate_failures do
+          expect(call).to be_failure
+          expect(call.failure).to eq(:user_not_found)
+        end
+      end
+
+      context 'when user exists' do
+        let!(:auth_token) { create(:auth_token, token: token) }
 
         it 'returns success' do
           expect(call).to be_success
+        end
+
+        context 'when token has been expired' do
+          let!(:auth_token) { create(:auth_token, token: token, created_at: Time.current - 7.days) }
+
+          it 'returns failure', :aggregate_failures do
+            expect(call).to be_failure
+            expect(call.failure).to eq(:user_not_found)
+          end
         end
       end
     end

@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     constraints(id: /\d+/) do
       draw :user
       draw :users
+
+      resource :confirm_email, only: :create, controller: :confirm_email
+      resource :reset_password, only: :create, controller: :reset_password
+      resource :change_password, only: :create, controller: :change_password
     end
   end
 

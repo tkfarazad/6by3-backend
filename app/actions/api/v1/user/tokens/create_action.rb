@@ -2,6 +2,8 @@
 
 module Api::V1::User::Tokens
   class CreateAction < ::Api::V1::BaseAction
+    AUTH_TOKEN_LIFETIME = 5.days
+
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     step :find
@@ -16,18 +18,20 @@ module Api::V1::User::Tokens
       super(input, resolve_schema)
     end
 
-    def find(email:, password:)
-      user = ::User.find(email: email)
+    def find(input)
+      user = find_user(input)
 
-      if user
-        Success(user: user, password: password)
-      else
+      if user.nil?
         Failure(:user_not_found)
+      else
+        Success(input.merge!(user: user))
       end
     end
 
-    def authenticate(user:, password:)
-      if same_password?(user: user, password: password)
+    def authenticate(input)
+      user = input.fetch(:user)
+
+      if authenticated?(user: user, token: input[:token], password: input[:password])
         Success(user)
       else
         Failure(:password_not_matched)
@@ -40,8 +44,30 @@ module Api::V1::User::Tokens
 
     private
 
-    def same_password?(user:, password:)
+    def authenticated?(user:, token:, password:)
+      by_token?(user: user, token: token) || by_password?(user: user, password: password)
+    end
+
+    def by_token?(user:, token:)
+      token.present? && !user.nil?
+    end
+
+    def by_password?(user:, password:)
       !user.authenticate(password).nil?
+    end
+
+    def find_user(input)
+      if input.key?(:email)
+        ::User.find(email: input.fetch(:email))
+      elsif input.key?(:token)
+        token      = input.fetch(:token)
+        valid_till = Time.current - AUTH_TOKEN_LIFETIME
+        auth_token = ::AuthToken.find(
+          Sequel.lit('token = :token AND created_at > :valid_till', token: token, valid_till: valid_till)
+        )
+
+        auth_token&.user
+      end
     end
   end
 end

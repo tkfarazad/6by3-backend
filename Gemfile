@@ -66,6 +66,7 @@ group :test do
   gem 'rspec_api_documentation', '~> 5.1'
   gem 'database_cleaner', '1.6'
   gem 'json_matchers', '~> 0.9'
+  gem 'timecop', '~> 0.9'
 end
 
 group :staging, :production do

@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 RSpec.describe Api::V1::Users::CreateAction do
@@ -14,7 +15,7 @@ RSpec.describe Api::V1::Users::CreateAction do
         attributes: {
           email: email,
           password: password,
-          password_confirmation: password_confirmation
+          passwordConfirmation: password_confirmation
         }
       )
     end
@@ -22,16 +23,21 @@ RSpec.describe Api::V1::Users::CreateAction do
     let(:password) { FFaker::Internet.password }
     let(:password_confirmation) { password }
 
-    it 'creates user' do
+    it 'creates user', :aggregate_failures do
+      expect(SendConfirmationLetterJob).to receive(:perform_later)
+
       expect { call }.to change(User, :count).by(1)
     end
 
     context 'when params are invalid' do
       let(:input) do
-        jsonapi_params(type: 'users', attributes: {})
+        jsonapi_params(
+          type: 'users',
+          attributes: {}
+        )
       end
 
-      it 'returns failure' do
+      it 'returns failure', :aggregate_failures do
         expect(call).to be_failure
         expect(call.failure).to eq(
           email: ['is missing', ' is invalid email'],
@@ -45,7 +51,9 @@ RSpec.describe Api::V1::Users::CreateAction do
         create(:user, email: email)
       end
 
-      it 'return failure' do
+      it 'return failure', :aggregate_failures do
+        expect(SendConfirmationLetterJob).to_not receive(:perform_later)
+
         expect(call).to be_failure
         expect(call.failure).to be_kind_of(Sequel::UniqueConstraintViolation)
       end

@@ -8,13 +8,13 @@ RSpec.describe Api::V1::Admin::Users::DestroyAction do
 
   describe '#call' do
     subject(:call) do
-      action.call(user)
+      action.call(id: user.id)
     end
 
     context 'when admin' do
       it 'grants access' do
         expect(call).to be_success
-        expect(call.success).to eq(user)
+        expect(call.success.id).to eq(user.id)
 
         expect(call.success.deleted_at).not_to eq nil
       end

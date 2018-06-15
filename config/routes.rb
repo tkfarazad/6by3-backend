@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   current_api_routes = lambda do
     constraints(id: /\d+/) do
+      draw :admin
       draw :user
       draw :users
 

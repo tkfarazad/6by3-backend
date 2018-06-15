@@ -38,13 +38,13 @@ RSpec.describe 'Users' do
         with_options scope: %i[data attributes] do
           parameter :email, required: true
           parameter :password, requred: true
-          parameter :password_confirmation, requred: true
+          parameter :passwordConfirmation, requred: true
         end
 
         let(:type) { 'users' }
         let(:email) { FFaker::Internet.email }
         let(:password) { FFaker::Internet.password }
-        let(:password_confirmation) { password }
+        let(:passwordConfirmation) { password }
 
         context 'not authenticated' do
           example 'Responds with 401' do

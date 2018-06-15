@@ -8,20 +8,12 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       action.call(input)
     end
 
-    let(:input) do
-      {
-        _jsonapi: {
-          data: {
-            attributes: {
-              email: email,
-              password: password
-            }
-          }
-        }
-      }.with_indifferent_access
-    end
     let(:email) { FFaker::Internet.email }
     let(:password) { FFaker::Internet.password }
+
+    let(:input) do
+      jsonapi_params(attributes: {email: email, password: password})
+    end
 
     context 'when params are invalid' do
       let(:input) { {} }

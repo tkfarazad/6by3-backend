@@ -9,18 +9,14 @@ RSpec.describe Api::V1::Users::CreateAction do
     end
 
     let(:input) do
-      {
-        _jsonapi: {
-          data: {
-            type: 'users',
-            attributes: {
-              email: email,
-              password: password,
-              password_confirmation: password_confirmation
-            }
-          }
+      jsonapi_params(
+        type: 'users',
+        attributes: {
+          email: email,
+          password: password,
+          password_confirmation: password_confirmation
         }
-      }.with_indifferent_access
+      )
     end
     let(:email) { FFaker::Internet.email }
     let(:password) { FFaker::Internet.password }
@@ -32,14 +28,7 @@ RSpec.describe Api::V1::Users::CreateAction do
 
     context 'when params are invalid' do
       let(:input) do
-        {
-          _jsonapi: {
-            data: {
-              type: 'users',
-              attributes: {}
-            }
-          }
-        }.with_indifferent_access
+        jsonapi_params(type: 'users', attributes: {})
       end
 
       it 'returns failure' do

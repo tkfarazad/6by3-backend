@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pundit/rspec'
 require './spec/support/simplecov_env'
 
 SimpleCovEnv.start!

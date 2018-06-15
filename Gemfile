@@ -27,6 +27,8 @@ gem 'bcrypt', '~> 3.1'
 gem 'sequel_secure_password', '~> 0.2'
 gem 'knock', '~> 2.1'
 
+# Object oriented authorization for Rails applications
+gem 'pundit', '~> 1.1'
 gem 'redis', '~> 4.0'
 
 group :development, :test do

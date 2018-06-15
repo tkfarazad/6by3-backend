@@ -13,5 +13,9 @@ module Api::V1
         self.class.name.demodulize.underscore.gsub("_action", "_schema").classify
       ].join("::").constantize
     end
+
+    def resolve_policy
+      "#{self.class.name.deconstantize.singularize}Policy".constantize
+    end
   end
 end

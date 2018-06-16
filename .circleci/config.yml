@@ -77,6 +77,10 @@ jobs:
       - *setup_database
 
       - run:
+          name: Checks for vulnerable versions of gems
+          command: bundle exec bundle audit --update
+
+      - run:
           name: run rubocop
           command: bundle exec rubocop
 

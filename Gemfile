@@ -52,6 +52,7 @@ group :development, :test do
 
   # Code coverage for Ruby
   gem 'simplecov', '~> 0.16.1', require: false
+  gem 'bundler-audit', '~> 0.6'
 end
 
 group :development do

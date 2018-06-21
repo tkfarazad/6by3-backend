@@ -10,7 +10,7 @@ RSpec.describe SendResetPasswordInstructionsService do
 
     let(:user) { create(:user) }
 
-    it 'sends letter', :aggregate_failures do
+    it 'sends letter' do
       expect(UserMailer).to(
         receive_message_chain(
           with: hash_including(:user_id),

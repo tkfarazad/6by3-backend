@@ -2,7 +2,7 @@
 
 RSpec.describe Api::V1::User::Tokens::CreateSchema do
   context 'when schema is empty' do
-    it 'returns failure', :aggregate_failures do
+    it 'returns failure' do
       result = described_class.call({})
 
       expect(result).to be_failure
@@ -18,7 +18,7 @@ RSpec.describe Api::V1::User::Tokens::CreateSchema do
     end
 
     context 'when password is missed' do
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         result = described_class.call(email: 'email@example.com')
 
         expect(result).to be_failure

@@ -16,10 +16,19 @@ gem 'pg', '~> 1.0'
 gem 'sequel-rails', '~> 1.0'
 gem 'sequel', '~> 5.8'
 
-gem 'dry-validation', '~> 0.11', github: 'dry-rb/dry-validation'
+gem 'dry-validation', '~> 0.12'
 gem 'dry-monads', '~> 0.4'
 gem 'dry-container', '~> 0.6'
 gem 'dry-transaction', '~> 0.11'
+
+# Upload files in your Ruby applications
+gem 'carrierwave', '~> 1.2', '>= 1.2.2'
+# Sequel support for CarrierWave
+gem 'carrierwave-sequel', '~> 0.1.1'
+# Module for 'fog' or as standalone provider to use the AWS in application
+gem 'fog-aws', '~> 3.0'
+# Manipulate images with minimal use of memory
+gem 'mini_magick', '~> 4.8'
 
 gem 'jsonapi-rails', github: 'jsonapi-rb/jsonapi-rails'
 

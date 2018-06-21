@@ -25,7 +25,7 @@ RSpec.describe Api::V1::ChangePassword::CreateAction do
     context 'when params are invalid' do
       let(:input) { {} }
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
           token: ['is missing'],
@@ -44,7 +44,7 @@ RSpec.describe Api::V1::ChangePassword::CreateAction do
     context 'when token matches' do
       let!(:user) { create(:user, :reset_password_requested, reset_password_token: token) }
 
-      it 'changes password', :aggregate_failures do
+      it 'changes password' do
         expect { call }.to(
           change { user.reload.password_digest }
           .and(change { user.reload.reset_password_token }.to(nil))

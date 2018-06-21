@@ -18,6 +18,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
           expect(result.dig(:data, :attributes).keys).to match_array(
             %i[
               email
+              avatar
             ]
           )
         end
@@ -31,6 +32,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
           expect(result.dig(:data, :attributes).keys).to match_array(
             %i[
               email
+              avatar
               admin
             ]
           )
@@ -45,6 +47,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
         expect(result.dig(:data, :attributes).keys).to match_array(
           %i[
             email
+            avatar
             admin
           ]
         )

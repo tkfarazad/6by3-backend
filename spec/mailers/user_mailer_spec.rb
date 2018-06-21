@@ -12,7 +12,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:user) { create(:user, :unconfirmed) }
     let(:auth_token) { create(:auth_token, user: user) }
 
-    it 'sends email', :aggregate_failures do
+    it 'sends email' do
       expect { confirmation }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(confirmation.subject).to eq('Email confirmation')
       expect(confirmation.to).to eq([user.email])
@@ -32,7 +32,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     let(:user) { create(:user, :reset_password_requested) }
 
-    it 'sends email', :aggregate_failures do
+    it 'sends email' do
       expect { reset_password }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(reset_password.subject).to eq('Reset password')
       expect(reset_password.to).to eq([user.email])

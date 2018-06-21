@@ -21,7 +21,7 @@ RSpec.describe Api::V1::ConfirmEmail::CreateAction do
     context 'when params are invalid' do
       let(:input) { {} }
 
-      it 'returns failure', :aggregate_failures do
+      it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
           token: ['is missing']
@@ -47,7 +47,7 @@ RSpec.describe Api::V1::ConfirmEmail::CreateAction do
         Timecop.return
       end
 
-      it 'marks email as confirmed', :aggregate_failures do
+      it 'marks email as confirmed' do
         expect { call }.to(
           change { user.reload.email_confirmed_at.to_i }.to(Time.current.to_i)
           .and(change { user.reload.email_confirmation_token }.to(nil))

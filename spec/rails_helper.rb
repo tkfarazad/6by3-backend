@@ -25,6 +25,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include Helpers
+  config.include ActionDispatch::TestProcess
   config.include SerializerHelpers, type: :serializer
 
   config.include_context 'authenticated_user', :authenticated_user
@@ -48,4 +49,8 @@ RSpec.configure do |config|
       example.run
     end
   end
+end
+
+FactoryBot::SyntaxRunner.class_eval do
+  include ActionDispatch::TestProcess
 end

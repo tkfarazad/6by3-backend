@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V1::Users
-  CreateSchema = Dry::Validation.Form do
+  CreateSchema = Dry::Validation.Params do
     configure do
       config.messages = :i18n
 

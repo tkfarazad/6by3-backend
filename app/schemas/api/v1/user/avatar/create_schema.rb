@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Api::V1::ResetPassword
+module Api::V1::User::Avatar
   CreateSchema = Dry::Validation.Params do
-    required(:email).filled
+    required(:avatar).filled
   end
 end

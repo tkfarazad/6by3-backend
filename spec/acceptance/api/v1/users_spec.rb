@@ -8,8 +8,8 @@ RSpec.describe 'Users' do
 
         with_options scope: %i[data attributes] do
           parameter :email, required: true
-          parameter :password, requred: true
-          parameter :passwordConfirmation, requred: true
+          parameter :password, required: true
+          parameter :passwordConfirmation, required: true
         end
 
         let(:type) { 'users' }
@@ -18,7 +18,7 @@ RSpec.describe 'Users' do
         let(:passwordConfirmation) { password }
 
         context 'when user created' do
-          example 'Responds with 202', :aggregate_failures do
+          example 'Responds with 202' do
             do_request
 
             expect(status).to eq(202)
@@ -28,7 +28,7 @@ RSpec.describe 'Users' do
         context 'when params are invalid' do
           let(:password) { nil }
 
-          example 'Responds with 422', :aggregate_failures do
+          example 'Responds with 422' do
             do_request
 
             expect(status).to eq(422)

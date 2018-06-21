@@ -7,7 +7,7 @@ RSpec.describe 'User tokens' do
         context 'when authenticate by email and password' do
           with_options scope: %i[data attributes] do
             parameter :email, required: true
-            parameter :password, requred: true
+            parameter :password, required: true
           end
 
           let(:email) { FFaker::Internet.email }

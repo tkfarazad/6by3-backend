@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V1::Admin::Users
-  IndexSchema = Dry::Validation.Form do
+  IndexSchema = Dry::Validation.Params do
     optional(:sort).filled
 
     optional(:filter).schema do

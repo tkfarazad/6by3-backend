@@ -39,8 +39,8 @@ module Api::V1
           responds_with_errors(errors, status: 422)
         end
 
-        m.failure(:authorize) do |errors|
-          responds_with_errors(errors, status: 403)
+        m.failure(:authorize) do
+          head 403
         end
 
         m.failure(:find) do

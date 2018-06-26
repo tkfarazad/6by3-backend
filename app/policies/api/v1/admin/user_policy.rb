@@ -6,17 +6,10 @@ module Api::V1::Admin
       user.admin?
     end
 
-    def update?
-      index?
-    end
-
-    def destroy?
-      index?
-    end
-
-    def create?
-      index?
-    end
+    alias show? index?
+    alias update? index?
+    alias create? index?
+    alias destroy? index?
 
     class Scope < Scope
       def resolve

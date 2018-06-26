@@ -7,9 +7,13 @@ module Api::V1::Admin
         m.success do |users|
           render jsonapi: users
         end
+      end
+    end
 
-        m.failure(:authorize) do
-          head 403
+    def show
+      api_action do |m|
+        m.success do |user|
+          render jsonapi: user
         end
       end
     end
@@ -23,10 +27,6 @@ module Api::V1::Admin
         m.failure(:create) do
           head 409
         end
-
-        m.failure(:authorize) do
-          head 403
-        end
       end
     end
 
@@ -35,10 +35,6 @@ module Api::V1::Admin
         m.success do |updated_user|
           render jsonapi: updated_user
         end
-
-        m.failure(:authorize) do
-          head 403
-        end
       end
     end
 
@@ -46,10 +42,6 @@ module Api::V1::Admin
       api_action do |m|
         m.success do
           head :no_content
-        end
-
-        m.failure(:authorize) do
-          head 403
         end
       end
     end

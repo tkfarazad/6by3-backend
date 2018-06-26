@@ -6,7 +6,7 @@ RSpec.describe Api::V1::Admin::UserPolicy do
   let!(:user) { create(:user) }
   let!(:admin_user) { create(:user, :admin) }
 
-  permissions :index?, :update?, :destroy? do
+  permissions :index?, :show?, :update?, :destroy?, :create? do
     context 'not admin' do
       it 'denies access' do
         expect(subject).not_to permit(user, user)

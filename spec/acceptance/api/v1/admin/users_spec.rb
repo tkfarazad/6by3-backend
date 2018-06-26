@@ -97,6 +97,47 @@ RSpec.describe 'Users' do
     end
 
     route '/api/v1/admin/users/:id', 'Admin User endpoint' do
+      get 'Single user' do
+        let!(:user) { create(:user) }
+        let(:id) { user.id }
+
+        context 'not authenticated' do
+          example 'Responds with 401' do
+            do_request
+
+            expect(status).to eq(401)
+          end
+        end
+
+        context 'authenticated user', :authenticated_user do
+          example 'Responds with 403' do
+            do_request
+
+            expect(status).to eq(403)
+          end
+        end
+
+        context 'user was not found', :authenticated_admin do
+          let(:id) { 0 }
+
+          example 'Responds with 404' do
+            do_request
+
+            expect(status).to eq(404)
+            expect(response_body).to be_empty
+          end
+        end
+
+        context 'authenticated admin', :authenticated_admin do
+          example 'Responds with 200' do
+            do_request
+
+            expect(status).to eq(200)
+            expect(response_body).to match_response_schema('v1/user')
+          end
+        end
+      end
+
       put 'Update user' do
         parameter :type, scope: :data, required: true
 

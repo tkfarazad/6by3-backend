@@ -4,8 +4,8 @@ module Api::V1
   class CoachSerializer < Api::V1::BaseSerializer
     type 'coaches'
 
-    attributes :fullname,
-               :avatar
+    attributes :avatar,
+               :fullname
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
   end

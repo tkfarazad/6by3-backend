@@ -2,7 +2,7 @@
 
 module Api::V1::Admin
   class BaseController < ::Api::V1::ApplicationController
-    before_action :raise_method_not_implemented_error, unless: -> { method_implemented }
+    before_action :raise_method_not_implemented_error, unless: -> { method_implemented? }
 
     def index
       api_action do |m|
@@ -49,7 +49,7 @@ module Api::V1::Admin
 
     private
 
-    def method_implemented
+    def method_implemented?
       self.class::IMPLEMENT_METHODS == :ALL || self.class::IMPLEMENT_METHODS.include?(action_name)
     end
 

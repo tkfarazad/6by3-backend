@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V1::User::Tokens
-  CreateSchema = Dry::Validation.Params do
+  CreateSchema = Dry::Validation.Params(BaseSchema) do
     optional(:email).filled.when(:filled?) do
       value(:password).filled?
     end

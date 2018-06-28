@@ -10,6 +10,8 @@ module Api::V1::Admin::Coaches
     step :validate, with: 'params.validate'
     try :update, catch: Sequel::InvalidOperation
 
+    private
+
     def find(input)
       context[:coach] = ::Coach.with_pk!(input.fetch(:id))
 
@@ -29,8 +31,6 @@ module Api::V1::Admin::Coaches
     def update(input)
       ::Coaches::UpdateOperation.new(coach).call(input)
     end
-
-    private
 
     def can?
       resolve_policy.new(current_user).update?

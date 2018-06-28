@@ -5,8 +5,7 @@ module Api::V1::User::Avatar
     map :destroy
 
     def destroy
-      current_user.remove_avatar!
-      current_user.save
+      ::Avatar::DestroyOperation.new(current_user).call
     end
   end
 end

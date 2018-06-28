@@ -6,6 +6,8 @@ module Api::V1::Admin::Coaches
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
 
+    private
+
     def authorize(input)
       return Failure(:authorize) unless can?
 
@@ -19,8 +21,6 @@ module Api::V1::Admin::Coaches
     def find(input)
       ::Coach.with_pk!(input.fetch(:id))
     end
-
-    private
 
     def can?
       resolve_policy.new(current_user).show?

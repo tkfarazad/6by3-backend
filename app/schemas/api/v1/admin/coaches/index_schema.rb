@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V1::Admin::Coaches
-  IndexSchema = Dry::Validation.Params do
+  IndexSchema = Dry::Validation.Params(BaseSchema) do
     optional(:filter).schema do
       optional(:fullname).filled(:str?)
     end

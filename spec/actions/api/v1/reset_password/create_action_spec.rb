@@ -27,7 +27,7 @@ RSpec.describe Api::V1::ResetPassword::CreateAction do
       it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
-          email: ['is missing']
+          email: ['is missing', ' is invalid email']
         )
       end
     end

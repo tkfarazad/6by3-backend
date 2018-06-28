@@ -2,5 +2,9 @@
 
 namespace :admin do
   resources :users
-  resources :coaches
+  resources :coaches do
+    scope module: :coaches do
+      concerns :avatarable
+    end
+  end
 end

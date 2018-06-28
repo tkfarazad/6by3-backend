@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  concern :avatarable do
+    resource :avatar, only: %i[create update destroy], controller: :avatar
+  end
+
   current_api_routes = lambda do
     constraints(id: /\d+/) do
       draw :admin

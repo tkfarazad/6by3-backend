@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Api::V1::Admin::Users::IndexAction do
-  let!(:user) { create(:user) }
+RSpec.describe Api::V1::Admin::Coaches::IndexAction do
+  let!(:coach1) { create(:coach) }
+  let!(:coach2) { create(:coach) }
   let!(:current_user) { create(:user, :admin) }
 
   let(:action) { described_class.new(context: {current_user: current_user}) }
@@ -14,27 +15,27 @@ RSpec.describe Api::V1::Admin::Users::IndexAction do
     context 'no params' do
       let(:input) { {} }
 
-      it 'returns all users' do
+      it 'returns all coaches' do
         expect(subject).to be_success
-        expect(subject.success[0]).to match_array [user, current_user]
+        expect(subject.success[0]).to match_array [coach1, coach2]
       end
     end
 
     context 'with filters' do
-      let(:input) { {filter: {fullname: user.fullname}} }
+      let(:input) { {filter: {fullname: coach1.fullname}} }
 
-      it 'returns all users with given fullname' do
+      it 'returns all coaches with given fullname' do
         expect(subject).to be_success
-        expect(subject.success[0]).to match_array [user]
+        expect(subject.success[0]).to match_array [coach1]
       end
     end
 
     context 'with sorting' do
       let(:input) { {sort: '-created_at'} }
 
-      it 'returns all users sorted' do
+      it 'returns all coaches sorted' do
         expect(subject).to be_success
-        expect(subject.success[0]).to match_array [current_user, user]
+        expect(subject.success[0]).to match_array [coach2, coach1]
       end
     end
   end

@@ -1,48 +1,13 @@
 # frozen_string_literal: true
 
 module Api::V1::Admin
-  class UsersController < ::Api::V1::ApplicationController
-    def index
-      api_action do |m|
-        m.success do |users, meta|
-          render jsonapi: users,
-                 meta: meta
-        end
-      end
-    end
-
-    def show
-      api_action do |m|
-        m.success do |user|
-          render jsonapi: user
-        end
-      end
-    end
+  class UsersController < ::Api::V1::Admin::BaseController
+    IMPLEMENT_METHODS = :ALL
 
     def create
-      api_action do |m|
-        m.success do |user|
-          render jsonapi: user, status: :created
-        end
-
+      super do |m|
         m.failure(:create) do
           head 409
-        end
-      end
-    end
-
-    def update
-      api_action do |m|
-        m.success do |updated_user|
-          render jsonapi: updated_user
-        end
-      end
-    end
-
-    def destroy
-      api_action do |m|
-        m.success do
-          head :no_content
         end
       end
     end

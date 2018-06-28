@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Users' do
-  resource 'Admin users' do
-    let!(:user1) { create(:user) }
-    let!(:user2) { create(:user) }
+RSpec.describe 'Coaches' do
+  resource 'Admin coaches' do
+    let!(:coach1) { create(:coach) }
+    let!(:coach2) { create(:coach) }
+    let!(:coach3) { create(:coach) }
 
-    route '/api/v1/admin/users', 'Admin Users endpoint' do
-      get 'All users' do
+    route '/api/v1/admin/coaches', 'Admin Coaches endpoint' do
+      get 'All coaches' do
         parameter :page
         parameter :sort
         parameter :filter
@@ -17,7 +18,6 @@ RSpec.describe 'Users' do
         end
 
         with_options scope: :filter do
-          parameter :email
           parameter :fullname
         end
 
@@ -41,7 +41,7 @@ RSpec.describe 'Users' do
           example 'Responds with 200' do
             do_request
 
-            expect(response_body).to match_response_schema('v1/users/index')
+            expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 3
           end
         end
@@ -53,7 +53,7 @@ RSpec.describe 'Users' do
           example 'Responds with 200' do
             do_request
 
-            expect(response_body).to match_response_schema('v1/users/index')
+            expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 1
             expect(parsed_body[:meta]).to be_paginated_resource_meta
             expect(parsed_body[:meta]).to eq(
@@ -72,36 +72,32 @@ RSpec.describe 'Users' do
           example 'Responds with 200' do
             do_request
 
-            expect(response_body).to match_response_schema('v1/users/index')
+            expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 3
           end
         end
 
         context 'filtered', :authenticated_admin do
-          let(:email) { user1.email }
+          let(:fullname) { coach1.fullname }
 
           example 'Responds with 200' do
             do_request
 
-            expect(response_body).to match_response_schema('v1/users/index')
+            expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 1
           end
         end
       end
 
-      post 'Create user' do
+      post 'Create coach' do
         parameter :type, scope: :data, required: true
 
         with_options scope: %i[data attributes] do
-          parameter :email, required: true
-          parameter :password, required: true
-          parameter :passwordConfirmation, required: true
+          parameter :fullname, required: true
         end
 
-        let(:type) { 'users' }
-        let(:email) { FFaker::Internet.email }
-        let(:password) { FFaker::Internet.password }
-        let(:passwordConfirmation) { password }
+        let(:type) { 'coaches' }
+        let(:fullname) { FFaker::Name.name }
 
         context 'not authenticated' do
           example 'Responds with 401' do
@@ -123,13 +119,13 @@ RSpec.describe 'Users' do
           example 'Responds with 200' do
             do_request
 
-            expect(response_body).to match_response_schema('v1/users/index')
-            expect(parsed_body[:data][:attributes][:email]).to eq email
+            expect(response_body).to match_response_schema('v1/coaches/index')
+            expect(parsed_body[:data][:attributes][:fullname]).to eq fullname
           end
         end
 
         context 'when params are invalid', :authenticated_admin do
-          let(:password) { nil }
+          let(:fullname) { nil }
 
           example 'Responds with 422' do
             do_request
@@ -138,25 +134,13 @@ RSpec.describe 'Users' do
             expect(response_body).to match_response_schema('v1/error')
           end
         end
-
-        context 'when user already exists', :authenticated_admin do
-          before do
-            create(:user, email: email)
-          end
-
-          example 'Responds with 409' do
-            do_request
-
-            expect(status).to eq(409)
-          end
-        end
       end
     end
 
-    route '/api/v1/admin/users/:id', 'Admin User endpoint' do
-      get 'Single user' do
-        let!(:user) { create(:user) }
-        let(:id) { user.id }
+    route '/api/v1/admin/coaches/:id', 'Admin Coach endpoint' do
+      get 'Single coach' do
+        let!(:coach) { create(:coach) }
+        let(:id) { coach.id }
 
         context 'not authenticated' do
           example 'Responds with 401' do
@@ -174,7 +158,7 @@ RSpec.describe 'Users' do
           end
         end
 
-        context 'user was not found', :authenticated_admin do
+        context 'coach was not found', :authenticated_admin do
           let(:id) { 0 }
 
           example 'Responds with 404' do
@@ -190,22 +174,22 @@ RSpec.describe 'Users' do
             do_request
 
             expect(status).to eq(200)
-            expect(response_body).to match_response_schema('v1/user')
+            expect(response_body).to match_response_schema('v1/coach')
           end
         end
       end
 
-      put 'Update user' do
+      put 'Update coach' do
         parameter :type, scope: :data, required: true
 
         with_options scope: %i[data attributes] do
           parameter :fullname
         end
 
-        let(:type) { 'users' }
+        let(:type) { 'coaches' }
 
-        let!(:user) { create(:user) }
-        let(:id) { user.id }
+        let!(:coach) { create(:coach) }
+        let(:id) { coach.id }
 
         context 'not authenticated' do
           let(:fullname) { FFaker::Name.name }
@@ -245,14 +229,14 @@ RSpec.describe 'Users' do
             do_request
 
             expect(status).to eq(200)
-            expect(response_body).to match_response_schema('v1/user')
+            expect(response_body).to match_response_schema('v1/coach')
           end
         end
       end
 
-      delete 'Destroy user' do
-        let!(:user) { create(:user) }
-        let(:id) { user.id }
+      delete 'Destroy coach' do
+        let!(:coach) { create(:coach) }
+        let(:id) { coach.id }
 
         context 'not authenticated' do
           example 'Responds with 401' do

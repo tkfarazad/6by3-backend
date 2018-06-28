@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe Users::UpdateOperation do
-  let!(:user) { create(:user, fullname: 'original fullname') }
+  let(:initial_fullname) { FFaker::Name.name }
+  let!(:user) { create(:user, fullname: initial_fullname) }
 
   describe '#call' do
     subject { described_class.new(user).call(input) }
 
     context 'params valid' do
-      let(:input) { {fullname: 'updated fullname'} }
+      let(:new_fullname) { FFaker::Name.name }
+      let(:input) { {fullname: new_fullname} }
 
       it 'user is updated' do
-        expect { subject }.to change(user, :fullname).from('original fullname').to('updated fullname')
+        expect { subject }.to change(user, :fullname).from(initial_fullname).to(new_fullname)
         expect(user.updated_at).not_to eq(user.created_at)
       end
     end

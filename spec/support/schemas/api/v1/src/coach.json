@@ -6,9 +6,8 @@
     "type": { "type": "string" },
     "attributes": {
       "type": "object",
-      "required": ["email", "fullname"],
+      "required": ["fullname"],
       "properties": {
-        "email": { "type" : "string" },
         "fullname": { "type" : "string" },
         "avatar": {
           "type": "object",

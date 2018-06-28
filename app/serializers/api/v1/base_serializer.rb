@@ -5,6 +5,8 @@ module Api::V1
     extend JSONAPI::Serializable::Resource::ConditionalFields
     extend JSONAPI::Serializable::Resource::KeyFormat
 
+    include ::Api::V1::SerializerHelper
+
     key_format ->(key) { key.to_s.camelize(:lower) }
   end
 end

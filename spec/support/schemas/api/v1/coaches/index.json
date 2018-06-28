@@ -1,0 +1,5 @@
+{
+  "data": [{
+    "$ref": "src/coach.json"
+  }]
+}

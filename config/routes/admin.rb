@@ -2,4 +2,5 @@
 
 namespace :admin do
   resources :users
+  resources :coaches
 end

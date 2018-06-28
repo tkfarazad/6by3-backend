@@ -2,8 +2,25 @@
 
 RSpec.describe 'Users' do
   resource 'Admin users' do
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
+
     route '/api/v1/admin/users', 'Admin Users endpoint' do
       get 'All users' do
+        parameter :page
+        parameter :sort
+        parameter :filter
+
+        with_options scope: :page do
+          parameter :number, required: true
+          parameter :size, required: true
+        end
+
+        with_options scope: :filter do
+          parameter :email
+          parameter :fullname
+        end
+
         context 'not authenticated' do
           example 'Responds with 401' do
             do_request
@@ -25,11 +42,51 @@ RSpec.describe 'Users' do
             do_request
 
             expect(response_body).to match_response_schema('v1/users/index')
-            expect(parsed_body[:data].count).to eq 1
+            expect(parsed_body[:data].count).to eq 3
           end
         end
 
-        # TODO: Add tests for the filter/sort/page params
+        context 'paginated', :authenticated_admin do
+          let(:number) { 2 }
+          let(:size) { 1 }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/users/index')
+            expect(parsed_body[:data].count).to eq 1
+            expect(parsed_body[:meta]).to be_paginated_resource_meta
+            expect(parsed_body[:meta]).to eq(
+              current_page: 2,
+              next_page: 3,
+              prev_page: 1,
+              page_count: 3,
+              record_count: 3
+            )
+          end
+        end
+
+        context 'sorted', :authenticated_admin do
+          let(:sort) { '-created_at' }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/users/index')
+            expect(parsed_body[:data].count).to eq 3
+          end
+        end
+
+        context 'filtered', :authenticated_admin do
+          let(:email) { user1.email }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/users/index')
+            expect(parsed_body[:data].count).to eq 1
+          end
+        end
       end
 
       post 'Create user' do

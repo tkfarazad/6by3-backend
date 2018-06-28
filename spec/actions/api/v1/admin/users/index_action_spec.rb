@@ -16,7 +16,7 @@ RSpec.describe Api::V1::Admin::Users::IndexAction do
 
       it 'returns all users' do
         expect(subject).to be_success
-        expect(subject.success).to match_array [user, current_user]
+        expect(subject.success[0]).to match_array [user, current_user]
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Admin::Users::IndexAction do
 
       it 'returns all users with given fullname' do
         expect(subject).to be_success
-        expect(subject.success).to match_array [user]
+        expect(subject.success[0]).to match_array [user]
       end
     end
   end

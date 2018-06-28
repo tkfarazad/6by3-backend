@@ -10,7 +10,7 @@ RSpec.describe UsersFinder do
   def find(params: {})
     described_class.new(
       initial_scope: User.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:paginate]).all
+    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page]).all
   end
 
   context 'without filtering' do

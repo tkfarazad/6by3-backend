@@ -18,6 +18,12 @@ module Api
           Params::DeserializeBulk.new
         end
       end
+
+      namespace 'meta' do
+        register 'paginate' do
+          MetaBuilder::Paginate.new
+        end
+      end
     end
   end
 end

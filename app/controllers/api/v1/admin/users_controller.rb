@@ -4,8 +4,9 @@ module Api::V1::Admin
   class UsersController < ::Api::V1::ApplicationController
     def index
       api_action do |m|
-        m.success do |users|
-          render jsonapi: users
+        m.success do |users, meta|
+          render jsonapi: users,
+                 meta: meta
         end
       end
     end

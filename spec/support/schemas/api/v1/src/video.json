@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["id", "type", "attributes"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string" },
+    "attributes": {
+      "type": "object",
+      "required": ["name", "content"],
+      "properties": {
+        "name": { "type" : "string" },
+        "content": {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}

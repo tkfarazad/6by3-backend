@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe BasePhotoUploader do
+RSpec.describe BaseUploader do
   let!(:user) { create(:user) }
   let(:uploader) { described_class.new(user, :avatar) }
 
@@ -14,9 +14,9 @@ RSpec.describe BasePhotoUploader do
     end
   end
 
-  def define_uploader_extension_whitelist
-    described_class.define_method(:extension_whitelist) do
-      ['png']
+  def define_uploader_method(method, content)
+    described_class.define_method(method) do
+      content
     end
   end
 
@@ -26,9 +26,13 @@ RSpec.describe BasePhotoUploader do
 
   context 'was not configured' do
     it 'throws error when options are not configured' do
-      expect { upload }.to raise_error(ArgumentError, 'Provide available photo extensions')
+      expect { upload }.to raise_error(ArgumentError, 'Provide available file extensions')
 
-      define_uploader_extension_whitelist
+      define_uploader_method(:extension_whitelist, ['png'])
+
+      expect { upload }.to raise_error(ArgumentError, 'Provide minimum and maximum file size range')
+
+      define_uploader_method(:size_range, 1..2.megabytes)
 
       expect { upload }.to raise_error(ArgumentError, 'Provide directory where files will be stored')
     end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module Api::V1::Admin::Users
+module Api::V1::Admin::Videos
   class IndexAction < ::Api::V1::BaseAction
-    include ::TransactionContext[:users_scope]
+    include ::TransactionContext[:videos_scope]
 
     step :authorize
     step :validate, with: 'params.validate'
-    tee :find_users
+    tee :find_videos
     map :build_meta, with: 'meta.paginate'
     map :build_response
 
@@ -22,18 +22,18 @@ module Api::V1::Admin::Users
       super(input, resolve_schema)
     end
 
-    def find_users(params)
-      context[:users_scope] = ::UsersFinder.new(
-        initial_scope: User.dataset
+    def find_videos(params)
+      context[:videos_scope] = ::VideosFinder.new(
+        initial_scope: Video.dataset
       ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page])
     end
 
     def build_meta(params)
-      super(users_scope) if params[:page].present?
+      super(videos_scope) if params[:page].present?
     end
 
     def build_response(meta)
-      [users_scope.all, meta]
+      [videos_scope.all, meta]
     end
 
     def can?

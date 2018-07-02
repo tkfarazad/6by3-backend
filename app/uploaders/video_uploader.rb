@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class AvatarUploader < BasePhotoUploader
+class VideoUploader < BaseVideoUploader
   def store_dir
-    'avatars'
+    'videos'
   end
 end

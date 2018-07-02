@@ -88,6 +88,9 @@ GEM
     carrierwave-sequel (0.1.1)
       carrierwave
       sequel
+    carrierwave-video (0.6.0)
+      carrierwave
+      streamio-ffmpeg
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
@@ -338,6 +341,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
     thor (0.20.0)
     thread_safe (0.3.6)
     timecop (0.9.1)
@@ -360,6 +365,7 @@ DEPENDENCIES
   bundler-audit (~> 0.6)
   carrierwave (~> 1.2, >= 1.2.2)
   carrierwave-sequel (~> 0.1.1)
+  carrierwave-video (~> 0.6.0)
   database_cleaner (= 1.6)
   dotenv-rails (~> 2.2)
   dry-container (~> 0.6)

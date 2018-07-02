@@ -2,7 +2,7 @@
 
 module Api::V1::Admin::Coaches
   class IndexAction < ::Api::V1::BaseAction
-    include TransactionContext[:coaches_scope]
+    include ::TransactionContext[:coaches_scope]
 
     step :authorize
     step :validate, with: 'params.validate'

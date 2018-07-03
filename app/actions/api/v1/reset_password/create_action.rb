@@ -11,10 +11,6 @@ module Api::V1::ResetPassword
       super(input, skip_validation: true)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_user(input)
       ::User.find(email: input.fetch(:email))
     end

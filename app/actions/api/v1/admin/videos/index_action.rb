@@ -18,10 +18,6 @@ module Api::V1::Admin::Videos
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_videos(params)
       context[:videos_scope] = ::VideosFinder.new(
         initial_scope: Video.dataset

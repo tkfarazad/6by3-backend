@@ -7,10 +7,6 @@ module Api::V1::Users
     try :create, catch: Sequel::Error
     tee :send_confirmation_letter
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def create(input)
       ::User.create(input)
     end

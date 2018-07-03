@@ -17,10 +17,6 @@ module Api::V1::Admin::Coaches::Avatar
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find(input)
       context[:coach] = ::Coach.with_pk!(input.fetch(:coach_id))
     end

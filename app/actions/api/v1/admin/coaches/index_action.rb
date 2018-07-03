@@ -18,10 +18,6 @@ module Api::V1::Admin::Coaches
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_coaches(params)
       context[:coaches_scope] = ::CoachesFinder.new(
         initial_scope: Coach.dataset

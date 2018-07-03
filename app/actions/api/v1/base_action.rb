@@ -7,6 +7,10 @@ module Api::V1
 
     private
 
+    def validate(input)
+      super(input, resolve_schema)
+    end
+
     def resolve_schema
       [
         self.class.name.deconstantize,

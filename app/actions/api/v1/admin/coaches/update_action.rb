@@ -24,10 +24,6 @@ module Api::V1::Admin::Coaches
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def update(input)
       ::Coaches::UpdateOperation.new(coach).call(input)
     end

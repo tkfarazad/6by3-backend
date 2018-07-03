@@ -14,10 +14,6 @@ module Api::V1::User::Tokens
       super(input, skip_validation: true)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find(input)
       user = find_user(input)
 

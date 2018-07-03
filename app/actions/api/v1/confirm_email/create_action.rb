@@ -14,10 +14,6 @@ module Api::V1::ConfirmEmail
       super(input, skip_validation: true)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_user(input)
       ::User.find(email_confirmation_token: input.fetch(:token))
     end

@@ -14,10 +14,6 @@ module Api::V1::ChangePassword
       super(input, skip_validation: true)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_user(input)
       input.merge!(
         user: ::User.find(reset_password_token: input.fetch(:token))

@@ -18,10 +18,6 @@ module Api::V1::Admin::Users
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find_users(params)
       context[:users_scope] = ::UsersFinder.new(
         initial_scope: User.dataset

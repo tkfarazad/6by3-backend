@@ -24,10 +24,6 @@ module Api::V1::Admin::Videos
       input
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def update(input)
       ::Videos::UpdateOperation.new(video).call(input)
     end

@@ -14,10 +14,6 @@ module Api::V1::Admin::Coaches
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def find(input)
       ::Coach.with_pk!(input.fetch(:id))
     end

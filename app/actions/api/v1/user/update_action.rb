@@ -6,10 +6,6 @@ module Api::V1::User
     step :validate, with: 'params.validate'
     try :update, catch: Sequel::InvalidOperation
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def update(input)
       ::Users::UpdateOperation.new(current_user).call(input)
     end

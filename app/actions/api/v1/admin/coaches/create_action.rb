@@ -15,10 +15,6 @@ module Api::V1::Admin::Coaches
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def create(input)
       ::Coach.create(input)
     end

@@ -14,10 +14,6 @@ module Api::V1::Admin::Videos
       Success(input)
     end
 
-    def validate(input)
-      super(input, resolve_schema)
-    end
-
     def create(input)
       ::Video.create(input)
     end

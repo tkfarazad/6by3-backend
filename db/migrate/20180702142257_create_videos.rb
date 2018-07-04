@@ -7,6 +7,8 @@ Sequel.migration do
 
       String :name, null: false
       String :content, null: false
+      String :description, null: false
+      String :duration
 
       DateTime :created_at, null: false
       DateTime :updated_at, null: false

@@ -7,12 +7,20 @@ RSpec.describe 'Videos' do
     let!(:coaches_video1) { create(:coaches_video) }
     let!(:coaches_video2) { create(:coaches_video) }
 
-    route '/api/v1/admin/videos', 'Admin Videos endpoint' do
+    # IDEA: This should be somehow be improved/replaced
+    # In current way it only polutes `route` param for us(devs)
+    # As all possible sorting, filtering, and pagination params are known
+    # We need to somehow overrided this method to rebuild first param
+    # In the needed direction
+    # As as it grows it will becam too long
+    # Example for what we have now:
+    # '/api/v1/admin/videos{?include}{?sort}{?filter[name]}{?page[number]}{?page[size]}'
+    route '/api/v1/admin/videos{?include}{?sort}', 'Admin Videos endpoint' do
       get 'All videos' do
         parameter :page
-        parameter :sort
+        parameter :sort, example: 'created_at'
         parameter :filter
-        parameter :include
+        parameter :include, example: 'coaches'
 
         with_options scope: :page do
           parameter :number, required: true
@@ -45,6 +53,19 @@ RSpec.describe 'Videos' do
 
             expect(response_body).to match_response_schema('v1/videos/index')
             expect(parsed_body[:data].count).to eq 4
+          end
+        end
+
+        context 'relationships', :authenticated_admin do
+          context 'coaches', :authenticated_admin do
+            let(:include) { 'coaches' }
+
+            example 'Responds with 200' do
+              do_request
+
+              expect(parsed_body[:included].count).to eq 2
+              expect(parsed_body[:included][0].to_json).to match_response_schema('v1/src/coach')
+            end
           end
         end
 
@@ -94,9 +115,11 @@ RSpec.describe 'Videos' do
       post 'Create video' do
         let(:raw_post) { params }
         let(:name) { 'safdgsfhjg' }
-        let(:content) { fixture_file_upload('spec/fixtures/files/video.mp4', 'video/mpeg') }
+        let(:content) { fixture_file_upload('spec/fixtures/files/video.mp4', 'video/mp4') }
+        let(:description) { FFaker::Book.description }
 
         parameter :content, required: true
+        parameter :description, required: true
         parameter :name, required: true
 
         context 'not authenticated' do

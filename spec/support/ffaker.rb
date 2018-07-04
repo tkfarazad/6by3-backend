@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-UPLOADED_FILE_NAME = 'video'
-UPLOADED_FILE_EXTENSION = 'mp4'
-
 module FFaker
   module Video
+    UPLOADED_FILE_NAME = 'video'
+    UPLOADED_FILE_EXTENSION = 'mp4'
+
+    private_constant :UPLOADED_FILE_NAME, :UPLOADED_FILE_EXTENSION
+
     extend ActionDispatch::TestProcess
 
     module_function

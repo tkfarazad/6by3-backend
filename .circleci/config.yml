@@ -127,9 +127,9 @@ jobs:
             touch ~/.aws/config
             echo '[default]' >> ~/.aws/config
       - run: sudo pip install --upgrade awscli
-      - run: sudo pip install ansible
-      - run: sudo pip install -U docker-py
-      - run: ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/release-deploy.yml -i ansible/staging --extra-vars "branch=master aws_profile=default" -v
+      - run: sudo pip install ansible==2.5.5
+      - run: sudo pip install -U docker-py==1.10.6
+      - run: ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/release-deploy.yml -i ansible/staging --extra-vars "branch=master aws_profile=default" -vvvv
 
 workflows:
   version: 2

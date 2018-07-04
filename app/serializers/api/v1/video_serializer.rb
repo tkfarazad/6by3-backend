@@ -6,5 +6,7 @@ module Api::V1
 
     attributes :name,
                :content
+
+    has_many :coaches
   end
 end

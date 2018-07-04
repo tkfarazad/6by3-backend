@@ -6,20 +6,14 @@ module Api::V1::Admin::Users
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
 
-    def authorize(input)
-      return Failure(:authorize) unless can?
+    private
 
-      Success(input)
+    def authorize(input)
+      resolve_policy.new(current_user).to_monad(input, &:show?)
     end
 
     def find(input)
       ::User.with_pk!(input.fetch(:id))
-    end
-
-    private
-
-    def can?
-      resolve_policy.new(current_user).show?
     end
   end
 end

@@ -9,9 +9,7 @@ module Api::V1::Admin::Coaches
     private
 
     def authorize(coach)
-      return Failure(:authorize) unless can?
-
-      Success(coach)
+      resolve_policy.new(current_user).to_monad(coach, &:destroy?)
     end
 
     def find(input)
@@ -20,10 +18,6 @@ module Api::V1::Admin::Coaches
 
     def destroy(coach)
       ::Coaches::DestroyOperation.new(coach).call
-    end
-
-    def can?
-      resolve_policy.new(current_user).destroy?
     end
   end
 end

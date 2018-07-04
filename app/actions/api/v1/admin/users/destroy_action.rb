@@ -6,24 +6,18 @@ module Api::V1::Admin::Users
     step :authorize
     map :destroy
 
+    private
+
     def find(input)
       ::User.with_pk!(input.fetch(:id))
     end
 
     def authorize(user)
-      return Failure(:authorize) unless can?
-
-      Success(user)
+      resolve_policy.new(current_user).to_monad(user, &:destroy?)
     end
 
     def destroy(user)
       ::Users::DestroyOperation.new(user).call
-    end
-
-    private
-
-    def can?
-      resolve_policy.new(current_user).destroy?
     end
   end
 end

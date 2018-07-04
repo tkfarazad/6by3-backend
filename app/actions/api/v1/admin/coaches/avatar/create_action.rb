@@ -12,9 +12,7 @@ module Api::V1::Admin::Coaches::Avatar
     private
 
     def authorize(input)
-      return Failure(:authorize) unless can?
-
-      Success(input)
+      resolve_policy.new(current_user).to_monad(input, &:create?)
     end
 
     def find(input)
@@ -23,10 +21,6 @@ module Api::V1::Admin::Coaches::Avatar
 
     def create(input)
       ::Coaches::UpdateOperation.new(coach).call(input)
-    end
-
-    def can?
-      resolve_policy.new(current_user).create?
     end
   end
 end

@@ -7,20 +7,14 @@ module Api::V1::Admin::Users
     step :validate, with: 'params.validate'
     try :create, catch: Sequel::UniqueConstraintViolation
 
-    def authorize(input)
-      return Failure(:authorize) unless can?
+    private
 
-      Success(input)
+    def authorize(input)
+      resolve_policy.new(current_user).to_monad(input, &:create?)
     end
 
     def create(input)
       ::User.create(input)
-    end
-
-    private
-
-    def can?
-      resolve_policy.new(current_user).create?
     end
   end
 end

@@ -9,17 +9,11 @@ module Api::V1::Admin::Videos
     private
 
     def authorize(input)
-      return Failure(:authorize) unless can?
-
-      Success(input)
+      resolve_policy.new(current_user).to_monad(input, &:create?)
     end
 
     def create(input)
       ::Video.create(input)
-    end
-
-    def can?
-      resolve_policy.new(current_user).create?
     end
   end
 end

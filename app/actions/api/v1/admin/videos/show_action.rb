@@ -9,17 +9,11 @@ module Api::V1::Admin::Videos
     private
 
     def authorize(input)
-      return Failure(:authorize) unless can?
-
-      Success(input)
+      resolve_policy.new(current_user).to_monad(input, &:show?)
     end
 
     def find(input)
       ::Video.with_pk!(input.fetch(:id))
-    end
-
-    def can?
-      resolve_policy.new(current_user).show?
     end
   end
 end

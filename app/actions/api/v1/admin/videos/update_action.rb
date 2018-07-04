@@ -13,9 +13,7 @@ module Api::V1::Admin::Videos
     private
 
     def authorize(input)
-      return Failure(:authorize) unless can?
-
-      Success(input)
+      resolve_policy.new(current_user).to_monad(input, &:update?)
     end
 
     def find(input)
@@ -26,10 +24,6 @@ module Api::V1::Admin::Videos
 
     def update(input)
       ::Videos::UpdateOperation.new(video).call(input)
-    end
-
-    def can?
-      resolve_policy.new(current_user).update?
     end
   end
 end

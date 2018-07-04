@@ -13,9 +13,7 @@ module Api::V1::Admin::Coaches
     private
 
     def authorize(input)
-      return Failure(:authorize) unless can?
-
-      Success(input)
+      resolve_policy.new(current_user).to_monad(input, &:index?)
     end
 
     def find_coaches(params)
@@ -30,10 +28,6 @@ module Api::V1::Admin::Coaches
 
     def build_response(meta)
       [coaches_scope.all, meta]
-    end
-
-    def can?
-      resolve_policy.new(current_user).index?
     end
   end
 end

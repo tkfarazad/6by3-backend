@@ -40,6 +40,14 @@ class ApplicationPolicy
     Pundit.policy_scope!(user, record.class)
   end
 
+  def to_monad(input = nil, failure = :authorize)
+    if yield(self)
+      Dry::Monads::Success(input || record)
+    else
+      Dry::Monads::Failure(failure)
+    end
+  end
+
   class Scope
     attr_reader :user, :scope
 

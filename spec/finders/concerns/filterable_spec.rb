@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe Filterable do
-  let!(:user1) { create(:user) }
-  let!(:user2) { create(:user) }
-  let!(:user3) { create(:user) }
+  let!(:user1) { create(:user, fullname: 'Aaa Aaa') }
+  let!(:user2) { create(:user, fullname: 'Aaa Bbb') }
+  let!(:user3) { create(:user, fullname: 'Bbb Bbb') }
 
   let(:invalid_filterable_class) do
     Class.new do
@@ -13,7 +13,11 @@ RSpec.describe Filterable do
         apply_filters(scope, filter)
       end
 
-      def filter_by(scope:, field:, value:)
+      def filter_by_like(scope:, field:, value:)
+        scope.where(Sequel.like(field, "%#{value}%"))
+      end
+
+      def filter_by_eq(scope:, field:, value:)
         scope.where(field => value)
       end
     end
@@ -42,20 +46,32 @@ RSpec.describe Filterable do
 
   context 'with filters' do
     it 'filter by unknown' do
-      expect(filter(filter: { unknown: user1.email })).to match_array [user1, user2, user3]
+      expect(filter(filter: {unknown: user1.email})).to match_array [user1, user2, user3]
     end
 
     it 'filter by email' do
-      expect(filter(filter: { email: user1.email })).to match_array [user1]
-      expect(filter(filter: { email: user2.email })).to match_array [user2]
-      expect(filter(filter: { email: user3.email })).to match_array [user3]
+      expect(filter(filter: {email: user1.email})).to match_array [user1]
+      expect(filter(filter: {email: user2.email})).to match_array [user2]
+      expect(filter(filter: {email: user3.email})).to match_array [user3]
+    end
+
+    it 'filter by fullname with like' do
+      expect(filter(filter: {fullname: 'Aaa'})).to match_array [user1, user2]
+      expect(filter(filter: {fullname: 'Bbb'})).to match_array [user2, user3]
     end
   end
 
   context 'with multiple filters' do
     it 'email and fullname passed' do
-      expect(filter(filter: { email: user1.email, fullname: user2.fullname })).to be_empty
-      expect(filter(filter: { email: user1.email, fullname: user1.fullname })).to match_array [user1]
+      expect(filter(filter: {email: user1.email, fullname: user2.fullname})).to be_empty
+      expect(filter(filter: {email: user1.email, fullname: user1.fullname})).to match_array [user1]
+    end
+  end
+
+  context 'with different querying strategies' do
+    it 'query only equals' do
+      expect(filter(filter: {email: {eq: user1.email}})).to match_array [user1]
+      expect(filter(filter: {fullname: {eq: user2.fullname}})).to match_array [user2]
     end
   end
 end

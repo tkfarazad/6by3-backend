@@ -17,7 +17,11 @@ class BaseFinder
 
   attr_reader :initial_scope
 
-  def filter_by(scope:, field:, value:)
+  def filter_by_eq(scope:, field:, value:)
     scope.where(field => value)
+  end
+
+  def filter_by_like(scope:, field:, value:)
+    scope.where(Sequel.like(field, "%#{value}%"))
   end
 end

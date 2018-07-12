@@ -12,10 +12,6 @@ module Api::V1::Admin::Users
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:index?)
-    end
-
     def find_users(params)
       context[:users_scope] = ::UsersFinder.new(
         initial_scope: User.dataset

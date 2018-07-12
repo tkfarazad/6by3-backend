@@ -6,7 +6,7 @@ module Api::V1::Admin::Coaches
 
     try :find, catch: Sequel::NoMatchingRow
     step :authorize
-    try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
+    try :deserialize, catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :update, catch: Sequel::InvalidOperation
 
@@ -18,8 +18,9 @@ module Api::V1::Admin::Coaches
       input
     end
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:update?)
+    def deserialize(input)
+      Params::Deserialize.new(deserializer: ::Api::V1::Admin::CoachDeserializer)
+                         .call(input, skip_validation: true)
     end
 
     def update(input)

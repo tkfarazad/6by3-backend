@@ -4,8 +4,7 @@ RSpec.describe 'Videos' do
   resource 'Admin videos' do
     let!(:video1) { create(:video) }
     let!(:video2) { create(:video) }
-    let!(:coaches_video1) { create(:coaches_video) }
-    let!(:coaches_video2) { create(:coaches_video) }
+    let!(:video3) { create(:video) }
 
     # IDEA: This should be somehow be improved/replaced
     # In current way it only polutes `route` param for us(devs)
@@ -52,20 +51,7 @@ RSpec.describe 'Videos' do
             do_request
 
             expect(response_body).to match_response_schema('v1/videos/index')
-            expect(parsed_body[:data].count).to eq 4
-          end
-        end
-
-        context 'relationships', :authenticated_admin do
-          context 'coaches', :authenticated_admin do
-            let(:include) { 'coaches' }
-
-            example 'Responds with 200' do
-              do_request
-
-              expect(parsed_body[:included].count).to eq 2
-              expect(parsed_body[:included][0].to_json).to match_response_schema('v1/src/coach')
-            end
+            expect(parsed_body[:data].count).to eq 3
           end
         end
 
@@ -83,8 +69,8 @@ RSpec.describe 'Videos' do
               current_page: 2,
               next_page: 3,
               prev_page: 1,
-              page_count: 4,
-              record_count: 4
+              page_count: 3,
+              record_count: 3
             )
           end
         end
@@ -96,7 +82,7 @@ RSpec.describe 'Videos' do
             do_request
 
             expect(response_body).to match_response_schema('v1/videos/index')
-            expect(parsed_body[:data].count).to eq 4
+            expect(parsed_body[:data].count).to eq 3
           end
         end
 
@@ -210,6 +196,10 @@ RSpec.describe 'Videos' do
           parameter :name
         end
 
+        with_options scope: %i[data relationships coaches] do
+          parameter :data, type: :array, items: {type: :object}, method: :coaches_data, required: true
+        end
+
         let(:type) { 'videos' }
 
         let!(:video) { create(:video) }
@@ -254,6 +244,30 @@ RSpec.describe 'Videos' do
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/video')
+          end
+        end
+
+        context 'video can have multiple coaches', :authenticated_admin do
+          let!(:coach1) { create(:coach) }
+          let!(:coach2) { create(:coach) }
+
+          let(:coaches_data) do
+            [
+              { type: 'coaches', id: coach1.id },
+              { type: 'coaches', id: coach2.id }
+            ]
+          end
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(status).to eq(200)
+            expect(response_body).to match_response_schema('v1/video')
+
+            expect(coach1.video_pks).to eq [video.id]
+            expect(coach2.video_pks).to eq [video.id]
+
+            expect(video.coach_pks).to eq [coach1.id, coach2.id]
           end
         end
       end

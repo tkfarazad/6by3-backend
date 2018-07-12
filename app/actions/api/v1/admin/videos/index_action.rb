@@ -12,10 +12,6 @@ module Api::V1::Admin::Videos
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:index?)
-    end
-
     def find_videos(params)
       context[:videos_scope] = ::VideosFinder.new(
         initial_scope: Video.dataset

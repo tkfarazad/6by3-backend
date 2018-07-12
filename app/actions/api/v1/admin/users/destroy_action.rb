@@ -12,10 +12,6 @@ module Api::V1::Admin::Users
       ::User.with_pk!(input.fetch(:id))
     end
 
-    def authorize(user)
-      resolve_policy.new(current_user).to_monad(user, &:destroy?)
-    end
-
     def destroy(user)
       ::Users::DestroyOperation.new(user).call
     end

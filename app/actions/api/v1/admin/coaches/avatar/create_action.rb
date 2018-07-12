@@ -11,10 +11,6 @@ module Api::V1::Admin::Coaches::Avatar
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:create?)
-    end
-
     def find(input)
       context[:coach] = ::Coach.with_pk!(input.fetch(:coach_id))
     end

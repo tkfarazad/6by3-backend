@@ -2,8 +2,8 @@ en:
   hello: "Hello world"
   errors:
     email?: '%{value} is invalid email'
-    image?: '%{value} is invalid image'
-    video?: '%{value} is invalid video'
+    image?: 'Invalid image'
+    video?: 'Invalid video'
     confirm_email:
       create:
         token_invalid: Confirmation token is invalid.

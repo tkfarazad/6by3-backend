@@ -9,10 +9,6 @@ module Api::V1::Admin::Users
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:create?)
-    end
-
     def create(input)
       ::User.create(input)
     end

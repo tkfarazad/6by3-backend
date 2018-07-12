@@ -18,10 +18,6 @@ module Api::V1::Admin::Users
       input
     end
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:update?)
-    end
-
     def update(input)
       ::Users::UpdateOperation.new(user).call(input)
     end

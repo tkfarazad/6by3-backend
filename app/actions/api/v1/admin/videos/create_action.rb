@@ -8,10 +8,6 @@ module Api::V1::Admin::Videos
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:create?)
-    end
-
     def create(input)
       ::Video.create(input)
     end

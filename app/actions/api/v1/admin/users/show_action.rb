@@ -8,10 +8,6 @@ module Api::V1::Admin::Users
 
     private
 
-    def authorize(input)
-      resolve_policy.new(current_user).to_monad(input, &:show?)
-    end
-
     def find(input)
       ::User.with_pk!(input.fetch(:id))
     end

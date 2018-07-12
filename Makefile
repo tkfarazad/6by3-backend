@@ -7,6 +7,7 @@ ifeq ($(USE_NFSMOUNT), true)
 else
 	DOCKER_COMPOSE_FILES := -f docker-compose.yml
 endif
+DOCKER_COMPOSE_FILES := -f docker-compose.yml
 DOCKER_COMPOSE := docker-compose $(DOCKER_COMPOSE_FILES) --project-name $(PROJECT_NAME)
 DOCKER_COMPOSE_RUN := $(DOCKER_COMPOSE) $(RUN)
 WEB_CONCURRENCY := 0

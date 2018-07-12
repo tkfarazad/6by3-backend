@@ -186,6 +186,10 @@ RSpec.describe 'Coaches' do
           parameter :fullname
         end
 
+        with_options scope: %i[data relationships videos] do
+          parameter :data, type: :array, items: {type: :object}, method: :videos_data, required: true
+        end
+
         let(:type) { 'coaches' }
 
         let!(:coach) { create(:coach) }
@@ -230,6 +234,30 @@ RSpec.describe 'Coaches' do
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/coach')
+          end
+        end
+
+        context 'coach can have multiple video', :authenticated_admin do
+          let!(:video1) { create(:video) }
+          let!(:video2) { create(:video) }
+
+          let(:videos_data) do
+            [
+              { type: 'videos', id: video1.id },
+              { type: 'videos', id: video2.id }
+            ]
+          end
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(status).to eq(200)
+            expect(response_body).to match_response_schema('v1/coach')
+
+            expect(video1.coach_pks).to eq [coach.id]
+            expect(video2.coach_pks).to eq [coach.id]
+
+            expect(coach.video_pks).to eq [video1.id, video2.id]
           end
         end
       end

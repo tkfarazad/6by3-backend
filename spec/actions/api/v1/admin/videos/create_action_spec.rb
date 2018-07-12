@@ -32,7 +32,7 @@ RSpec.describe Api::V1::Admin::Videos::CreateAction do
         expect(call.failure).to eq(
           name: ['is missing'],
           description: ['is missing'],
-          content: ['is missing', ' is invalid video']
+          content: ['is missing', 'Invalid video']
         )
       end
     end

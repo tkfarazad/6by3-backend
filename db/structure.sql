@@ -110,8 +110,8 @@ CREATE TABLE public.coaches_videos (
     id integer NOT NULL,
     coach_id integer NOT NULL,
     video_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -229,11 +229,11 @@ ALTER TABLE ONLY public.coaches
 
 
 --
--- Name: coaches_videos coaches_videos_coach_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: coaches_videos coaches_videos_coach_id_video_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.coaches_videos
-    ADD CONSTRAINT coaches_videos_coach_id_key UNIQUE (coach_id);
+    ADD CONSTRAINT coaches_videos_coach_id_video_id_key UNIQUE (coach_id, video_id);
 
 
 --
@@ -242,14 +242,6 @@ ALTER TABLE ONLY public.coaches_videos
 
 ALTER TABLE ONLY public.coaches_videos
     ADD CONSTRAINT coaches_videos_pkey PRIMARY KEY (id);
-
-
---
--- Name: coaches_videos coaches_videos_video_id_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.coaches_videos
-    ADD CONSTRAINT coaches_videos_video_id_key UNIQUE (video_id);
 
 
 --

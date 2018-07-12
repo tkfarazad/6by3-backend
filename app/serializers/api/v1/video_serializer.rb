@@ -13,6 +13,8 @@ module Api::V1
       0
     end
 
-    has_many :coaches
+    has_many :coaches do
+      linkage always: true
+    end
   end
 end

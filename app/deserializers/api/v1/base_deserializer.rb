@@ -7,7 +7,12 @@ module Api::V1
     id
     type
     attributes
-    has_many
     has_one
+
+    has_many do |_rel, ids, _types, type|
+      {
+        "#{type.singularize}_pks" => ids
+      }
+    end
   end
 end

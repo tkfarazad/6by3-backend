@@ -6,7 +6,7 @@ module Api::V1::Admin::Videos
 
     try :find, catch: Sequel::NoMatchingRow
     step :authorize
-    try :deserialize, catch: JSONAPI::Parser::InvalidDocument
+    try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :update, catch: Sequel::InvalidOperation
 
@@ -19,8 +19,7 @@ module Api::V1::Admin::Videos
     end
 
     def deserialize(input)
-      Params::Deserialize.new(deserializer: ::Api::V1::Admin::VideoDeserializer)
-                         .call(input, skip_validation: true)
+      super(input, skip_validation: true)
     end
 
     def update(input)

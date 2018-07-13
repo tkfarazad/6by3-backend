@@ -34,7 +34,7 @@ RSpec.describe Api::V1::Admin::Users::IndexAction do
 
       it 'returns all users sorted' do
         expect(subject).to be_success
-        expect(subject.success[0]).to match_array [current_user, user]
+        expect(subject.success[0]).to eq [current_user, user]
       end
     end
   end

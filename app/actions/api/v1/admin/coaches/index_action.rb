@@ -25,7 +25,7 @@ module Api::V1::Admin::Coaches
     def find_coaches(params)
       context[:coaches_scope] = ::CoachesFinder.new(
         initial_scope: Coach.dataset
-      ).call(filter: params[:filter], paginate: params[:page])
+      ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page])
     end
 
     def build_meta(params)

@@ -35,7 +35,7 @@ RSpec.describe Api::V1::Admin::Coaches::IndexAction do
 
       it 'returns all coaches sorted' do
         expect(subject).to be_success
-        expect(subject.success[0]).to match_array [coach2, coach1]
+        expect(subject.success[0]).to eq [coach2, coach1]
       end
     end
   end

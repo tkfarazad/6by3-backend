@@ -23,8 +23,8 @@ RSpec.describe UsersFinder do
 
     context 'with ordering' do
       it 'returns proper records' do
-        expect(find(params: {sort: 'created_at'})).to match_array [user1, user2, user3, user4, user5, user6]
-        expect(find(params: {sort: '-created_at'})).to match_array [user6, user5, user4, user3, user2, user1]
+        expect(find(params: {sort: 'created_at'})).to eq [user1, user2, user3, user4, user5, user6]
+        expect(find(params: {sort: '-created_at'})).to eq [user6, user5, user4, user3, user2, user1]
       end
     end
   end
@@ -48,23 +48,23 @@ RSpec.describe UsersFinder do
       it 'returns proper records' do
         expect(
           find(params: {filter: {fullname: 'Aaa Aaa'}, sort: 'created_at'})
-        ).to match_array [user1, user2]
+        ).to eq [user1, user2]
 
         expect(
           find(params: {filter: {fullname: 'Aaa Aaa'}, sort: '-created_at'})
-        ).to match_array [user2, user1]
+        ).to eq [user2, user1]
 
         expect(
           find(params: {filter: {fullname: 'Bbb Bbb'}, sort: 'created_at'})
-        ).to match_array [user4, user5, user6]
+        ).to eq [user4, user5, user6]
 
         expect(
           find(params: {filter: {fullname: 'Bbb Bbb'}, sort: '-created_at'})
-        ).to match_array [user6, user5, user4]
+        ).to eq [user6, user5, user4]
 
         expect(
           find(params: {filter: {fullname: 'Bbb'}, sort: '-created_at'})
-        ).to match_array [user6, user5, user4, user3]
+        ).to eq [user6, user5, user4, user3]
       end
     end
   end

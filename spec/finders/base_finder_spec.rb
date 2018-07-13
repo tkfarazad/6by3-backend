@@ -35,7 +35,7 @@ RSpec.describe BaseFinder do
 
         expect(
           find(params: { sort: 'email' })
-        ).to match_array [user5, user3, user1, user4, user2]
+        ).to eq [user5, user3, user1, user4, user2]
       end
     end
 
@@ -73,15 +73,15 @@ RSpec.describe BaseFinder do
 
     context 'with asc ordering' do
       it 'returns proper records' do
-        expect(find(params: { sort: 'email' })).to match_array [user5, user3, user1, user4, user2]
-        expect(find(params: { sort: 'created_at' })).to match_array [user1, user2, user3, user4, user5]
+        expect(find(params: { sort: 'email' })).to eq [user5, user3, user1, user4, user2]
+        expect(find(params: { sort: 'created_at' })).to eq [user1, user2, user3, user4, user5]
       end
     end
 
     context 'with desc ordering' do
       it 'returns proper records' do
-        expect(find(params: { sort: '-email' })).to match_array [user2, user4, user1, user3, user5]
-        expect(find(params: { sort: '-created_at' })).to match_array [user5, user4, user3, user2, user1]
+        expect(find(params: { sort: '-email' })).to eq [user2, user4, user1, user3, user5]
+        expect(find(params: { sort: '-created_at' })).to eq [user5, user4, user3, user2, user1]
       end
     end
   end
@@ -96,15 +96,15 @@ RSpec.describe BaseFinder do
 
     context 'with asc ordering' do
       it 'returns proper records' do
-        expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: 'created_at' })).to match_array [user1, user2]
-        expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: 'email' })).to match_array [user5, user3, user4]
+        expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: 'created_at' })).to eq [user1, user2]
+        expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: 'email' })).to eq [user5, user3, user4]
       end
     end
 
     context 'with desc ordering' do
       it 'returns proper records' do
-        expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: '-created_at' })).to match_array [user2, user1]
-        expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: '-email' })).to match_array [user4, user3, user5]
+        expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: '-created_at' })).to eq [user2, user1]
+        expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: '-email' })).to eq [user4, user3, user5]
       end
     end
   end

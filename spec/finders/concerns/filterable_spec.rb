@@ -29,7 +29,7 @@ RSpec.describe Filterable do
   end
 
   def filter(filter: {})
-    filterable_class.new.call(User.dataset, filter)
+    filterable_class.new.call(User.dataset, filter).all
   end
 
   context 'throws error' do
@@ -50,9 +50,9 @@ RSpec.describe Filterable do
     end
 
     it 'filter by email' do
-      expect(filter(filter: {email: user1.email})).to match_array [user1]
-      expect(filter(filter: {email: user2.email})).to match_array [user2]
-      expect(filter(filter: {email: user3.email})).to match_array [user3]
+      expect(filter(filter: {email: user1.email})).to eq [user1]
+      expect(filter(filter: {email: user2.email})).to eq [user2]
+      expect(filter(filter: {email: user3.email})).to eq [user3]
     end
 
     it 'filter by fullname with like' do
@@ -64,14 +64,14 @@ RSpec.describe Filterable do
   context 'with multiple filters' do
     it 'email and fullname passed' do
       expect(filter(filter: {email: user1.email, fullname: user2.fullname})).to be_empty
-      expect(filter(filter: {email: user1.email, fullname: user1.fullname})).to match_array [user1]
+      expect(filter(filter: {email: user1.email, fullname: user1.fullname})).to eq [user1]
     end
   end
 
   context 'with different querying strategies' do
     it 'query only equals' do
-      expect(filter(filter: {email: {eq: user1.email}})).to match_array [user1]
-      expect(filter(filter: {fullname: {eq: user2.fullname}})).to match_array [user2]
+      expect(filter(filter: {email: {eq: user1.email}})).to eq [user1]
+      expect(filter(filter: {fullname: {eq: user2.fullname}})).to eq [user2]
     end
   end
 end

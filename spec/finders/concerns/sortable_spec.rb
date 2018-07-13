@@ -21,7 +21,7 @@ RSpec.describe Sortable do
   end
 
   def sort(sort: '')
-    sortable_class.new.call(User.dataset, sort)
+    sortable_class.new.call(User.dataset, sort).all
   end
 
   context 'throws error' do
@@ -42,19 +42,19 @@ RSpec.describe Sortable do
     end
 
     it 'sort by created_at' do
-      expect(sort(sort: 'created_at')).to match_array [user1, user2, user3]
-      expect(sort(sort: '-created_at')).to match_array [user3, user2, user1]
+      expect(sort(sort: 'created_at')).to eq [user1, user2, user3]
+      expect(sort(sort: '-created_at')).to eq [user3, user2, user1]
     end
 
     it 'sort by fullname' do
-      expect(sort(sort: 'fullname')).to match_array [user2, user1, user3]
-      expect(sort(sort: '-fullname')).to match_array [user3, user1, user2]
+      expect(sort(sort: 'fullname')).to eq [user2, user1, user3]
+      expect(sort(sort: '-fullname')).to eq [user3, user1, user2]
     end
   end
 
   context 'with multiple params' do
     it 'accepts multiple sort params' do
-      expect(sort(sort: '-fullname,-created_at')).to match_array [user3, user1, user2]
+      expect(sort(sort: '-fullname,-created_at')).to eq [user3, user1, user2]
     end
   end
 end

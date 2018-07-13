@@ -2,6 +2,8 @@
 
 module Api::V1::Admin::Coaches
   IndexSchema = Dry::Validation.Params(BaseSchema) do
+    optional(:sort).filled
+
     optional(:filter).schema do
       optional(:fullname).filled(:str?)
     end

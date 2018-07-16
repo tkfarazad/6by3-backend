@@ -8,6 +8,6 @@ class BaseVideoUploader < BaseUploader
   end
 
   def size_range
-    10..200_000.megabytes
+    1..2.gigabytes
   end
 end

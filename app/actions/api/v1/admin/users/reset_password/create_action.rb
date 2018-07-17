@@ -1,23 +1,19 @@
 # frozen_string_literal: true
 
-module Api::V1::ResetPassword
+module Api::V1::Admin::Users::ResetPassword
   class CreateAction < ::Api::V1::BaseAction
-    try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
+    step :authorize
     step :validate, with: 'params.validate'
-    map :find
+    try :find, catch: Sequel::NoMatchingRow
     tee :reset_password
 
-    def deserialize(input)
-      super(input, skip_validation: true)
-    end
+    private
 
     def find(input)
-      ::User.find(email: input.fetch(:email))
+      ::User.with_pk!(input.fetch(:user_id))
     end
 
     def reset_password(user)
-      return if user.nil?
-
       SendResetPasswordInstructionsJob.perform_later(user_id: user.id)
     end
   end

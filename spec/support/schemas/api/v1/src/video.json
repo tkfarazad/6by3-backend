@@ -6,9 +6,11 @@
     "type": { "type": "string" },
     "attributes": {
       "type": "object",
-      "required": ["name", "content"],
+      "required": ["name", "description", "duration", "content"],
       "properties": {
         "name": { "type" : "string" },
+        "description": { "type" : "string" },
+        "duration": { "type" : "string" },
         "content": {
           "type": "object",
           "required": ["url"],

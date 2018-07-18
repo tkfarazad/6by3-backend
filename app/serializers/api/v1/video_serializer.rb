@@ -6,12 +6,8 @@ module Api::V1
 
     attributes :name,
                :content,
+               :duration,
                :description
-
-    # BUG: Find a way how to access `duration` from the `carrierwave-video` and `streamio-ffmpeg`
-    attribute :duration do
-      0
-    end
 
     has_many :coaches do
       linkage always: true

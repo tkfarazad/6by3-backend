@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BaseVideoUploader < BaseUploader
+class BaseVideoUploader < ::BaseUploader
   include CarrierWave::Video
 
   def extension_whitelist

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BasePhotoUploader < CarrierWave::Uploader::Base
+class BasePhotoUploader < ::BaseUploader
   include CarrierWave::MiniMagick
 
   def extension_whitelist

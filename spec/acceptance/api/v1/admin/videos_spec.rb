@@ -144,6 +144,17 @@ RSpec.describe 'Videos' do
             expect(response_body).to match_response_schema('v1/error')
           end
         end
+
+        context 'when invalid video type', :authenticated_admin do
+          let(:content) { fixture_file_upload('spec/fixtures/files/video.ogv', 'video/ogv') }
+
+          example 'Responds with 422' do
+            do_request
+
+            expect(status).to eq(422)
+            expect(response_body).to match_response_schema('v1/error')
+          end
+        end
       end
     end
 

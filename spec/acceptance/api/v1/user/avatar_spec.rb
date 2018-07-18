@@ -9,12 +9,23 @@ RSpec.describe 'User Avatar' do
 
         parameter :avatar, required: true
 
-        context 'user avatar is created', :authenticated_user do
+        context 'when params are valid', :authenticated_user do
           example 'Responds with 200' do
             do_request
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/user')
+          end
+        end
+
+        context 'when avatar file format is invalid', :authenticated_user do
+          let(:avatar) { fixture_file_upload('spec/fixtures/files/avatar.svg', 'image/svg+xml') }
+
+          example 'Responds with 422' do
+            do_request
+
+            expect(status).to eq(422)
+            expect(response_body).to match_response_schema('v1/error')
           end
         end
       end

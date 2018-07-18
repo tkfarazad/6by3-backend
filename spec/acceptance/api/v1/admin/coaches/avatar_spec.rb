@@ -12,13 +12,24 @@ RSpec.describe 'Coach Avatar' do
 
         parameter :avatar, required: true
 
-        context 'coach avatar is created', :authenticated_admin do
+        context 'when params are valid', :authenticated_admin do
           example 'Responds with 200' do
             do_request
 
             expect(status).to eq(200)
             expect(parsed_body[:data][:type]).to eq 'coaches'
             expect(response_body).to match_response_schema('v1/coach')
+          end
+        end
+
+        context 'when avatar file format is invalid', :authenticated_admin do
+          let(:avatar) { fixture_file_upload('spec/fixtures/files/avatar.svg', 'image/svg+xml') }
+
+          example 'Responds with 422' do
+            do_request
+
+            expect(status).to eq(422)
+            expect(response_body).to match_response_schema('v1/error')
           end
         end
       end

@@ -22,6 +22,8 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
             avatar
             fullname
             deletedAt
+            certifications
+            personalInfo
           ]
         )
       end
@@ -33,6 +35,8 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
           %i[
             avatar
             fullname
+            certifications
+            personalInfo
           ]
         )
       end

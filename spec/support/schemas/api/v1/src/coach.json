@@ -9,6 +9,8 @@
       "required": ["fullname"],
       "properties": {
         "fullname": { "type" : "string" },
+        "certifications": { "type": "array" },
+        "personalInfo": { "type": "string" },
         "avatar": {
           "type": "object",
           "required": ["url"],

@@ -6,5 +6,6 @@ module Api::V1::Admin::Coaches
     optional(:fullname).filled(:str?)
     optional(:personal_info).filled(:str?)
     optional(:video_pks).each(:int?)
+    optional(:certifications).each(:str?)
   end
 end

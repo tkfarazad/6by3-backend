@@ -2,37 +2,53 @@
 
 RSpec.describe Api::V1::Admin::Coaches::UpdateSchema do
   describe 'attributes' do
-    describe 'fullname' do
-      def schema(fullname)
-        described_class.call(fullname: fullname)
-      end
+    def schema(**options)
+      described_class.call(options)
+    end
 
+    describe 'fullname' do
       it 'returns failure' do
-        result = schema('')
+        result = schema(fullname: '')
 
         expect(result).to be_failure
         expect(result.errors).to eq(fullname: ['must be filled'])
       end
 
       it 'returns success' do
-        expect(schema(FFaker::Name.name)).to be_success
+        expect(schema(fullname: FFaker::Name.name)).to be_success
       end
     end
 
     describe 'personal_info' do
-      def schema(personal_info)
-        described_class.call(personal_info: personal_info)
-      end
-
       it 'returns failure' do
-        result = schema('')
+        result = schema(personal_info: '')
 
         expect(result).to be_failure
         expect(result.errors).to eq(personal_info: ['must be filled'])
       end
 
       it 'returns success' do
-        expect(schema(FFaker::Book.description)).to be_success
+        expect(schema(personal_info: FFaker::Book.description)).to be_success
+      end
+    end
+
+    describe 'certifications' do
+      it 'returns failure when not array' do
+        result = schema(certifications: 1)
+
+        expect(result).to be_failure
+        expect(result.errors).to eq(certifications: ['must be an array'])
+      end
+
+      it 'returns failure when array of not strings' do
+        result = schema(certifications: [1])
+
+        expect(result).to be_failure
+        expect(result.errors).to eq(certifications: {0 => ['must be a string']})
+      end
+
+      it 'returns success' do
+        expect(schema(certifications: [FFaker::Job.title])).to be_success
       end
     end
   end

@@ -5,7 +5,9 @@ module Api::V1
     type 'coaches'
 
     attributes :avatar,
-               :fullname
+               :fullname,
+               :personal_info,
+               :certifications
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
   end

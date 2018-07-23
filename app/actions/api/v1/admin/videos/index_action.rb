@@ -2,20 +2,23 @@
 
 module Api::V1::Admin::Videos
   class IndexAction < ::Api::V1::BaseAction
-    include ::TransactionContext[:videos_scope]
+    include ::TransactionContext[:videos_scope, :finder_params]
 
     step :authorize
     step :validate, with: 'params.validate'
+    tee :build_finder_params, with: 'params.finder.build'
     tee :find_videos
     map :build_meta, with: 'meta.paginate'
     map :build_response
 
     private
 
-    def find_videos(params)
-      context[:videos_scope] = ::VideosFinder.new(
-        initial_scope: Video.dataset
-      ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page])
+    def build_finder_params(params)
+      context[:finder_params] = super(params, exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})
+    end
+
+    def find_videos
+      context[:videos_scope] = ::VideosFinder.new(initial_scope: Video.dataset).call(**finder_params)
     end
 
     def build_meta(params)

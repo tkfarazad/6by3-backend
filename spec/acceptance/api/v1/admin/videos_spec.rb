@@ -5,6 +5,7 @@ RSpec.describe 'Videos' do
     let!(:video1) { create(:video) }
     let!(:video2) { create(:video) }
     let!(:video3) { create(:video) }
+    let!(:video4) { create(:video, :deleted) } # NOTE: Deleted records are not returned by default
 
     # IDEA: This should be somehow be improved/replaced
     # In current way it only polutes `route` param for us(devs)

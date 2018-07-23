@@ -5,6 +5,7 @@ RSpec.describe 'Coaches' do
     let!(:coach1) { create(:coach) }
     let!(:coach2) { create(:coach) }
     let!(:coach3) { create(:coach) }
+    let!(:coach4) { create(:coach, :deleted) } # NOTE: Deleted records are not returned by default
 
     route '/api/v1/admin/coaches', 'Admin Coaches endpoint' do
       get 'All coaches' do

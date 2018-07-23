@@ -8,5 +8,9 @@ FactoryBot.define do
     content { FFaker::Video.file }
     duration { "00:32:52" }
     description { FFaker::Book.description }
+
+    trait :deleted do
+      deleted_at Time.current
+    end
   end
 end

@@ -3,14 +3,20 @@
 RSpec.describe CoachesFinder do
   let!(:coach1) { create(:coach, fullname: 'Aaa Aaa') }
   let!(:coach2) { create(:coach, fullname: 'Aaa Aaa') }
-  let!(:coach3) { create(:coach, fullname: 'Aaa Bbb') }
-  let!(:coach4) { create(:coach, fullname: 'Bbb Bbb') }
-  let!(:coach5) { create(:coach, fullname: 'Bbb Bbb') }
+  let!(:coach3) { create(:coach, :deleted, fullname: 'Aaa Bbb') }
+  let!(:coach4) { create(:coach, :deleted, fullname: 'Bbb Bbb') }
+  let!(:coach5) { create(:coach, :deleted, fullname: 'Bbb Bbb') }
 
-  def find(params: {})
+  def find(params: {}, exclude: {})
     described_class.new(
       initial_scope: Coach.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page]).all
+    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page], exclude: exclude).all
+  end
+
+  context 'with exclusion' do
+    it 'returns proper records' do
+      expect(find(exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})).to match_array [coach1, coach2]
+    end
   end
 
   context 'without filtering' do

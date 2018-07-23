@@ -4,14 +4,20 @@ RSpec.describe UsersFinder do
   let!(:user1) { create(:user, fullname: 'Aaa Aaa', email: 'ccc@gmail.com') }
   let!(:user2) { create(:user, fullname: 'Aaa Aaa', email: 'eee@gmail.com') }
   let!(:user3) { create(:user, fullname: 'Aaa Bbb', email: 'xxx@gmail.com') }
-  let!(:user4) { create(:user, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
-  let!(:user5) { create(:user, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
-  let!(:user6) { create(:user, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
+  let!(:user4) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
+  let!(:user5) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
+  let!(:user6) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
 
-  def find(params: {})
+  def find(params: {}, exclude: {})
     described_class.new(
       initial_scope: User.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page]).all
+    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page], exclude: exclude).all
+  end
+
+  context 'with exclusion' do
+    it 'returns proper records' do
+      expect(find(exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})).to match_array [user1, user2, user3]
+    end
   end
 
   context 'without filtering' do

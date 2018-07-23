@@ -3,13 +3,19 @@
 RSpec.describe VideosFinder do
   let!(:video1) { create(:video, name: 'aaa_aaa.mp4') }
   let!(:video2) { create(:video, name: 'aaa_aaa.mp4') }
-  let!(:video3) { create(:video, name: 'bbb_abb.mp4') }
-  let!(:video4) { create(:video, name: 'bbb_abb.mp4') }
+  let!(:video3) { create(:video, :deleted, name: 'bbb_abb.mp4') }
+  let!(:video4) { create(:video, :deleted, name: 'bbb_abb.mp4') }
 
-  def find(params: {})
+  def find(params: {}, exclude: {})
     described_class.new(
       initial_scope: Video.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page]).all
+    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page], exclude: exclude).all
+  end
+
+  context 'with exclusion' do
+    it 'returns proper records' do
+      expect(find(exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})).to match_array [video1, video2]
+    end
   end
 
   context 'without filtering' do

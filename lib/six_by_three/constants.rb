@@ -7,5 +7,7 @@ module SixByThree
 
     AVAILABLE_UPLOAD_VIDEO_EXTENSIONS = %w[mp4].freeze
     AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES = %w[video/mp4].freeze
+
+    VALUE_PRESENT = :VALUE_PRESENT
   end
 end

@@ -14,6 +14,10 @@ FactoryBot.define do
       admin true
     end
 
+    trait :deleted do
+      deleted_at Time.current
+    end
+
     trait :confirmed do
       email_confirmed_at { Time.current - 1.day }
       email_confirmation_token nil

@@ -2,20 +2,23 @@
 
 module Api::V1::Admin::Coaches
   class IndexAction < ::Api::V1::BaseAction
-    include ::TransactionContext[:coaches_scope]
+    include ::TransactionContext[:coaches_scope, :finder_params]
 
     step :authorize
     step :validate, with: 'params.validate'
+    tee :build_finder_params, with: 'params.finder.build'
     tee :find_coaches
     map :build_meta, with: 'meta.paginate'
     map :build_response
 
     private
 
-    def find_coaches(params)
-      context[:coaches_scope] = ::CoachesFinder.new(
-        initial_scope: Coach.dataset
-      ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page])
+    def build_finder_params(params)
+      context[:finder_params] = super(params, exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})
+    end
+
+    def find_coaches
+      context[:coaches_scope] = ::CoachesFinder.new(initial_scope: Coach.dataset).call(**finder_params)
     end
 
     def build_meta(params)

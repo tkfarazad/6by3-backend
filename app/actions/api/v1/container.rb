@@ -17,6 +17,12 @@ module Api
         register 'deserialize_bulk' do
           Params::DeserializeBulk.new
         end
+
+        namespace 'finder' do
+          register 'build' do
+            Params::Finder::Build.new
+          end
+        end
       end
 
       namespace 'meta' do

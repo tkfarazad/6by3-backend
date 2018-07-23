@@ -2,9 +2,11 @@
 
 class DummyClass < BaseFinder
   include Sortable
+  include Excludable
   include Filterable
   include Paginatable
 
+  AVAILABLE_EXCLUSION_KEYS = %i[deleted_at].freeze
   AVAILABLE_FILTERING_KEYS = %i[fullname].freeze
   AVAILABLE_SORTING_KEYS = %w[fullname -fullname email -email created_at -created_at].freeze
 
@@ -16,14 +18,20 @@ end
 RSpec.describe BaseFinder do
   let!(:user1) { create(:user, fullname: 'Aaa Aaa', email: 'ccc@gmail.com') }
   let!(:user2) { create(:user, fullname: 'Aaa Aaa', email: 'eee@gmail.com') }
-  let!(:user3) { create(:user, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
-  let!(:user4) { create(:user, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
-  let!(:user5) { create(:user, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
+  let!(:user3) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
+  let!(:user4) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
+  let!(:user5) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
 
-  def find(params: {})
+  def find(params: {}, exclude: {})
     DummyClass.new(
       initial_scope: User.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page]).all
+    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page], exclude: exclude).all
+  end
+
+  context 'with exclusion' do
+    it 'returns proper records' do
+      expect(find(exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})).to match_array [user1, user2]
+    end
   end
 
   context 'configuring finder options' do

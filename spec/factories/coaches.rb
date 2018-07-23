@@ -8,5 +8,9 @@ FactoryBot.define do
     avatar { fixture_file_upload('spec/fixtures/files/image.png', 'image/png') }
     certifications { Array.new(3).fill { FFaker::Job.title } }
     personal_info { FFaker::Book.description }
+
+    trait :deleted do
+      deleted_at Time.current
+    end
   end
 end

@@ -6,7 +6,7 @@ FactoryBot.define do
 
     email { FFaker::Internet.unique.email }
     fullname { FFaker::Name.name }
-    avatar { fixture_file_upload('spec/fixtures/files/avatar.png', 'image/png') }
+    avatar { fixture_file_upload('spec/fixtures/files/image.png', 'image/png') }
     password { FFaker::Internet.password }
     password_confirmation { password }
 

@@ -6,7 +6,7 @@ module Api::V1::User::Avatar
     map :create
 
     def create(input)
-      ::Users::UpdateOperation.new(current_user).call(input)
+      ::UpdateEntityOperation.new(current_user).call(input)
     end
   end
 end

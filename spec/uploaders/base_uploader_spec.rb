@@ -5,7 +5,7 @@ RSpec.describe BaseUploader do
   let(:uploader) { described_class.new(user, :avatar) }
 
   subject(:upload) do
-    upload_file('avatar.png')
+    upload_file('image.png')
   end
 
   def upload_file(path)

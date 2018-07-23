@@ -23,7 +23,7 @@ module Api::V1::Admin::Videos
     end
 
     def update(input)
-      ::Videos::UpdateOperation.new(video).call(input)
+      ::UpdateEntityOperation.new(video).call(input)
     end
   end
 end

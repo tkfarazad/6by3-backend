@@ -13,7 +13,7 @@ module Api::V1::Admin::Coaches
     end
 
     def destroy(coach)
-      ::Coaches::DestroyOperation.new(coach).call
+      ::SoftDestroyEntityOperation.new(coach).call
     end
   end
 end

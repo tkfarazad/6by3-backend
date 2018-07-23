@@ -5,6 +5,7 @@ class Video < Sequel::Model
   plugin :association_pks
 
   mount_uploader :content, ::VideoUploader
+  mount_uploader :thumbnail, ::ThumbnailUploader
 
   many_to_many :coaches, join_table: :coaches_videos, delay_pks: :always
 end

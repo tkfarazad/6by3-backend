@@ -5,7 +5,7 @@ RSpec.describe 'User Avatar' do
     route '/api/v1/user/avatar', 'Current user avatar' do
       post 'Create Avatar' do
         let(:raw_post) { params }
-        let(:avatar) { fixture_file_upload('spec/fixtures/files/avatar.png', 'image/png') }
+        let(:avatar) { fixture_file_upload('spec/fixtures/files/image.png', 'image/png') }
 
         parameter :avatar, required: true
 
@@ -19,7 +19,7 @@ RSpec.describe 'User Avatar' do
         end
 
         context 'when avatar file format is invalid', :authenticated_user do
-          let(:avatar) { fixture_file_upload('spec/fixtures/files/avatar.svg', 'image/svg+xml') }
+          let(:avatar) { fixture_file_upload('spec/fixtures/files/image.svg', 'image/svg+xml') }
 
           example 'Responds with 422' do
             do_request
@@ -32,7 +32,7 @@ RSpec.describe 'User Avatar' do
 
       put 'Update Avatar' do
         let(:raw_post) { params }
-        let(:avatar) { fixture_file_upload('spec/fixtures/files/avatar.png', 'image/png') }
+        let(:avatar) { fixture_file_upload('spec/fixtures/files/image.png', 'image/png') }
 
         parameter :avatar, required: true
 

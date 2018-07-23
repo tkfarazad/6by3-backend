@@ -13,7 +13,7 @@ module Api::V1::Admin::Videos
     end
 
     def destroy(video)
-      ::Videos::DestroyOperation.new(video).call
+      ::SoftDestroyEntityOperation.new(video).call
     end
   end
 end

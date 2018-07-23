@@ -7,6 +7,7 @@ module Api::V1
     attributes :name,
                :content,
                :duration,
+               :thumbnail,
                :description
 
     has_many :coaches do

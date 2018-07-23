@@ -2,6 +2,6 @@
 
 module Api::V1::User
   class AvatarController < ::Api::V1::ApplicationController
-    include AvatarUploadActions
+    include ::ImageUploadActions
   end
 end

@@ -2,6 +2,6 @@
 
 module Api::V1::Admin::Coaches
   class AvatarController < ::Api::V1::ApplicationController
-    include AvatarUploadActions
+    include ::ImageUploadActions
   end
 end

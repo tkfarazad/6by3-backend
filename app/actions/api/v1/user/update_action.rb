@@ -7,7 +7,7 @@ module Api::V1::User
     try :update, catch: Sequel::InvalidOperation
 
     def update(input)
-      ::Users::UpdateOperation.new(current_user).call(input)
+      ::UpdateEntityOperation.new(current_user).call(input)
     end
   end
 end

@@ -13,7 +13,7 @@ module Api::V1::Admin::Users
     end
 
     def destroy(user)
-      ::Users::DestroyOperation.new(user).call
+      ::SoftDestroyEntityOperation.new(user).call
     end
   end
 end

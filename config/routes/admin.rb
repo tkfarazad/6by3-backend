@@ -7,7 +7,11 @@ namespace :admin do
     end
   end
 
-  resources :videos
+  resources :videos do
+    scope module: :videos do
+      resource :thumbnail, only: %i[create update destroy], controller: :thumbnail
+    end
+  end
 
   resources :coaches do
     scope module: :coaches do

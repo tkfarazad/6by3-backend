@@ -20,7 +20,7 @@ RSpec.describe AvatarUploader do
 
   context 'when valid' do
     it 'file is uploaded' do
-      upload_file('avatar.png')
+      upload_file('image.png')
 
       expect(uploader).to be_format('png')
     end
@@ -28,7 +28,7 @@ RSpec.describe AvatarUploader do
 
   context 'when invalid' do
     it 'raises error of image invalid format' do
-      expect { upload_file('avatar.svg') }.to raise_error(CarrierWave::IntegrityError)
+      expect { upload_file('image.svg') }.to raise_error(CarrierWave::IntegrityError)
     end
   end
 end

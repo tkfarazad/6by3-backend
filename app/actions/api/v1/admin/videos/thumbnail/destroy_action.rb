@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Api::V1::Admin::Coaches::Avatar
+module Api::V1::Admin::Videos::Thumbnail
   class DestroyAction < ::Api::V1::BaseAction
     step :authorize
     try :find, catch: Sequel::NoMatchingRow
@@ -9,11 +9,11 @@ module Api::V1::Admin::Coaches::Avatar
     private
 
     def find(input)
-      ::Coach.with_pk!(input.fetch(:coach_id))
+      ::Video.with_pk!(input.fetch(:video_id))
     end
 
-    def destroy(coach)
-      ::DestroyUploadOperation.new(coach).call(mounted_as: 'avatar')
+    def destroy(video)
+      ::DestroyUploadOperation.new(video).call(mounted_as: 'thumbnail')
     end
   end
 end

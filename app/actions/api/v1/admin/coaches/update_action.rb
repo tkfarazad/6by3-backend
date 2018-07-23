@@ -23,7 +23,7 @@ module Api::V1::Admin::Coaches
     end
 
     def update(input)
-      ::Coaches::UpdateOperation.new(coach).call(input)
+      ::UpdateEntityOperation.new(coach).call(input)
     end
   end
 end

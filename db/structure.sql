@@ -187,7 +187,8 @@ CREATE TABLE public.videos (
     duration text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone
+    deleted_at timestamp without time zone,
+    thumbnail text
 );
 
 
@@ -353,3 +354,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180702142257_create_vide
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180703155514_create_coaches_videos.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180718130339_add_certifications_to_coaches.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180718175827_add_not_null_constraint_to_video_duration.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180722193948_add_thumbnail_to_videos.rb');

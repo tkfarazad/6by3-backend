@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AvatarUploadActions
+module ImageUploadActions
   def create
     api_action do |m|
       m.success do |updated_record|

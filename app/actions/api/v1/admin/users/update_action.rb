@@ -19,7 +19,7 @@ module Api::V1::Admin::Users
     end
 
     def update(input)
-      ::Users::UpdateOperation.new(user).call(input)
+      ::UpdateEntityOperation.new(user).call(input)
     end
   end
 end

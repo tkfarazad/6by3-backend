@@ -5,7 +5,7 @@ module Api::V1::User
     map :destroy
 
     def destroy(user)
-      ::Users::DestroyOperation.new(user).call
+      ::SoftDestroyEntityOperation.new(user).call
     end
   end
 end

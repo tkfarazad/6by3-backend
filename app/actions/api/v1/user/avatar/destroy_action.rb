@@ -5,7 +5,7 @@ module Api::V1::User::Avatar
     map :destroy
 
     def destroy
-      ::Avatar::DestroyOperation.new(current_user).call
+      ::DestroyUploadOperation.new(current_user).call(mounted_as: 'avatar')
     end
   end
 end

@@ -84,6 +84,7 @@ end
 group :staging, :production do
   gem 'aws-ssm-env', '~> 0.1'
   gem 'rack-attack', '~> 5.0'
+  gem 'sentry-raven', '~> 2.7'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

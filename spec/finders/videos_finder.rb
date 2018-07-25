@@ -19,45 +19,45 @@ RSpec.describe VideosFinder do
   end
 
   context 'without filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns all records' do
         expect(find).to match_array [video1, video2, video3, video4]
       end
     end
 
-    context 'with ordering' do
-      it 'returns proper records' do
-        expect(find(params: {sort: 'created_at'})).to match_array [video1, video2, video3, video4]
-        expect(find(params: {sort: '-created_at'})).to match_array [video4, video3, video2, video1]
+    context 'with sorting' do
+      it 'by sort' do
+        expect(find(params: {sort: 'created_at'})).to eq [video1, video2, video3, video4]
+        expect(find(params: {sort: '-created_at'})).to eq [video4, video3, video2, video1]
       end
     end
   end
 
   context 'with filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns proper records' do
         expect(find(params: {filter: {name: 'aaa_aaa.mp4'}})).to match_array [video1, video2]
         expect(find(params: {filter: {name: 'bbb_abb.mp4'}})).to match_array [video3, video4]
       end
     end
 
-    context 'with ordering' do
+    context 'with sorting' do
       it 'returns proper records' do
         expect(
           find(params: {filter: {name: 'aaa_aaa.mp4'}, sort: 'created_at'})
-        ).to match_array [video1, video2]
+        ).to eq [video1, video2]
 
         expect(
           find(params: {filter: {name: 'aaa_aaa.mp4'}, sort: '-created_at'})
-        ).to match_array [video2, video1]
+        ).to eq [video2, video1]
 
         expect(
           find(params: {filter: {name: 'bbb_abb.mp4'}, sort: 'created_at'})
-        ).to match_array [video3, video4]
+        ).to eq [video3, video4]
 
         expect(
           find(params: {filter: {name: 'bbb_abb.mp4'}, sort: '-created_at'})
-        ).to match_array [video4, video3]
+        ).to eq [video4, video3]
       end
     end
   end

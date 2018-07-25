@@ -20,13 +20,13 @@ RSpec.describe CoachesFinder do
   end
 
   context 'without filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns all records' do
         expect(find).to match_array [coach1, coach2, coach3, coach4, coach5]
       end
     end
 
-    context 'with ordering' do
+    context 'with sorting' do
       it 'returns proper records' do
         expect(find(params: {sort: 'created_at'})).to eq [coach1, coach2, coach3, coach4, coach5]
         expect(find(params: {sort: '-created_at'})).to eq [coach5, coach4, coach3, coach2, coach1]
@@ -35,7 +35,7 @@ RSpec.describe CoachesFinder do
   end
 
   context 'with filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns proper records' do
         expect(find(params: {filter: {fullname: 'Aaa Aaa'}})).to match_array [coach1, coach2]
         expect(find(params: {filter: {fullname: 'Aaa'}})).to match_array [coach1, coach2, coach3]
@@ -44,7 +44,7 @@ RSpec.describe CoachesFinder do
       end
     end
 
-    context 'with ordering' do
+    context 'with sorting' do
       it 'returns proper records' do
         expect(
           find(params: {filter: {fullname: 'Aaa Aaa'}, sort: 'created_at'})

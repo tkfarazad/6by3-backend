@@ -21,13 +21,13 @@ RSpec.describe UsersFinder do
   end
 
   context 'without filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns all records' do
         expect(find).to match_array [user1, user2, user3, user4, user5, user6]
       end
     end
 
-    context 'with ordering' do
+    context 'with sorting' do
       it 'returns proper records' do
         expect(find(params: {sort: 'created_at'})).to eq [user1, user2, user3, user4, user5, user6]
         expect(find(params: {sort: '-created_at'})).to eq [user6, user5, user4, user3, user2, user1]
@@ -36,7 +36,7 @@ RSpec.describe UsersFinder do
   end
 
   context 'with filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns proper records' do
         expect(find(params: {filter: {fullname: 'Aaa'}})).to match_array [user1, user2, user3]
         expect(find(params: {filter: {fullname: 'Bbb'}})).to match_array [user3, user4, user5, user6]
@@ -50,7 +50,7 @@ RSpec.describe UsersFinder do
       end
     end
 
-    context 'with ordering' do
+    context 'with sorting' do
       it 'returns proper records' do
         expect(
           find(params: {filter: {fullname: 'Aaa Aaa'}, sort: 'created_at'})

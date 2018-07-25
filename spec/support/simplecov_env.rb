@@ -43,6 +43,9 @@ module SimpleCovEnv
       add_group 'Policies', 'app/policies'
       add_group 'Schemas', 'app/schemas'
       add_group 'Serializers', 'app/serializers'
+      add_group 'Controller Concerns', 'app/controllers/concerns'
+      add_group 'Finder Concerns', 'app/finders/concerns'
+      add_group 'Model Concerns', 'app/models/concerns'
       add_group 'Libraries', 'lib'
     end
   end

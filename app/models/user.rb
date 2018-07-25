@@ -5,6 +5,8 @@ class User < Sequel::Model
 
   mount_uploader :avatar, AvatarUploader
 
+  one_to_many :video_views
+
   def self.from_token_payload(payload)
     find(id: payload.fetch('sub'))
   end

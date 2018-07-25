@@ -73,20 +73,20 @@ RSpec.describe BaseFinder do
   end
 
   context 'without filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns all records' do
         expect(find).to match_array [user1, user2, user3, user4, user5]
       end
     end
 
-    context 'with asc ordering' do
+    context 'with asc sorting order' do
       it 'returns proper records' do
         expect(find(params: { sort: 'email' })).to eq [user5, user3, user1, user4, user2]
         expect(find(params: { sort: 'created_at' })).to eq [user1, user2, user3, user4, user5]
       end
     end
 
-    context 'with desc ordering' do
+    context 'with desc sorting order' do
       it 'returns proper records' do
         expect(find(params: { sort: '-email' })).to eq [user2, user4, user1, user3, user5]
         expect(find(params: { sort: '-created_at' })).to eq [user5, user4, user3, user2, user1]
@@ -95,21 +95,21 @@ RSpec.describe BaseFinder do
   end
 
   context 'with filtering' do
-    context 'without ordering' do
+    context 'without sorting' do
       it 'returns proper records' do
         expect(find(params: { filter: { fullname: 'Aaa Aaa' }})).to match_array [user1, user2]
         expect(find(params: { filter: { fullname: 'Bbb Bbb' }})).to match_array [user3, user4, user5]
       end
     end
 
-    context 'with asc ordering' do
+    context 'with asc sorting order' do
       it 'returns proper records' do
         expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: 'created_at' })).to eq [user1, user2]
         expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: 'email' })).to eq [user5, user3, user4]
       end
     end
 
-    context 'with desc ordering' do
+    context 'with desc sorting order' do
       it 'returns proper records' do
         expect(find(params: { filter: { fullname: 'Aaa Aaa' }, sort: '-created_at' })).to eq [user2, user1]
         expect(find(params: { filter: { fullname: 'Bbb Bbb' }, sort: '-email' })).to eq [user4, user3, user5]

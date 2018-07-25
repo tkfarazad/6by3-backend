@@ -13,5 +13,11 @@ module Api::V1
     has_many :coaches do
       linkage always: true
     end
+
+    meta do
+      {
+        views_count: @object.views_dataset.count
+      }
+    end
   end
 end

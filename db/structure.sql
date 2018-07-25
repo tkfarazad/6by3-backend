@@ -43,6 +43,32 @@ CREATE EXTENSION IF NOT EXISTS citext WITH SCHEMA public;
 COMMENT ON EXTENSION citext IS 'data type for case-insensitive character strings';
 
 
+--
+-- Name: videos_set_views_count(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.videos_set_views_count() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$        BEGIN
+          IF (TG_OP = 'UPDATE' AND (NEW."video_id" = OLD."video_id" OR (OLD."video_id" IS NULL AND NEW."video_id" IS NULL))) THEN
+            RETURN NEW;
+          ELSE
+            IF ((TG_OP = 'INSERT' OR TG_OP = 'UPDATE') AND NEW."video_id" IS NOT NULL) THEN
+              UPDATE "videos" SET "views_count" = "views_count" + 1 WHERE "id" = NEW."video_id";
+            END IF;
+            IF ((TG_OP = 'DELETE' OR TG_OP = 'UPDATE') AND OLD."video_id" IS NOT NULL) THEN
+              UPDATE "videos" SET "views_count" = "views_count" - 1 WHERE "id" = OLD."video_id";
+            END IF;
+          END IF;
+
+          IF (TG_OP = 'DELETE') THEN
+            RETURN OLD;
+          END IF;
+          RETURN NEW;
+        END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -215,7 +241,8 @@ CREATE TABLE public.videos (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
-    thumbnail text
+    thumbnail text,
+    views_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -373,6 +400,13 @@ CREATE INDEX video_views_video_id_index ON public.video_views USING btree (video
 
 
 --
+-- Name: video_views set_views_count; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER set_views_count BEFORE INSERT OR DELETE OR UPDATE ON public.video_views FOR EACH ROW EXECUTE PROCEDURE public.videos_set_views_count();
+
+
+--
 -- Name: auth_tokens auth_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -429,3 +463,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180718130339_add_certifi
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180718175827_add_not_null_constraint_to_video_duration.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180722193948_add_thumbnail_to_videos.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180724144902_create_video_views.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180725143820_add_video_views_count.rb');

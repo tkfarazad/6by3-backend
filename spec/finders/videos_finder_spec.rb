@@ -6,6 +6,11 @@ RSpec.describe VideosFinder do
   let!(:video3) { create(:video, :deleted, name: 'bbb_abb.mp4') }
   let!(:video4) { create(:video, :deleted, name: 'bbb_abb.mp4') }
 
+  let!(:user1) { create(:user) }
+  let!(:user2) { create(:user) }
+  let!(:user3) { create(:user) }
+  let!(:user4) { create(:user) }
+
   def find(params: {}, exclude: {})
     described_class.new(
       initial_scope: Video.dataset
@@ -29,6 +34,18 @@ RSpec.describe VideosFinder do
       it 'by sort' do
         expect(find(params: {sort: 'created_at'})).to eq [video1, video2, video3, video4]
         expect(find(params: {sort: '-created_at'})).to eq [video4, video3, video2, video1]
+      end
+
+      it 'by most_played' do
+        [video1, video2, video3, video4].each { |video| create(:video_view, user: user1, video: video) }
+        [video1, video2, video3].each { |video| create(:video_view, user: user2, video: video) }
+        [video1, video2].each { |video| create(:video_view, user: user3, video: video) }
+        [video1].each { |video| create(:video_view, user: user4, video: video) }
+
+        [video1, video2, video3, video4].each(&:reload)
+
+        expect(find(params: {sort: 'views_count'})).to eq [video4, video3, video2, video1]
+        expect(find(params: {sort: '-views_count'})).to eq [video1, video2, video3, video4]
       end
     end
   end

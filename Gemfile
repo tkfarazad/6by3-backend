@@ -15,6 +15,8 @@ gem 'rack-cors', '~> 1.0'
 gem 'pg', '~> 1.0'
 gem 'sequel-rails', '~> 1.0'
 gem 'sequel', '~> 5.8'
+# Database enforced timestamps, immutable columns, counter/sum caches, and touch propogation
+gem 'sequel_postgresql_triggers', '~> 1.4'
 
 gem 'dry-validation', '~> 0.12'
 gem 'dry-monads', '~> 0.4'

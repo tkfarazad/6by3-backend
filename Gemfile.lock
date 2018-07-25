@@ -317,6 +317,8 @@ GEM
       activemodel (>= 4.0.0)
       railties (>= 4.0.0)
       sequel (>= 3.28, < 6.0)
+    sequel_postgresql_triggers (1.4.0)
+      sequel
     sequel_pretty_print (0.2)
       sequel
     sequel_secure_password (0.2.15)
@@ -399,6 +401,7 @@ DEPENDENCIES
   sentry-raven (~> 2.7)
   sequel (~> 5.8)
   sequel-rails (~> 1.0)
+  sequel_postgresql_triggers (~> 1.4)
   sequel_pretty_print (~> 0.2)
   sequel_secure_password (~> 0.2)
   sidekiq (~> 5.1)

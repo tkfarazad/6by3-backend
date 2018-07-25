@@ -51,7 +51,8 @@ module App
       Sequel::Model.db.extension :pg_json,
                                  :pg_array,
                                  :pg_range,
-                                 :pagination
+                                 :pagination,
+                                 :pg_triggers
     end
 
     config.site_url = ENV.fetch('SITE_URL')

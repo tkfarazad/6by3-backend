@@ -6,6 +6,7 @@ RSpec.describe 'Videos' do
     let!(:video2) { create(:video) }
     let!(:video3) { create(:video, :with_category) }
     let!(:video4) { create(:video, :deleted) } # NOTE: Deleted records are not returned by default
+    let!(:category1) { create(:video_category, name: FFaker::Name.name) }
 
     # IDEA: This should be somehow be improved/replaced
     # In current way it only polutes `route` param for us(devs)
@@ -233,6 +234,10 @@ RSpec.describe 'Videos' do
           parameter :lesson_date
         end
 
+        with_options scope: %i[data relationships category] do
+          parameter :data, type: :object, method: :category_data, required: true
+        end
+
         with_options scope: %i[data relationships coaches] do
           parameter :data, type: :array, items: {type: :object}, method: :coaches_data, required: true
         end
@@ -283,6 +288,24 @@ RSpec.describe 'Videos' do
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/video')
+          end
+        end
+
+        context 'association video category', :authenticated_admin do
+          let(:category_data) do
+            { type: 'categories', id: category1.id }
+          end
+
+          example 'Responds with 200' do
+            do_request
+
+            video.reload
+
+            expect(status).to eq(200)
+            expect(response_body).to match_response_schema('v1/video')
+
+            expect(video.category).to eq category1
+            expect(category1.videos).to eq [video]
           end
         end
 

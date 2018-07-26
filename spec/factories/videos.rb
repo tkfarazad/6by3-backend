@@ -7,10 +7,17 @@ FactoryBot.define do
     name { FFaker::Video.name }
     content { FFaker::Video.file }
     duration { "00:32:52" }
+    lesson_date { Time.current }
     description { FFaker::Book.description }
 
     trait :deleted do
       deleted_at Time.current
+    end
+
+    trait :with_category do
+      after(:create) do |video|
+        video.update(category: create(:video_category))
+      end
     end
   end
 end

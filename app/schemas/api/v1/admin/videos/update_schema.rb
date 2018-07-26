@@ -5,6 +5,7 @@ module Api::V1::Admin::Videos
     optional(:name).filled(:str?)
     optional(:description).filled(:str?)
     optional(:content).filled(:video?)
+    optional(:lesson_date).filled(:date?)
     optional(:coach_pks).each(:int?)
   end
 end

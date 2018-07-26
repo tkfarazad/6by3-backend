@@ -8,9 +8,14 @@ module Api::V1
                :content,
                :duration,
                :thumbnail,
+               :lesson_date,
                :description
 
     has_many :coaches do
+      linkage always: true
+    end
+
+    has_one :category do
       linkage always: true
     end
 

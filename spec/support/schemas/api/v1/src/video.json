@@ -6,11 +6,12 @@
     "type": { "type": "string" },
     "attributes": {
       "type": "object",
-      "required": ["name", "description", "duration", "content"],
+      "required": ["name", "description", "duration", "content", "lessonDate"],
       "properties": {
         "name": { "type" : "string" },
         "description": { "type" : "string" },
         "duration": { "type" : "string" },
+        "lessonDate": { "type": "date" },
         "content": {
           "type": "object",
           "required": ["url"],

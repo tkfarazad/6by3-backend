@@ -4,7 +4,7 @@ RSpec.describe 'Videos' do
   resource 'Admin videos' do
     let!(:video1) { create(:video) }
     let!(:video2) { create(:video) }
-    let!(:video3) { create(:video) }
+    let!(:video3) { create(:video, :with_category) }
     let!(:video4) { create(:video, :deleted) } # NOTE: Deleted records are not returned by default
 
     # IDEA: This should be somehow be improved/replaced
@@ -20,7 +20,7 @@ RSpec.describe 'Videos' do
         parameter :page
         parameter :sort, example: 'created_at'
         parameter :filter
-        parameter :include, example: 'coaches'
+        parameter :include, example: 'category'
 
         with_options scope: :page do
           parameter :number, required: true
@@ -53,6 +53,19 @@ RSpec.describe 'Videos' do
 
             expect(response_body).to match_response_schema('v1/videos/index')
             expect(parsed_body[:data].count).to eq 3
+          end
+        end
+
+        context 'with category include', :authenticated_admin do
+          let(:include) { 'category' }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/videos/index')
+            expect(parsed_body[:data].count).to eq 3
+            expect(parsed_body[:included].count).to eq 1
+            expect(parsed_body[:included][0][:attributes][:name]).to eq VideoCategory.first.name
           end
         end
 
@@ -206,6 +219,8 @@ RSpec.describe 'Videos' do
 
         with_options scope: %i[data attributes] do
           parameter :name
+          parameter :description
+          parameter :lesson_date
         end
 
         with_options scope: %i[data relationships coaches] do
@@ -250,6 +265,8 @@ RSpec.describe 'Videos' do
 
         context 'params are valid', :authenticated_admin do
           let(:name) { FFaker::Name.name }
+          let(:description) { FFaker::Book.description }
+          let(:lesson_date) { Time.current }
 
           example 'Responds with 200' do
             do_request

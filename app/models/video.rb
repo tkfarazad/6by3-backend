@@ -9,6 +9,7 @@ class Video < Sequel::Model
   mount_uploader :content, ::VideoUploader
   mount_uploader :thumbnail, ::ThumbnailUploader
 
+  many_to_one :category, class: VideoCategory
   one_to_many :views, class: VideoView
   many_to_many :coaches, join_table: :coaches_videos, delay_pks: :always
 end

@@ -263,7 +263,7 @@ CREATE TABLE public.videos (
     name text NOT NULL,
     content text NOT NULL,
     description text NOT NULL,
-    duration text NOT NULL,
+    duration integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
@@ -518,3 +518,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180724144902_create_vide
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180725143820_add_video_views_count.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726115931_create_video_categories.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726135211_add_category_id_and_date_to_video.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180726160108_change_video_duration_column_type.rb');

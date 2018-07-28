@@ -6,6 +6,10 @@ module Api::V1::Admin::Videos
 
     optional(:filter).schema do
       optional(:name).filled(:str?)
+      optional(:duration).schema do
+        required(:from).filled(:int?)
+        required(:to).filled(:int?)
+      end
     end
 
     optional(:page).schema do

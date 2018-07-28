@@ -10,7 +10,7 @@
       "properties": {
         "name": { "type" : "string" },
         "description": { "type" : "string" },
-        "duration": { "type" : "string" },
+        "duration": { "type" : "integer" },
         "lessonDate": { "type": "date" },
         "content": {
           "type": "object",

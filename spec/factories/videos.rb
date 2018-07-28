@@ -6,7 +6,7 @@ FactoryBot.define do
 
     name { FFaker::Video.name }
     content { FFaker::Video.file }
-    duration { "00:32:52" }
+    duration { 170.859 }
     lesson_date { Time.current }
     description { FFaker::Book.description }
 

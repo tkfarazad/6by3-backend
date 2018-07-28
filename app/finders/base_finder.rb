@@ -16,6 +16,8 @@ class BaseFinder
 
   private
 
+  CUSTOM_FILTERS = {}.freeze
+
   attr_reader :initial_scope
 
   def filter_by_eq(scope:, field:, value:)

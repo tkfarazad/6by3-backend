@@ -29,6 +29,12 @@ RSpec.describe 'Videos' do
 
         with_options scope: :filter do
           parameter :name
+          parameter :duration
+        end
+
+        with_options scope: %i[filter duration] do
+          parameter :from
+          parameter :to
         end
 
         context 'not authenticated' do
@@ -102,8 +108,12 @@ RSpec.describe 'Videos' do
 
         context 'filtered', :authenticated_admin do
           let(:name) { video1.name }
+          let(:from) { 0 }
+          let(:to) { 1 }
 
           example 'Responds with 200' do
+            video1.update(duration: 1)
+
             do_request
 
             expect(response_body).to match_response_schema('v1/videos/index')

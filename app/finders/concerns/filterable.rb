@@ -13,8 +13,11 @@ module Filterable
     raise ArgumentError, 'Filtering is not available!' unless self.class.const_defined?(:AVAILABLE_FILTERING_KEYS)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def build_filtering_records(scope:, search_params:, field:)
-    if search_params.is_a? Hash
+    if self.class::CUSTOM_FILTERS.key?(field)
+      scope = send(self.class::CUSTOM_FILTERS[field], scope: scope, field: field, value: search_params)
+    elsif search_params.is_a? Hash
       search_params.each do |function, value|
         method_name = "filter_by_#{function}"
 
@@ -26,6 +29,7 @@ module Filterable
 
     scope
   end
+  # rubocop:enable Metrics/MethodLength
 
   def generate_response(scope, filter)
     sliced_filters = filter.slice(*self.class::AVAILABLE_FILTERING_KEYS)

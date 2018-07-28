@@ -25,6 +25,7 @@ RSpec.describe Filterable do
 
   let(:filterable_class) do
     invalid_filterable_class.const_set(:AVAILABLE_FILTERING_KEYS, %i[email fullname].freeze)
+    invalid_filterable_class.const_set(:CUSTOM_FILTERS, {}.freeze)
     invalid_filterable_class
   end
 

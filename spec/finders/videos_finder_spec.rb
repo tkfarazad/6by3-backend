@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe VideosFinder do
-  let!(:video1) { create(:video, name: 'aaa_aaa.mp4') }
-  let!(:video2) { create(:video, name: 'aaa_aaa.mp4') }
-  let!(:video3) { create(:video, :deleted, name: 'bbb_abb.mp4') }
-  let!(:video4) { create(:video, :deleted, name: 'bbb_abb.mp4') }
+  let!(:video1) { create(:video, name: 'aaa_aaa.mp4', duration: 100) }
+  let!(:video2) { create(:video, name: 'aaa_aaa.mp4', duration: 200) }
+  let!(:video3) { create(:video, :deleted, name: 'bbb_abb.mp4', duration: 300) }
+  let!(:video4) { create(:video, :deleted, name: 'bbb_abb.mp4', duration: 400) }
 
   let!(:user1) { create(:user) }
   let!(:user2) { create(:user) }
@@ -55,6 +55,13 @@ RSpec.describe VideosFinder do
       it 'returns proper records' do
         expect(find(params: {filter: {name: 'aaa_aaa.mp4'}})).to match_array [video1, video2]
         expect(find(params: {filter: {name: 'bbb_abb.mp4'}})).to match_array [video3, video4]
+      end
+    end
+
+    context 'by duration in range' do
+      it 'returns proper records' do
+        expect(find(params: {filter: {duration: {from: 100, to: 200}}})).to match_array [video1, video2]
+        expect(find(params: {filter: {duration: {from: 300, to: 400}}})).to match_array [video3, video4]
       end
     end
 

@@ -244,8 +244,8 @@ RSpec.describe 'Coaches' do
 
           let(:videos_data) do
             [
-              { type: 'videos', id: video1.id },
-              { type: 'videos', id: video2.id }
+              {type: 'videos', id: video1.id},
+              {type: 'videos', id: video2.id}
             ]
           end
 

@@ -13,8 +13,9 @@ Metrics/LineLength:
 Metrics/ClassLength:
   Max: 200
 
+# Use spaces inside hash literal braces - or don't.
 Layout/SpaceInsideHashLiteralBraces:
-  Enabled: false
+  EnforcedStyle: no_space
 
 Style/StringLiterals:
   Enabled: false

@@ -20,15 +20,15 @@ RSpec.describe Paginatable do
 
   context 'with params' do
     it 'all records' do
-      expect(find(page: { number: 1, size: 2 })).to match_array [user1, user2]
+      expect(find(page: {number: 1, size: 2})).to match_array [user1, user2]
     end
 
     it 'one record per page first page' do
-      expect(find(page: { number: 1, size: 1 })).to match_array [user1]
+      expect(find(page: {number: 1, size: 1})).to match_array [user1]
     end
 
     it 'one record per page last page' do
-      expect(find(page: { number: 2, size: 1 })).to match_array [user2]
+      expect(find(page: {number: 2, size: 1})).to match_array [user2]
     end
   end
 end

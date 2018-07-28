@@ -234,8 +234,9 @@ RSpec.describe 'Videos' do
           parameter :lesson_date
         end
 
-        with_options scope: %i[data relationships category] do
-          parameter :data, type: :object, method: :category_data, required: true
+        with_options scope: %i[data relationships category data] do
+          parameter :id, method: :category_id
+          parameter :type, method: :category_type
         end
 
         with_options scope: %i[data relationships coaches] do
@@ -292,9 +293,8 @@ RSpec.describe 'Videos' do
         end
 
         context 'association video category', :authenticated_admin do
-          let(:category_data) do
-            { type: 'categories', id: category1.id }
-          end
+          let(:category_id) { category1.id }
+          let(:category_type) { 'categories' }
 
           example 'Responds with 200' do
             do_request
@@ -315,8 +315,8 @@ RSpec.describe 'Videos' do
 
           let(:coaches_data) do
             [
-              { type: 'coaches', id: coach1.id },
-              { type: 'coaches', id: coach2.id }
+              {type: 'coaches', id: coach1.id},
+              {type: 'coaches', id: coach2.id}
             ]
           end
 

@@ -10,6 +10,6 @@ class VideoUploader < ::BaseVideoUploader
   def save_video_data
     video = FFMPEG::Movie.new(file.file)
 
-    model.duration = video.duration
+    model.duration = video.duration.round
   end
 end

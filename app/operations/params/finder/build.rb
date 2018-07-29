@@ -3,7 +3,7 @@
 module Params
   module Finder
     class Build < BaseOperation
-      def call(params, exclude: {})
+      def call(params, exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})
         {
           filter: params[:filter],
           sort: params[:sort],

@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-module Api::V1::Admin::Videos
+module Api::V1::Videos
   class IndexAction < ::Api::V1::BaseAction
     include ::TransactionContext[:videos_scope, :finder_params]
 
-    step :authorize
     step :validate, with: 'params.validate'
     tee :build_finder_params, with: 'params.finder.build'
     tee :find_videos

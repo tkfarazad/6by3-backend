@@ -14,7 +14,7 @@ module Api::V1::Admin::Users
     private
 
     def build_finder_params(params)
-      context[:finder_params] = super(params, exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT})
+      context[:finder_params] = super(params)
     end
 
     def find_users

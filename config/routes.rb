@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       draw :admin
       draw :user
       draw :users
-      draw :videos
+      draw :private
 
       resource :confirm_email, only: :create, controller: :confirm_email
       resource :reset_password, only: :create, controller: :reset_password

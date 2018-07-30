@@ -19,7 +19,7 @@ module Excludable
     sliced_exclusions.each do |attribute, value|
       case value
       when ::SixByThree::Constants::VALUE_PRESENT
-        scope = scope.where(attribute => nil)
+        scope = scope.where(Sequel[scope.model.to_s.pluralize.downcase.to_sym][attribute] => nil)
       end
     end
 

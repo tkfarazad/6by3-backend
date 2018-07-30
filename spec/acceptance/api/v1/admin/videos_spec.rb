@@ -6,7 +6,11 @@ RSpec.describe 'Videos' do
     let!(:video2) { create(:video) }
     let!(:video3) { create(:video, :with_category) }
     let!(:video4) { create(:video, :deleted) } # NOTE: Deleted records are not returned by default
+    let!(:coach1) { create(:coach) }
+    let!(:coach2) { create(:coach) }
+    let!(:coaches_video) { create(:coaches_video, video: video1, coach: coach1) }
     let!(:category1) { create(:video_category, name: FFaker::Name.name) }
+    let!(:category2) { create(:video_category, name: FFaker::Name.name) }
 
     # IDEA: This should be somehow be improved/replaced
     # In current way it only polutes `route` param for us(devs)
@@ -31,6 +35,8 @@ RSpec.describe 'Videos' do
         with_options scope: :filter do
           parameter :name
           parameter :duration
+          parameter :coach
+          parameter :category
         end
 
         with_options scope: %i[filter duration] do
@@ -108,17 +114,44 @@ RSpec.describe 'Videos' do
         end
 
         context 'filtered', :authenticated_admin do
-          let(:name) { video1.name }
-          let(:from) { 0 }
-          let(:to) { 1 }
+          context 'by duration' do
+            let(:from) { 0 }
+            let(:to) { 1 }
 
-          example 'Responds with 200' do
-            video1.update(duration: 1)
+            example 'Responds with 200' do
+              video1.update(duration: 1)
 
-            do_request
+              do_request
 
-            expect(response_body).to match_response_schema('v1/videos/index')
-            expect(parsed_body[:data].count).to eq 1
+              expect(response_body).to match_response_schema('v1/videos/index')
+              expect(parsed_body[:data].count).to eq 1
+            end
+          end
+
+          context 'by category' do
+            let(:category) { "#{category1.name},#{category2.name}" }
+
+            example 'Responds with 200' do
+              video2.update(category: category2)
+
+              do_request
+
+              expect(response_body).to match_response_schema('v1/videos/index')
+              expect(parsed_body[:data].count).to eq 1
+              expect(parsed_body[:data][0][:id]).to eq_id video2.id
+            end
+          end
+
+          context 'by coach' do
+            let(:coach) { "#{coach1.fullname},#{coach2.fullname}" }
+
+            example 'Responds with 200' do
+              do_request
+
+              expect(response_body).to match_response_schema('v1/videos/index')
+              expect(parsed_body[:data].count).to eq 1
+              expect(parsed_body[:data][0][:id]).to eq_id video1.id
+            end
           end
         end
       end
@@ -326,7 +359,7 @@ RSpec.describe 'Videos' do
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/video')
 
-            expect(coach1.video_pks).to eq [video.id]
+            expect(coach1.video_pks).to eq [video1.id, video.id]
             expect(coach2.video_pks).to eq [video.id]
 
             expect(video.coach_pks).to eq [coach1.id, coach2.id]

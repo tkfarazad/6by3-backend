@@ -25,7 +25,7 @@ RSpec.describe BaseFinder do
   def find(params: {}, exclude: {})
     DummyClass.new(
       initial_scope: User.dataset
-    ).call(filter: params[:filter], sort: params[:sort], paginate: params[:page], exclude: exclude).all
+    ).call(filter: params[:filter], sort: params[:sort], page: params[:page], exclude: exclude).all
   end
 
   context 'with exclusion' do

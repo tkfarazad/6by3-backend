@@ -3,11 +3,11 @@
 module Paginatable
   private
 
-  def apply_pagination(scope, paginate)
-    build_pagination_records(scope, paginate)
+  def apply_pagination(scope, page)
+    build_pagination_records(scope, page)
   end
 
-  def build_pagination_records(scope, paginate)
-    scope.paginate(paginate[:number], paginate[:size])
+  def build_pagination_records(scope, page)
+    scope.paginate(page[:number], page[:size])
   end
 end

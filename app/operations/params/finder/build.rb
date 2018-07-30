@@ -7,7 +7,7 @@ module Params
         {
           filter: params[:filter],
           sort: params[:sort],
-          paginate: params[:page],
+          page: params[:page],
           exclude: exclude
         }
       end

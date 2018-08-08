@@ -50,7 +50,7 @@ module Api::V1::Admin
     private
 
     def method_implemented?
-      self.class::IMPLEMENT_METHODS == :ALL || self.class::IMPLEMENT_METHODS.include?(action_name)
+      self.class::IMPLEMENT_METHODS.include?(action_name)
     end
 
     def raise_method_not_implemented_error

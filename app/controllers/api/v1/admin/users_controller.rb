@@ -2,7 +2,7 @@
 
 module Api::V1::Admin
   class UsersController < ::Api::V1::Admin::BaseController
-    IMPLEMENT_METHODS = :ALL
+    IMPLEMENT_METHODS = %i[index show create update destroy].freeze
 
     def create
       super do |m|

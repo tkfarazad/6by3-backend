@@ -6,7 +6,7 @@ class Video < Sequel::Model
   # Plugins
   plugin :association_pks
 
-  mount_uploader :content, ::VideoUploader
+  # mount_uploader :content, ::VideoUploader
   mount_uploader :thumbnail, ::ThumbnailUploader
 
   many_to_one :category, class: VideoCategory

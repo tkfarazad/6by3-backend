@@ -25,12 +25,19 @@ gem 'dry-transaction', '~> 0.11'
 
 # Upload files in your Ruby applications
 gem 'carrierwave', '~> 1.2', '>= 1.2.2'
-# Upload video files - transcodes to html5-friendly
-gem 'carrierwave-video', '~> 0.6.0'
+
+# TODO: remove
+# # Upload video files - transcodes to html5-friendly
+# gem 'carrierwave-video', '~> 0.6.0'
+
+# Wraps ffmpeg to read metadata and transcodes videos.
+gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 # Sequel support for CarrierWave
 gem 'carrierwave-sequel', '~> 0.1.1'
 # Module for 'fog' or as standalone provider to use the AWS in application
 gem 'fog-aws', '~> 3.0'
+# AWS SDK for Ruby
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 # Manipulate images with minimal use of memory
 gem 'mini_magick', '~> 4.8'
 
@@ -66,6 +73,9 @@ group :development, :test do
   # Code coverage for Ruby
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'bundler-audit', '~> 0.6'
+
+  # stubbing HTTP requests and setting expectations on HTTP requests
+  gem 'webmock', '~> 3.4', '>= 3.4.2'
 end
 
 group :development do

@@ -13,6 +13,10 @@ namespace :admin do
     end
   end
 
+  namespace :videos do
+    resource :sign, only: %i[show]
+  end
+
   resources :coaches do
     scope module: :coaches do
       concerns :avatarable

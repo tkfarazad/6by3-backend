@@ -1,0 +1,6 @@
+{
+  "type": "object",
+  "properties": {
+    "$ref": "src/sign.json"
+  }
+}

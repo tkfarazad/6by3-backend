@@ -111,7 +111,8 @@ CREATE TABLE public.coaches (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
-    certifications text[]
+    certifications text[],
+    featured boolean DEFAULT false NOT NULL
 );
 
 
@@ -519,3 +520,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180725143820_add_video_v
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726115931_create_video_categories.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726135211_add_category_id_and_date_to_video.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726160108_change_video_duration_column_type.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180809094716_add_featured_to_coaches.rb');

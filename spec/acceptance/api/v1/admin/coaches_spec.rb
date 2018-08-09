@@ -2,8 +2,8 @@
 
 RSpec.describe 'Coaches' do
   resource 'Admin coaches' do
-    let!(:coach1) { create(:coach) }
-    let!(:coach2) { create(:coach) }
+    let!(:coach1) { create(:coach, :featured) }
+    let!(:coach2) { create(:coach, :featured) }
     let!(:coach3) { create(:coach) }
     let!(:coach4) { create(:coach, :deleted) } # NOTE: Deleted records are not returned by default
 
@@ -20,6 +20,7 @@ RSpec.describe 'Coaches' do
 
         with_options scope: :filter do
           parameter :fullname
+          parameter :featured
         end
 
         context 'not authenticated' do
@@ -78,7 +79,7 @@ RSpec.describe 'Coaches' do
           end
         end
 
-        context 'filtered', :authenticated_admin do
+        context 'filtered by fullname', :authenticated_admin do
           let(:fullname) { coach1.fullname }
 
           example 'Responds with 200' do
@@ -86,6 +87,17 @@ RSpec.describe 'Coaches' do
 
             expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 1
+          end
+        end
+
+        context 'filtered by featured', :authenticated_admin do
+          let(:featured) { {eq: true} }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/coaches/index')
+            expect(parsed_body[:data].count).to eq 2
           end
         end
       end
@@ -185,6 +197,7 @@ RSpec.describe 'Coaches' do
 
         with_options scope: %i[data attributes] do
           parameter :fullname
+          parameter :featured
         end
 
         with_options scope: %i[data relationships videos] do
@@ -195,10 +208,10 @@ RSpec.describe 'Coaches' do
 
         let!(:coach) { create(:coach) }
         let(:id) { coach.id }
+        let(:fullname) { FFaker::Name.name }
+        let(:featured) { true }
 
         context 'not authenticated' do
-          let(:fullname) { FFaker::Name.name }
-
           example 'Responds with 401' do
             do_request
 
@@ -207,8 +220,6 @@ RSpec.describe 'Coaches' do
         end
 
         context 'not admin', :authenticated_user do
-          let(:fullname) { FFaker::Name.name }
-
           example 'Responds with 403' do
             do_request
 
@@ -228,8 +239,6 @@ RSpec.describe 'Coaches' do
         end
 
         context 'params are valid', :authenticated_admin do
-          let(:fullname) { FFaker::Name.name }
-
           example 'Responds with 200' do
             do_request
 

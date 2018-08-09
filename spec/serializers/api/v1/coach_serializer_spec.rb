@@ -24,6 +24,7 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
             deletedAt
             certifications
             personalInfo
+            featured
           ]
         )
       end
@@ -37,6 +38,7 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
             fullname
             certifications
             personalInfo
+            featured
           ]
         )
       end

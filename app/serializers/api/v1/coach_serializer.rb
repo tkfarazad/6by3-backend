@@ -7,7 +7,8 @@ module Api::V1
     attributes :avatar,
                :fullname,
                :personal_info,
-               :certifications
+               :certifications,
+               :featured
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
   end

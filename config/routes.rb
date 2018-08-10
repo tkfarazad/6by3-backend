@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       draw :admin
       draw :user
       draw :users
+      draw :public
       draw :private
 
       resource :confirm_email, only: :create, controller: :confirm_email

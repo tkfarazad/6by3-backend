@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-module Api::V1::Admin::Coaches
+module Api::V1::VideoCategories
   IndexSchema = Dry::Validation.Params(BaseSchema) do
     optional(:sort).filled(:str?)
 
     optional(:filter).schema do
-      optional(:fullname).filled(:str?)
-      optional(:featured).schema do
-        required(:eq).filled(:bool?)
-      end
+      optional(:name).filled(:str?)
     end
 
     optional(:page).schema do

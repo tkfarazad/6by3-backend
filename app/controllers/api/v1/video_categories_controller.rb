@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Api::V1
-  class CoachesController < ::Api::V1::ApplicationController
+  class VideoCategoriesController < ::Api::V1::ApplicationController
     skip_before_action :authenticate_user, only: %i[index show]
 
     def index
       api_action do |m|
-        m.success do |coaches, meta|
-          render jsonapi: coaches,
+        m.success do |categories, meta|
+          render jsonapi: categories,
                  meta: meta
         end
       end
@@ -15,8 +15,8 @@ module Api::V1
 
     def show
       api_action do |m|
-        m.success do |coach|
-          render jsonapi: coach
+        m.success do |category|
+          render jsonapi: category
         end
       end
     end

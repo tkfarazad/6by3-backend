@@ -5,5 +5,3 @@ resources :videos, only: %i[index show] do
     resource :view, only: :create, controller: :view
   end
 end
-
-resources :coaches, only: %i[index show]

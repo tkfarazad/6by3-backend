@@ -2,7 +2,7 @@
 
 module Api::V1::Admin::Videos
   IndexSchema = Dry::Validation.Params(BaseSchema) do
-    optional(:sort).filled
+    optional(:sort).filled(:str?)
 
     optional(:filter).schema do
       optional(:name).filled(:str?)

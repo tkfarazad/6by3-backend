@@ -7,6 +7,13 @@ RSpec.describe 'Coaches' do
     let!(:coach3) { create(:coach) }
     let!(:coach4) { create(:coach, :deleted) } # NOTE: Deleted records are not returned by default
 
+    let!(:coaches_video1) { create(:coaches_video, video: video1, coach: coach1) }
+    let!(:coaches_video2) { create(:coaches_video, video: video2, coach: coach2) }
+    let!(:category1) { create(:video_category, name: FFaker::Name.name) }
+    let!(:category2) { create(:video_category, name: FFaker::Name.name) }
+    let!(:video1) { create(:video, category: category1) }
+    let!(:video2) { create(:video, category: category2) }
+
     route '/api/v1/coaches', 'Coaches endpoint' do
       get 'All coaches' do
         parameter :page
@@ -21,9 +28,10 @@ RSpec.describe 'Coaches' do
         with_options scope: :filter do
           parameter :fullname
           parameter :featured
+          parameter :category
         end
 
-        context 'authenticated user' do
+        context 'return all data' do
           example 'Responds with 200' do
             do_request
 
@@ -63,25 +71,40 @@ RSpec.describe 'Coaches' do
           end
         end
 
-        context 'filtered by fullname' do
-          let(:fullname) { coach1.fullname }
+        context 'filtered', :authenticated_admin do
+          context 'by fullname' do
+            let(:fullname) { coach1.fullname }
 
-          example 'Responds with 200' do
-            do_request
+            example 'Responds with 200' do
+              do_request
 
-            expect(response_body).to match_response_schema('v1/coaches/index')
-            expect(parsed_body[:data].count).to eq 1
+              expect(response_body).to match_response_schema('v1/coaches/index')
+              expect(parsed_body[:data].count).to eq 1
+            end
           end
-        end
 
-        context 'filtered by featured', :authenticated_admin do
-          let(:featured) { {eq: true} }
+          context 'by featured', :authenticated_admin do
+            let(:featured) { {eq: true} }
 
-          example 'Responds with 200' do
-            do_request
+            example 'Responds with 200' do
+              do_request
 
-            expect(response_body).to match_response_schema('v1/coaches/index')
-            expect(parsed_body[:data].count).to eq 1
+              expect(response_body).to match_response_schema('v1/coaches/index')
+              expect(parsed_body[:data].count).to eq 1
+            end
+          end
+
+          context 'by video categories' do
+            let(:category) { [category1.id, category2.id] }
+
+            example 'Responds with 200' do
+              do_request
+
+              expect(response_body).to match_response_schema('v1/coaches/index')
+              expect(parsed_body[:data].count).to eq 2
+              expect(parsed_body[:data][0][:id]).to eq_id coach1.id
+              expect(parsed_body[:data][1][:id]).to eq_id coach2.id
+            end
           end
         end
       end

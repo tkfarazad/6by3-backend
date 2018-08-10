@@ -10,8 +10,8 @@ module Api::V1::Admin::Videos
         required(:from).filled(:int?)
         required(:to).filled(:int?)
       end
-      optional(:coach).filled(:str?)
-      optional(:category).filled(:str?)
+      optional(:coach).filled { each(:int?) }
+      optional(:category).filled { each(:int?) }
     end
 
     optional(:page).schema do

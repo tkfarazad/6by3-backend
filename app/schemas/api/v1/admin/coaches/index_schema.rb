@@ -6,6 +6,7 @@ module Api::V1::Admin::Coaches
 
     optional(:filter).schema do
       optional(:fullname).filled(:str?)
+      optional(:category).filled { each(:int?) }
       optional(:featured).schema do
         required(:eq).filled(:bool?)
       end

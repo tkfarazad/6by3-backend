@@ -27,16 +27,13 @@ class VideosFinder < BaseFinder
 
   def filter_by_coach_fullname(scope:, field:, value:) # rubocop:disable Lint/UnusedMethodArgument
     scope
-      .select(Sequel.lit('videos.*'))
+      .select_all(:videos)
       .join(:coaches_videos, video_id: :id)
-      .join(:coaches, id: :coach_id)
-      .where(Sequel[:coaches][:fullname] => value.split(','))
+      .where(Sequel[:coaches_videos][:coach_id] => value)
   end
 
   def filter_by_category_name(scope:, field:, value:) # rubocop:disable Lint/UnusedMethodArgument
     scope
-      .select(Sequel.lit('videos.*'))
-      .join(:video_categories, id: :category_id)
-      .where(Sequel[:video_categories][:name] => value.split(','))
+      .where(Sequel[:videos][:category_id] => value)
   end
 end

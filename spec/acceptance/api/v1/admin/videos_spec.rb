@@ -129,7 +129,7 @@ RSpec.describe 'Videos' do
           end
 
           context 'by category' do
-            let(:category) { "#{category1.name},#{category2.name}" }
+            let(:category) { [category1.id, category2.id] }
 
             example 'Responds with 200' do
               video2.update(category: category2)
@@ -143,7 +143,7 @@ RSpec.describe 'Videos' do
           end
 
           context 'by coach' do
-            let(:coach) { "#{coach1.fullname},#{coach2.fullname}" }
+            let(:coach) { [coach1.id, coach2.id] }
 
             example 'Responds with 200' do
               do_request

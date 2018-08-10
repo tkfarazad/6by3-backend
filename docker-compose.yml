@@ -7,7 +7,9 @@ services:
       - pg-data:/var/lib/postgresql/data
 
   app: &app
-    image: startupcraftio/ruby:2.5
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     command: bash
     volumes:
       - .:/app

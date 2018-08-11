@@ -26,17 +26,22 @@ module Helpers
     def config
       @config ||= {
         Port: 3000,
-        DocumentRoot: "#{fixture_path}/videos",
+        DocumentRoot: "#{file_fixture_path}/videos",
         Logger: WEBrick::Log.new(File.open(File::NULL, 'w')),
         AccessLog: []
       }
     end
 
     def start_web_server
-      @server = WEBrick::HTTPServer.new(config)
+      @server ||= WEBrick::HTTPServer.new(config)
 
       @server.mount_proc '/video.mp4' do |_, response|
         response.body = file_fixture('video.mp4').read
+        response.status = 200
+      end
+
+      @server.mount_proc '/apps/1/events' do |_, response|
+        response.body = {}
         response.status = 200
       end
 
@@ -48,9 +53,9 @@ module Helpers
     end
   end
 
-  module Fixtures
-    def fixture_path
-      @fixture_path ||= File.join(File.dirname(__FILE__), 'fixtures', 'files')
+  module Pusher
+    def pusher_events
+      ::Api::V1::Container['pusher'].events
     end
   end
 end

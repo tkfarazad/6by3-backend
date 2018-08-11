@@ -25,7 +25,7 @@ RSpec.describe Api::V1::Admin::Videos::UpdateAction do
       end
     end
 
-    context 'when unknown param' do
+    context 'when uparam' do
       let(:input) do
         jsonapi_params(type: 'videos', attributes: {lorem: 'ipsum'}).tap do |params|
           params[:id] = video.id

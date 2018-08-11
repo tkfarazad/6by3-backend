@@ -30,6 +30,16 @@ module Api
           MetaBuilder::Paginate.new
         end
       end
+
+      register 'pusher', memoize: true do
+        ::Pusher::Client.new(
+          app_id: ENV['PUSHER_APP_ID'],
+          key: ENV['PUSHER_KEY'],
+          secret: ENV['PUSHER_SECRET'],
+          cluster: ENV['PUSHER_CLUSTER'],
+          encrypted: true
+        )
+      end
     end
   end
 end

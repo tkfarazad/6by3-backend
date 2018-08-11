@@ -6,7 +6,7 @@ FactoryBot.define do
 
     name { FFaker::Video.name }
     url 'http://127.0.0.1:3000/video.mp4'
-    type { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
+    content_type { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
     duration 170
     lesson_date { Time.current }
     description { FFaker::Book.description }

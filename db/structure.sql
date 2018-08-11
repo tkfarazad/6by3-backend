@@ -272,7 +272,8 @@ CREATE TABLE public.videos (
     lesson_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     category_id integer,
     url text NOT NULL,
-    type text NOT NULL
+    content_type text NOT NULL,
+    state text NOT NULL
 );
 
 
@@ -523,3 +524,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180726135211_add_categor
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726160108_change_video_duration_column_type.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180808164101_change_video_structure.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180809094716_add_featured_to_coaches.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180812123956_add_video_state.rb');

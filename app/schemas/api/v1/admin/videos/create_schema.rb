@@ -5,6 +5,6 @@ module Api::V1::Admin::Videos
     required(:name).filled(:str?)
     required(:description).filled(:str?)
     required(:url).filled(:str?)
-    required(:type).filled(:allowed_video_mime_type?)
+    required(:content_type).filled(:allowed_video_mime_type?)
   end
 end

@@ -2,6 +2,6 @@
 
 module Api::V1::Admin
   class VideosController < ::Api::V1::Admin::BaseController
-    IMPLEMENT_METHODS = %i[index show create update destroy].freeze
+    IMPLEMENT_METHODS = %w[index show create update destroy].freeze
   end
 end

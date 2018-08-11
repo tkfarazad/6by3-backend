@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# require 'net/http'
 require 'webrick'
+require 'dry/container/stub'
 
 RSpec.describe ProcessVideoDataService do
   let!(:video) { create(:video, duration: 0) }
@@ -10,6 +10,11 @@ RSpec.describe ProcessVideoDataService do
   describe '#call' do
     before(:context) { start_web_server }
     after(:context) { stop_web_server }
+
+    before do
+      ::Api::V1::Container.enable_stubs!
+      ::Api::V1::Container.stub('pusher', RSpec::Support::Pusher.new)
+    end
 
     subject(:call) do
       described_class.new.call(video)
@@ -20,6 +25,11 @@ RSpec.describe ProcessVideoDataService do
         change { video.duration }.from(0).to(6)
         .and(change { video.thumbnail.present? }.from(false).to(true))
       )
+
+      expect(pusher_events.count).to eq(1)
+      expect(pusher_events.first[:channels]).to eq ["videos.#{video.id}"]
+      expect(pusher_events.first[:event]).to eq 'processing'
+      expect(pusher_events.first[:data]).to eq 'status' => 'finished'
     end
   end
 end

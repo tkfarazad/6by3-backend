@@ -157,14 +157,21 @@ RSpec.describe 'Videos' do
       end
 
       post 'Create video' do
-        let(:raw_post) { params }
-        let(:name) { 'safdgsfhjg' }
-        let(:content) { fixture_file_upload('spec/fixtures/files/video.mp4', 'video/mp4') }
-        let(:description) { FFaker::Book.description }
+        parameter :type, scope: :data, required: true
 
-        parameter :content, required: true
-        parameter :description, required: true
-        parameter :name, required: true
+        with_options scope: %i[data attributes] do
+          parameter :url, required: true
+          parameter :description, required: true
+          parameter :name, required: true
+          parameter :content_type, required: true
+        end
+
+        let(:type) { 'users' }
+
+        let(:name) { FFaker::Video.name }
+        let(:url) { 'http://127.0.0.1:3000/video.mp4' }
+        let(:content_type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
+        let(:description) { FFaker::Book.description }
 
         context 'not authenticated' do
           example 'Responds with 401' do
@@ -204,7 +211,7 @@ RSpec.describe 'Videos' do
         end
 
         context 'when invalid video type', :authenticated_admin do
-          let(:content) { fixture_file_upload('spec/fixtures/files/video.ogv', 'video/ogv') }
+          let(:content_type) { 'lorem/ipsum' }
 
           example 'Responds with 422' do
             do_request

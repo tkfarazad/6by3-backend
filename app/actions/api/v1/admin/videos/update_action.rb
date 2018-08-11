@@ -28,7 +28,7 @@ module Api::V1::Admin::Videos
     end
 
     def enqueue_process_video(video)
-      ProcessVideoDataJob.perform_later(video.id)
+      ::ProcessVideoDataJob.perform_later(video.id) if video
     end
   end
 end

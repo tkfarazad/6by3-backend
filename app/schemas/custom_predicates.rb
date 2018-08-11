@@ -22,8 +22,4 @@ module CustomPredicates
   predicate(:image?) do |value|
     file?(value) && allowed_image_mime_type?(value.content_type)
   end
-
-  predicate(:video?) do |value|
-    file?(value) && allowed_video_mime_type?(value.content_type)
-  end
 end

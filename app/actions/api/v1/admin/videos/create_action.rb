@@ -3,6 +3,7 @@
 module Api::V1::Admin::Videos
   class CreateAction < ::Api::V1::BaseAction
     step :authorize
+    try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :create, catch: Sequel::UniqueConstraintViolation
     tee :enqueue_process_video
@@ -14,7 +15,7 @@ module Api::V1::Admin::Videos
     end
 
     def enqueue_process_video(video)
-      ProcessVideoDataJob.perform_later(video.id)
+      ::ProcessVideoDataJob.perform_later(video.id)
     end
   end
 end

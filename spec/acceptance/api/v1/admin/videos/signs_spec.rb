@@ -5,11 +5,11 @@ RSpec.describe 'Video sign' do
     route '/api/v1/admin/videos/sign', 'Video sign URL' do
       get 'Signed URL' do
         parameter :size, required: true
-        parameter :type, required: true
+        parameter :content_type, required: true
         parameter :name, required: true
 
         let(:size) { 5.megabyte }
-        let(:type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
+        let(:content_type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
         let(:name) { FFaker::Video.name }
 
         context 'not authenticated' do
@@ -48,8 +48,8 @@ RSpec.describe 'Video sign' do
           end
         end
 
-        context 'invalid type', :authenticated_admin do
-          let(:type) { 'lorem/ipsum' }
+        context 'invalid content type', :authenticated_admin do
+          let(:content_type) { 'lorem/ipsum' }
 
           example 'Responds with 422' do
             do_request

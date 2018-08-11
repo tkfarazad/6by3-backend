@@ -5,7 +5,9 @@ module Api::V1
     type 'videos'
 
     attributes :name,
-               :content,
+               :url,
+               :state,
+               :content_type,
                :duration,
                :thumbnail,
                :lesson_date,

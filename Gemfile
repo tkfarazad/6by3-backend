@@ -23,13 +23,13 @@ gem 'dry-monads', '~> 0.4'
 gem 'dry-container', '~> 0.6'
 gem 'dry-transaction', '~> 0.11'
 
+# Continuation of the acts-as-state-machine
+gem 'aasm', '~> 5.0'
+# Wrapper for pusher
+gem 'pusher', '~> 1.3', '>= 1.3.1'
+
 # Upload files in your Ruby applications
 gem 'carrierwave', '~> 1.2', '>= 1.2.2'
-
-# TODO: remove
-# # Upload video files - transcodes to html5-friendly
-# gem 'carrierwave-video', '~> 0.6.0'
-
 # Wraps ffmpeg to read metadata and transcodes videos.
 gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 # Sequel support for CarrierWave

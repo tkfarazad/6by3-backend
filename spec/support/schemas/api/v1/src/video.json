@@ -6,19 +6,14 @@
     "type": { "type": "string" },
     "attributes": {
       "type": "object",
-      "required": ["name", "description", "duration", "content", "lessonDate"],
+      "required": ["name", "description", "duration", "url", "contentType", "lessonDate"],
       "properties": {
         "name": { "type" : "string" },
         "description": { "type" : "string" },
         "duration": { "type" : "integer" },
         "lessonDate": { "type": "date" },
-        "content": {
-          "type": "object",
-          "required": ["url"],
-          "properties": {
-            "url": { "type": ["string", "null"] }
-          }
-        }
+        "url": { "type" : "string" },
+        "contentType": { "type" : "string" }
       }
     }
   }

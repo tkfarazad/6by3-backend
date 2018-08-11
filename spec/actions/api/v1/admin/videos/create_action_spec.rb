@@ -10,29 +10,38 @@ RSpec.describe Api::V1::Admin::Videos::CreateAction do
     end
 
     let(:input) do
-      {
-        name: name,
-        content: content
-      }
+      jsonapi_params(
+        type: 'videos',
+        attributes: {
+          url: url,
+          name: name,
+          content_type: content_type,
+          description: description
+        }
+      )
     end
-    let(:name) { FFaker::Video.name }
-    let(:content) { FFaker::Video.file }
 
-    # it 'creates video' do
-    #   # TODO: For some reason uploaded file is an instance of `Rack::Test::UploadedFile`,
-    #   #       but should be `ActionDispatch::Http::UploadedFile`
-    #   expect { call }.to change(Video, :count).by(1)
-    # end
+    let(:url) { 'http://127.0.0.1:3000/video.mp4' }
+    let(:name) { FFaker::Video.name }
+    let(:content_type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
+    let(:description) { FFaker::Book.description }
+
+    it 'creates video' do
+      expect { call }.to change(Video, :count).by(1)
+    end
 
     context 'when params are invalid' do
-      let(:input) { {} }
+      let(:input) do
+        jsonapi_params(type: 'users', attributes: {})
+      end
 
       it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
           name: ['is missing'],
           description: ['is missing'],
-          content: ['is missing', 'Invalid video']
+          url: ['is missing'],
+          content_type: ['is missing', 'incorrect video content type']
         )
       end
     end

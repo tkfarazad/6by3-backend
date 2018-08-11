@@ -3,7 +3,6 @@ en:
   errors:
     email?: '%{value} is invalid email'
     image?: 'Invalid image'
-    video?: 'Invalid video'
     allowed_video_mime_type?: 'incorrect video content type'
     confirm_email:
       create:

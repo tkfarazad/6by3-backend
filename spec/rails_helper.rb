@@ -7,15 +7,12 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'database_cleaner'
-require 'webmock/rspec'
 require 'factory_bot_rails'
 require 'rspec_api_documentation/dsl'
 require 'json_matchers/rspec'
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-
-WebMock.disable_net_connect!
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
 JsonMatchers.schema_root = "spec/support/schemas/api"
@@ -27,7 +24,10 @@ RSpec.configure do |config|
 
   config.filter_rails_from_backtrace!
 
-  config.include Helpers
+  config.include Helpers::Json
+  config.include Helpers::Server
+  config.include Helpers::Fixtures
+
   config.include ActionDispatch::TestProcess
   config.include SerializerHelpers, type: :serializer
 

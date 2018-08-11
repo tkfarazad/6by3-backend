@@ -5,6 +5,7 @@ Sequel.migration do
     alter_table :videos do
       drop_column :content
       add_column :url, String, null: false
+      add_column :type, String, null: false
 
       set_column_allow_null :duration
     end

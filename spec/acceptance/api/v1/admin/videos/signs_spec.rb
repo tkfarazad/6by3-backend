@@ -9,7 +9,7 @@ RSpec.describe 'Video sign' do
         parameter :name, required: true
 
         let(:size) { 5.megabyte }
-        let(:type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.first }
+        let(:type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
         let(:name) { FFaker::Video.name }
 
         context 'not authenticated' do

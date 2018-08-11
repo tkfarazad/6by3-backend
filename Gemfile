@@ -73,9 +73,6 @@ group :development, :test do
   # Code coverage for Ruby
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'bundler-audit', '~> 0.6'
-
-  # stubbing HTTP requests and setting expectations on HTTP requests
-  gem 'webmock', '~> 3.4', '>= 3.4.2'
 end
 
 group :development do

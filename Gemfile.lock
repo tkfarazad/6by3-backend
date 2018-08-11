@@ -669,8 +669,6 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
-    crack (0.4.3)
-      safe_yaml (~> 1.0.0)
     crass (1.0.4)
     database_cleaner (1.6.0)
     debug_inspector (0.0.3)
@@ -750,7 +748,6 @@ GEM
     formatador (0.2.5)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    hashdiff (0.3.7)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
@@ -887,7 +884,6 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
-    safe_yaml (1.0.4)
     sentry-raven (2.7.4)
       faraday (>= 0.7.6, < 1.0)
     sequel (5.9.0)
@@ -935,10 +931,6 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.0)
-    webmock (3.4.2)
-      addressable (>= 2.3.6)
-      crack (>= 0.3.2)
-      hashdiff
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -995,7 +987,6 @@ DEPENDENCIES
   streamio-ffmpeg (~> 3.0, >= 3.0.2)
   timecop (~> 0.9)
   tzinfo-data
-  webmock (~> 3.4, >= 3.4.2)
 
 RUBY VERSION
    ruby 2.5.1p57

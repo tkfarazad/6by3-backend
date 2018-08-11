@@ -271,7 +271,8 @@ CREATE TABLE public.videos (
     views_count integer DEFAULT 0 NOT NULL,
     lesson_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     category_id integer,
-    url text NOT NULL
+    url text NOT NULL,
+    type text NOT NULL
 );
 
 

@@ -9,6 +9,7 @@ module Api::V1::Admin::Videos
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :update, catch: Sequel::InvalidOperation
+    tee :enqueue_process_video
 
     private
 
@@ -24,6 +25,10 @@ module Api::V1::Admin::Videos
 
     def update(input)
       ::UpdateEntityOperation.new(video).call(input)
+    end
+
+    def enqueue_process_video(video)
+      ProcessVideoDataJob.perform_later(video.id)
     end
   end
 end

@@ -6,3 +6,5 @@ RUN apt-get update -yqq \
     ffmpeg
 
 ADD . /app
+
+RUN bundle install

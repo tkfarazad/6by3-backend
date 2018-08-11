@@ -5,8 +5,8 @@ FactoryBot.define do
     to_create(&:save)
 
     name { FFaker::Video.name }
-    # content { FFaker::Video.file }
-    url 'https://s3.some_region.amazonaws.com/some_bucket_name/some_folder/video.mp4'
+    url 'http://127.0.0.1:3000/video.mp4'
+    type { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }
     duration 170
     lesson_date { Time.current }
     description { FFaker::Book.description }

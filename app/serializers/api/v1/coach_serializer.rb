@@ -11,5 +11,9 @@ module Api::V1
                :featured
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
+
+    has_many :categories do
+      linkage always: true
+    end
   end
 end

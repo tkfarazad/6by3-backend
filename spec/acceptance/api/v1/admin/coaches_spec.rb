@@ -6,12 +6,15 @@ RSpec.describe 'Coaches' do
     let!(:coach2) { create(:coach, :featured) }
     let!(:coach3) { create(:coach) }
     let!(:coach4) { create(:coach, :deleted) } # NOTE: Deleted records are not returned by default
+    let!(:video1) { create(:video, :with_category) }
+    let!(:coaches_video) { create(:coaches_video, video: video1, coach: coach1) }
 
     route '/api/v1/admin/coaches', 'Admin Coaches endpoint' do
       get 'All coaches' do
         parameter :page
         parameter :sort
         parameter :filter
+        parameter :include, example: 'categories'
 
         with_options scope: :page do
           parameter :number, required: true
@@ -45,6 +48,19 @@ RSpec.describe 'Coaches' do
 
             expect(response_body).to match_response_schema('v1/coaches/index')
             expect(parsed_body[:data].count).to eq 3
+          end
+        end
+
+        context 'with categories include', :authenticated_admin do
+          let(:include) { 'categories' }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/videos/index')
+            expect(parsed_body[:data].count).to eq 3
+            expect(parsed_body[:included].count).to eq 1
+            expect(parsed_body[:included][0][:attributes][:name]).to eq video1.category.name
           end
         end
 
@@ -264,7 +280,7 @@ RSpec.describe 'Coaches' do
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/coach')
 
-            expect(video1.coach_pks).to eq [coach.id]
+            expect(video1.coach_pks).to eq [coach1.id, coach.id]
             expect(video2.coach_pks).to eq [coach.id]
 
             expect(coach.video_pks).to eq [video1.id, video2.id]

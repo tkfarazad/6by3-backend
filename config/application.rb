@@ -46,6 +46,7 @@ module App
       Sequel::Model.plugin :timestamps, update_on_create: true
       Sequel::Model.plugin :boolean_readers
       Sequel::Model.plugin :tactical_eager_loading
+      Sequel::Model.plugin :many_through_many
       Sequel::Model.plugin :pretty_print if Rails.env.development? || Rails.env.test?
 
       Sequel::Model.db.extension :pg_json,

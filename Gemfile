@@ -36,8 +36,6 @@ gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 gem 'carrierwave-sequel', '~> 0.1.1'
 # Module for 'fog' or as standalone provider to use the AWS in application
 gem 'fog-aws', '~> 3.0'
-# AWS SDK for Ruby
-gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 # Manipulate images with minimal use of memory
 gem 'mini_magick', '~> 4.8'
 

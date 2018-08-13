@@ -1,25 +1,9 @@
 {
   "type": "object",
   "required": [
-    "key",
-    "acl"
-    "Content-Type",
-    "success_action_status",
-    "policy",
-    "x-amz-credential",
-    "x-amz-algorithm",
-    "x-amz-date",
-    "x-amz-signature"
+    "signedUrl"
   ],
   "properties": {
-    "key": { "type": "string" },
-    "acl": { "type": "string" },
-    "Content-Type": { "type": "string" },
-    "success_action_status": { "type": "string" },
-    "policy": { "type": "string" },
-    "x-amz-credential": { "type": "string" },
-    "x-amz-algorithm": { "type": "string" },
-    "x-amz-date": { "type": "string" },
-    "x-amz-signature": { "type": "string" }
+    "signedUrl": { "type": "string" }
   }
 }

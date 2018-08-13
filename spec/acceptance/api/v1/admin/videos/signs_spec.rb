@@ -2,11 +2,11 @@
 
 RSpec.describe 'Video sign' do
   resource 'Video sign endpoint' do
-    route '/api/v1/admin/videos/sign', 'Video sign URL' do
+    route '/api/v1/admin/videos/sign{?size}{?content_type}{?name}', 'Video sign URL' do
       get 'Signed URL' do
-        parameter :size, required: true
-        parameter :content_type, required: true
-        parameter :name, required: true
+        parameter :size, 1_000_000, required: true, with_example: true, type: :integer
+        parameter :content_type, 'video/mp4', required: true, with_example: true, type: :string
+        parameter :name, 'i_am_batman.mp4', required: true, with_example: true, type: :string
 
         let(:size) { 5.megabyte }
         let(:content_type) { ::SixByThree::Constants::AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES.sample }

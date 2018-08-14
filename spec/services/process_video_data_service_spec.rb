@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'webrick'
-require 'dry/container/stub'
-
 RSpec.describe ProcessVideoDataService do
   let!(:video) { create(:video, duration: 0) }
   let(:fixture) { file_fixture('video.mp4') }
@@ -10,11 +7,6 @@ RSpec.describe ProcessVideoDataService do
   describe '#call' do
     before(:context) { start_web_server }
     after(:context) { stop_web_server }
-
-    before do
-      ::Api::V1::Container.enable_stubs!
-      ::Api::V1::Container.stub('pusher', RSpec::Support::Pusher.new)
-    end
 
     subject(:call) do
       described_class.new.call(video)

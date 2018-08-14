@@ -10,6 +10,8 @@ require 'database_cleaner'
 require 'factory_bot_rails'
 require 'rspec_api_documentation/dsl'
 require 'json_matchers/rspec'
+require 'dry/container/stub'
+require 'webrick'
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -38,6 +40,11 @@ RSpec.configure do |config|
     FactoryBot.to_create(&:save)
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before do
+    ::Api::V1::Container.enable_stubs!
+    ::Api::V1::Container.stub('pusher', RSpec::Support::Pusher.new)
   end
 
   config.before(:each) do |example|

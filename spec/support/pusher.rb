@@ -13,6 +13,10 @@ module RSpec
         }
       end
 
+      def authenticate(channel_name, socket_id)
+        {"auth" => "#{channel_name}:#{socket_id}"}
+      end
+
       def events
         return [] if @events.nil?
 

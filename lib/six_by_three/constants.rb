@@ -11,5 +11,7 @@ module SixByThree
     VIDEO_FILE_SIZE_RANGE = 1..2.gigabytes
 
     VALUE_PRESENT = :VALUE_PRESENT
+
+    PUSHER_CHANNELS = [/^private-users\.\d+$/].freeze
   end
 end

@@ -4,11 +4,15 @@ module Api::V1::User::Tokens
   class CreateAction < ::Api::V1::BaseAction
     AUTH_TOKEN_LIFETIME = 5.days
 
+    private_constant :AUTH_TOKEN_LIFETIME
+
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     step :find
     step :authenticate
     map :generate_token
+
+    private
 
     def deserialize(input)
       super(input, skip_validation: true)
@@ -37,8 +41,6 @@ module Api::V1::User::Tokens
     def generate_token(user)
       ::Knock::AuthToken.new(payload: {sub: user.id}).token
     end
-
-    private
 
     def authenticated?(user:, token:, password:)
       by_token?(user: user, token: token) || by_password?(user: user, password: password)

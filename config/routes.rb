@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       draw :users
       draw :public
       draw :private
+      draw :pusher
 
       resource :confirm_email, only: :create, controller: :confirm_email
       resource :reset_password, only: :create, controller: :reset_password

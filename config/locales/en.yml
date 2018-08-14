@@ -4,6 +4,7 @@ en:
     email?: '%{value} is invalid email'
     image?: 'Invalid image'
     allowed_video_mime_type?: 'incorrect video content type'
+    valid_channel?: 'channel is not valid'
     confirm_email:
       create:
         token_invalid: Confirmation token is invalid.

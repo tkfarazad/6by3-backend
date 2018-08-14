@@ -2,6 +2,10 @@
 
 class PusherService
   class << self
+    def authenticate_channel(channel_name:, socket_id:)
+      ::Api::V1::Container['pusher'].authenticate(channel_name, socket_id)
+    end
+
     def trigger(type:, **params)
       case type
       when :video_processed

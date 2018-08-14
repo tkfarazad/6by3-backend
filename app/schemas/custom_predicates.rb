@@ -22,4 +22,8 @@ module CustomPredicates
   predicate(:image?) do |value|
     file?(value) && allowed_image_mime_type?(value.content_type)
   end
+
+  predicate(:valid_channel?) do |channel_name|
+    str?(channel_name) && ::SixByThree::Constants::PUSHER_CHANNELS.any? { |exp| exp =~ channel_name }
+  end
 end

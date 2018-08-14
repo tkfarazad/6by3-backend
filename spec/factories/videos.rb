@@ -15,6 +15,10 @@ FactoryBot.define do
       deleted_at Time.current
     end
 
+    trait :featured do
+      featured true
+    end
+
     trait :with_category do
       after(:create) do |video|
         video.update(category: create(:video_category))

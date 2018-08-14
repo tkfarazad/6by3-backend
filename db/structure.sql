@@ -273,7 +273,8 @@ CREATE TABLE public.videos (
     category_id integer,
     url text NOT NULL,
     content_type text NOT NULL,
-    state text NOT NULL
+    state text NOT NULL,
+    featured boolean DEFAULT false NOT NULL
 );
 
 
@@ -525,3 +526,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180726160108_change_vide
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180808164101_change_video_structure.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180809094716_add_featured_to_coaches.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180812123956_add_video_state.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_featured_to_videos.rb');

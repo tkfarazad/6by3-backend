@@ -13,6 +13,8 @@ module Api::V1
                :lesson_date,
                :description
 
+    attribute :featured, if: -> { current_user_is_admin? }
+
     has_many :coaches do
       linkage always: true
     end

@@ -32,7 +32,7 @@ RSpec.describe do
             let(:stripe_customer) { Stripe::Customer.create }
             let(:authenticated_user) { create(:user, stripe_customer_id: stripe_customer.id) }
 
-            example_request 'Responds with 201' do
+            example_request 'Responds with 201', document: false do
               expect(status).to eq(201)
             end
           end

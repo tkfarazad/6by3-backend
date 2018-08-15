@@ -7,11 +7,11 @@ module Api::V1::PaymentSources
     step :create_customer_if_not_exists
     step :create
 
+    private
+
     def deserialize(input)
       super(input, skip_validation: true)
     end
-
-    private
 
     def create_customer_if_not_exists(input)
       return Success(input) if current_user.stripe_customer_id.present?

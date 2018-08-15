@@ -211,7 +211,8 @@ CREATE TABLE public.users (
     email_confirmation_token text,
     email_confirmation_requested_at timestamp without time zone,
     reset_password_token text,
-    reset_password_requested_at timestamp without time zone
+    reset_password_requested_at timestamp without time zone,
+    privacy_policy_accepted boolean DEFAULT false NOT NULL
 );
 
 
@@ -601,3 +602,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180809094716_add_feature
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180812123956_add_video_state.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180813152308_create_favorite_user_coaches.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_featured_to_videos.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy_policy_to_users.rb');

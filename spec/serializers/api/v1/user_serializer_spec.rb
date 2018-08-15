@@ -36,6 +36,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
               avatar
               admin
               fullname
+              privacyPolicyAccepted
               deletedAt
             ]
           )
@@ -53,6 +54,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
             avatar
             admin
             fullname
+            privacyPolicyAccepted
             deletedAt
           ]
         )

@@ -126,7 +126,7 @@ RSpec.describe 'Coaches' do
           end
         end
 
-        context 'authenticated user' do
+        context 'find coach by id' do
           example 'Responds with 200' do
             do_request
 

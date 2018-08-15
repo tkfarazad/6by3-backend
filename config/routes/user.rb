@@ -6,4 +6,12 @@ resource :user, only: %i[show update destroy], controller: :user do
 
     resources :tokens, only: :create
   end
+
+  scope module: :user do
+    namespace :relationships do
+      resource :favorite_coaches,
+               only: %i[create destroy],
+               controller: :favorite_coaches
+    end
+  end
 end

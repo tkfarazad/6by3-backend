@@ -10,5 +10,9 @@ module Api::V1
 
     attribute :admin, if: -> { current_user_or_admin? }
     attribute :deleted_at, if: -> { current_user_or_admin? }
+
+    has_many :favorite_coaches do
+      linkage always: true
+    end
   end
 end

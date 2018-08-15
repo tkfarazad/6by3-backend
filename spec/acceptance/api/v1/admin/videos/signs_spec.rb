@@ -59,14 +59,27 @@ RSpec.describe 'Video sign' do
           end
         end
 
-        context 'file size limit exceeded', :authenticated_admin do
-          let(:size) { 1.exabyte }
+        context 'file size limit', :authenticated_admin do
+          context 'is to small' do
+            let(:size) { 0.bytes }
 
-          example 'Responds with 422' do
-            do_request
+            example 'Responds with 422' do
+              do_request
 
-            expect(response_body).to match_response_schema('v1/error')
-            expect(status).to eq(422)
+              expect(response_body).to match_response_schema('v1/error')
+              expect(status).to eq(422)
+            end
+          end
+
+          context 'is to big' do
+            let(:size) { 1.exabyte }
+
+            example 'Responds with 422' do
+              do_request
+
+              expect(response_body).to match_response_schema('v1/error')
+              expect(status).to eq(422)
+            end
           end
         end
       end

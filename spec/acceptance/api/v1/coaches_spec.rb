@@ -40,6 +40,21 @@ RSpec.describe 'Coaches' do
           end
         end
 
+        context 'favorited by user', :authenticated_user do
+          let(:user) { authenticated_user }
+          let!(:favorite_user_coach) { create(:favorite_user_coach, coach: coach1, user: user) }
+
+          example 'Responds with 200' do
+            do_request
+
+            expect(response_body).to match_response_schema('v1/coaches/index')
+            expect(parsed_body[:data].count).to eq 3
+            expect(attribute(:favorited, index: 0)).to eq true
+            expect(attribute(:favorited, index: 1)).to eq false
+            expect(attribute(:favorited, index: 2)).to eq false
+          end
+        end
+
         context 'paginated' do
           let(:number) { 2 }
           let(:size) { 1 }
@@ -71,7 +86,7 @@ RSpec.describe 'Coaches' do
           end
         end
 
-        context 'filtered', :authenticated_admin do
+        context 'filtered' do
           context 'by fullname' do
             let(:fullname) { coach1.fullname }
 
@@ -83,7 +98,7 @@ RSpec.describe 'Coaches' do
             end
           end
 
-          context 'by featured', :authenticated_admin do
+          context 'by featured' do
             let(:featured) { {eq: true} }
 
             example 'Responds with 200' do

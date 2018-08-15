@@ -12,6 +12,7 @@
         "certifications": { "type": "array" },
         "personalInfo": { "type": "string" },
         "featured": { "type": "boolean" },
+        "favorited": { "type": "boolean" },
         "avatar": {
           "type": "object",
           "required": ["url"],

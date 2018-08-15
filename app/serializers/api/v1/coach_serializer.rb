@@ -12,6 +12,10 @@ module Api::V1
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
 
+    attribute :favorited do
+      @current_user ? @current_user.favorite_coach_pks.include?(@object.id) : false
+    end
+
     has_many :categories do
       linkage always: true
     end

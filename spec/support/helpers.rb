@@ -58,4 +58,13 @@ module Helpers
       ::Api::V1::Container['pusher'].events
     end
   end
+
+  module ResponseBody
+    def attribute(name, index: nil)
+      data = parsed_body[:data]
+
+      return data[index][:attributes][name] if index
+      data[:attributes][name]
+    end
+  end
 end

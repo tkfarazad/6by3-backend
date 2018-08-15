@@ -20,6 +20,7 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
         expect(result.dig(:data, :attributes).keys).to match_array(
           %i[
             avatar
+            favorited
             fullname
             deletedAt
             certifications
@@ -35,6 +36,7 @@ RSpec.describe Api::V1::CoachSerializer, type: :serializer do
         expect(result.dig(:data, :attributes).keys).to match_array(
           %i[
             avatar
+            favorited
             fullname
             certifications
             personalInfo

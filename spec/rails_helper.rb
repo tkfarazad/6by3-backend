@@ -29,6 +29,7 @@ RSpec.configure do |config|
   config.include Helpers::Json
   config.include Helpers::Server
   config.include Helpers::Pusher
+  config.include Helpers::ResponseBody
 
   config.include ActionDispatch::TestProcess
   config.include SerializerHelpers, type: :serializer

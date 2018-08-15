@@ -37,6 +37,7 @@ RSpec.configure do |config|
 
   config.include_context 'authenticated_user', :authenticated_user
   config.include_context 'authenticated_admin', :authenticated_admin
+  config.include_context "stripe", :stripe
 
   config.before(:suite) do
     FactoryBot.to_create(&:save)

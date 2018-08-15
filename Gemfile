@@ -55,7 +55,7 @@ gem 'redis', '~> 4.0'
 gem 'sidekiq', '~> 5.1'
 
 gem 'sc-webhooks', sc_gem: 'sc-webhooks'
-gem 'sc-billing', sc_gem: 'sc-billing'
+gem 'sc-billing', sc_gem: 'sc-billing', ref: '8a78e0f'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -92,6 +92,7 @@ group :test do
   gem 'database_cleaner', '1.6'
   gem 'json_matchers', '~> 0.9'
   gem 'timecop', '~> 0.9'
+  gem 'stripe-ruby-mock', '2.5.3', require: 'stripe_mock'
 end
 
 group :staging, :production do

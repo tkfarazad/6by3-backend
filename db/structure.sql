@@ -420,9 +420,9 @@ CREATE TABLE public.users (
     email_confirmation_requested_at timestamp without time zone,
     reset_password_token text,
     reset_password_requested_at timestamp without time zone,
-    privacy_policy_accepted boolean DEFAULT false NOT NULL,
     stripe_customer_id text,
-    default_stripe_payment_source_id integer
+    default_stripe_payment_source_id integer,
+    privacy_policy_accepted boolean DEFAULT false NOT NULL
 );
 
 
@@ -986,16 +986,16 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180725143820_add_video_v
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726115931_create_video_categories.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726135211_add_category_id_and_date_to_video.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180726160108_change_video_duration_column_type.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180801153513_add_stripe_customer_id_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180808164101_change_video_structure.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180809094716_add_featured_to_coaches.rb');
-INSERT INTO "schema_migrations" ("filename") VALUES ('20180812123956_add_video_state.rb');
-INSERT INTO "schema_migrations" ("filename") VALUES ('20180813152308_create_favorite_user_coaches.rb');
-INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_featured_to_videos.rb');
-INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy_policy_to_users.rb');
-INSERT INTO "schema_migrations" ("filename") VALUES ('20180801153513_add_stripe_customer_id_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180810084706_create_stripe_payment_sources.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180810113002_add_default_stripe_payment_source_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180810134910_create_stripe_products.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180810172253_create_stripe_plans.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180811114449_create_stripe_subscriptions.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180811114725_create_stripe_subscribed_plans.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180812123956_add_video_state.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180813152308_create_favorite_user_coaches.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_featured_to_videos.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy_policy_to_users.rb');

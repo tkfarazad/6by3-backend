@@ -3,6 +3,7 @@
 class User < Sequel::Model
   plugin :secure_password, include_validations: false
   plugin :association_pks
+  plugin :sc_billing_stripe
 
   mount_uploader :avatar, AvatarUploader
 

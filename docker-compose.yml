@@ -15,6 +15,7 @@ services:
       - .:/app
       - bundler-data:/usr/local/bundle/:cached
       - bin-data:/usr/local/bin/:cached
+      - ~/work/gems:/localgems
     environment:
       - RAILS_ENV=${RAILS_ENV:-development}
     depends_on:

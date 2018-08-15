@@ -29,6 +29,7 @@ Metrics/BlockLength:
     - 'lib/tasks/*'
     - 'spec/**/*'
     - 'config/routes.rb'
+    - 'db/migrate/*.rb'
 
 Metrics/MethodLength:
   Exclude:

@@ -2,6 +2,9 @@
 
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:sc_gem) do |repo_name|
+  "https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/#{repo_name}.git"
+end
 
 ruby '2.5.1'
 
@@ -19,7 +22,7 @@ gem 'sequel', '~> 5.8'
 gem 'sequel_postgresql_triggers', '~> 1.4'
 
 gem 'dry-validation', '~> 0.12'
-gem 'dry-monads', '~> 0.4'
+gem 'dry-monads', '~> 1.0'
 gem 'dry-container', '~> 0.6'
 gem 'dry-transaction', '~> 0.11'
 
@@ -50,6 +53,9 @@ gem 'pundit', '~> 1.1'
 gem 'redis', '~> 4.0'
 
 gem 'sidekiq', '~> 5.1'
+
+gem 'sc-webhooks', sc_gem: 'sc-webhooks'
+gem 'sc-billing', sc_gem: 'sc-billing'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

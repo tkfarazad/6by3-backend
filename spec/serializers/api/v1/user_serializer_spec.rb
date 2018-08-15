@@ -41,6 +41,14 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
             ]
           )
         end
+
+        it 'returns proper relationships' do
+          expect(result.dig(:data, :relationships).keys).to match_array(
+            %i[
+              favoriteCoaches
+            ]
+          )
+        end
       end
     end
 
@@ -56,6 +64,17 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
             fullname
             privacyPolicyAccepted
             deletedAt
+          ]
+        )
+      end
+
+      it 'returns proper relationships' do
+        expect(result.dig(:data, :relationships).keys).to match_array(
+          %i[
+            favoriteCoaches
+            paymentSources
+            defaultPaymentSource
+            subscriptions
           ]
         )
       end

@@ -12,6 +12,7 @@ require 'rspec_api_documentation/dsl'
 require 'json_matchers/rspec'
 require 'dry/container/stub'
 require 'webrick'
+require 'sc/billing/factories'
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

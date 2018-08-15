@@ -1,4 +1,29 @@
 GIT
+  remote: https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/sc-billing.git
+  revision: ca8a95516f4e35b90bd7ea7d667ed550211037c1
+  specs:
+    sc-billing (0.1.0)
+      dry-auto_inject (>= 0.4)
+      dry-configurable (>= 0.7)
+      dry-container (>= 0.6)
+      dry-monads (>= 1.0)
+      dry-transaction (>= 0.10)
+      pg (>= 0.20)
+      rails (>= 5.1, < 6.0)
+      sequel (>= 5.0)
+      stripe (>= 3.11)
+
+GIT
+  remote: https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/sc-webhooks.git
+  revision: 5d55d274642c7f85ee54a419009f2bdb88161472
+  specs:
+    sc-webhooks (0.1.0)
+      dry-configurable (>= 0.7)
+      dry-transaction (>= 0.10)
+      pg (>= 0.20)
+      rails (>= 5.1, < 6.0)
+
+GIT
   remote: https://github.com/jsonapi-rb/jsonapi-rails.git
   revision: 14a9421658495fe916ec1886834b6adfd764b211
   specs:
@@ -102,6 +127,8 @@ GEM
     dotenv-rails (2.5.0)
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
+    dry-auto_inject (0.4.6)
+      dry-container (>= 0.3.4)
     dry-configurable (0.7.0)
       concurrent-ruby (~> 1.0)
     dry-container (0.6.0)
@@ -120,8 +147,9 @@ GEM
       dry-core (~> 0.2)
       dry-equalizer (~> 0.2)
     dry-matcher (0.7.0)
-    dry-monads (0.4.0)
-      dry-core (~> 0.3, >= 0.3.3)
+    dry-monads (1.0.1)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.4, >= 0.4.4)
       dry-equalizer
     dry-transaction (0.13.0)
       dry-container (>= 0.2.8)
@@ -355,6 +383,8 @@ GEM
       sprockets (>= 3.0.0)
     streamio-ffmpeg (3.0.2)
       multi_json (~> 1.8)
+    stripe (3.21.0)
+      faraday (~> 0.10)
     thor (0.20.0)
     thread_safe (0.3.6)
     timecop (0.9.1)
@@ -381,7 +411,7 @@ DEPENDENCIES
   database_cleaner (= 1.6)
   dotenv-rails (~> 2.2)
   dry-container (~> 0.6)
-  dry-monads (~> 0.4)
+  dry-monads (~> 1.0)
   dry-transaction (~> 0.11)
   dry-validation (~> 0.12)
   factory_bot_rails (~> 4.8)
@@ -404,6 +434,8 @@ DEPENDENCIES
   rspec-rails (~> 3.7)
   rspec_api_documentation (~> 5.1)
   rubocop (~> 0.55)
+  sc-billing!
+  sc-webhooks!
   sentry-raven (~> 2.7)
   sequel (~> 5.8)
   sequel-rails (~> 1.0)

@@ -4,9 +4,19 @@ RSpec.describe 'Users' do
   resource 'Current user endpoint' do
     route '/api/v1/user', 'Current user endpoint' do
       get 'Get current' do
-        parameter :include
+        parameter :include, example: 'paymentSources,defaultPaymentSource,subscriptions'
+
+        let(:include) { 'paymentSources,defaultPaymentSource,subscriptions.plans.product' }
 
         context 'when user is authenticated', :authenticated_user do
+          before do
+            create(:stripe_payment_source, user: authenticated_user)
+            create(:stripe_payment_source, user: authenticated_user)
+            subscription = create(:stripe_subscription, user: authenticated_user)
+            plan = create(:stripe_plan)
+            create(:stripe_subscribed_plan, subscription: subscription, plan: plan)
+          end
+
           example 'Responds with 200' do
             do_request
 

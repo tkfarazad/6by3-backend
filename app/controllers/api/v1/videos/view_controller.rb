@@ -13,5 +13,13 @@ module Api::V1::Videos
         end
       end
     end
+
+    def destroy
+      api_action do |m|
+        m.success do
+          head :no_content
+        end
+      end
+    end
   end
 end

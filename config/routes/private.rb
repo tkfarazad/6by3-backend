@@ -2,6 +2,6 @@
 
 resources :videos, only: %i[index show] do
   scope module: :videos do
-    resource :view, only: :create, controller: :view
+    resource :view, only: %i[create destroy], controller: :view
   end
 end

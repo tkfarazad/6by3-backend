@@ -5,3 +5,7 @@ resources :videos, only: %i[index show] do
     resource :view, only: %i[create destroy], controller: :view
   end
 end
+
+namespace :videos do
+  resources :trending, only: %i[index], controller: :trending
+end

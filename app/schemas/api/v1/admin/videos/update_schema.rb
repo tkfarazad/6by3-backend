@@ -5,8 +5,9 @@ module Api::V1::Admin::Videos
     optional(:name).filled(:str?)
     optional(:description).filled(:str?)
     optional(:url).filled(:str?)
-    optional(:featured).filled(:bool?)
     optional(:content_type).filled(:allowed_video_mime_type?)
+
+    optional(:featured).filled(:bool?)
     optional(:lesson_date).filled(:date_time?)
     optional(:coach_pks).each(:int?)
     optional(:category_id).filled(:int?)

@@ -4,7 +4,7 @@ class ProcessVideoDataService
   include Dry::Transaction(container: ::Api::V1::Container)
   include ::TransactionContext[:original_video, :tmp_file_path]
 
-  TMP_THUMBNAIL_FORMAT = 'tmp/uploads/%<filename>s.png'
+  TMP_THUMBNAIL_FORMAT = "#{Rails.root}/tmp/uploads/%<filename>s.png"
 
   private_constant :TMP_THUMBNAIL_FORMAT
 

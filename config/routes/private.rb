@@ -7,6 +7,7 @@ resources :videos, only: %i[index show] do
 end
 
 namespace :videos do
+  resources :viewed, only: %i[index], controller: :viewed
   resources :trending, only: %i[index], controller: :trending
 end
 

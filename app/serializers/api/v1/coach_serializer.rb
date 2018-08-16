@@ -8,7 +8,8 @@ module Api::V1
                :fullname,
                :personal_info,
                :certifications,
-               :featured
+               :featured,
+               :social_links
 
     attribute :deleted_at, if: -> { current_user_is_admin? }
 

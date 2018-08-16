@@ -214,6 +214,7 @@ RSpec.describe 'Coaches' do
         with_options scope: %i[data attributes] do
           parameter :fullname
           parameter :featured
+          parameter :social_links
         end
 
         with_options scope: %i[data relationships videos] do
@@ -260,6 +261,46 @@ RSpec.describe 'Coaches' do
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/coach')
+          end
+        end
+
+        context 'coach can have social links', :authenticated_admin do
+          context 'passing all links at once' do
+            let(:social_links) do
+              {
+                facebook: FFaker::Social.facebook,
+                twitter: FFaker::Social.twitter,
+                instagram: FFaker::Social.instagram,
+                linkedin: FFaker::Social.linkedin,
+                website: FFaker::Social.website
+              }
+            end
+
+            example 'Responds with 200' do
+              do_request
+
+              expect(status).to eq(200)
+              expect(response_body).to match_response_schema('v1/coach')
+              expect(attribute(:socialLinks)).to eq(social_links)
+            end
+          end
+
+          context 'one link is overided' do
+            let(:original_facebook_link) { coach.social_links[:facebook] }
+            let(:social_links) do
+              {
+                website: FFaker::Social.website
+              }
+            end
+
+            example 'Responds with 200' do
+              do_request
+
+              expect(status).to eq(200)
+              expect(response_body).to match_response_schema('v1/coach')
+              expect(attribute(:socialLinks)[:website]).to eq(social_links[:website])
+              expect(attribute(:socialLinks)[:facebook]).to eq(original_facebook_link)
+            end
           end
         end
 

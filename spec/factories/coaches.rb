@@ -9,6 +9,12 @@ FactoryBot.define do
     certifications { Array.new(3).fill { FFaker::Job.title } }
     personal_info { FFaker::Book.description }
 
+    social_links do
+      {
+        facebook: 'facebook.com/username'
+      }
+    end
+
     trait :deleted do
       deleted_at Time.current
     end

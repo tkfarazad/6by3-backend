@@ -19,6 +19,16 @@
           "properties": {
             "url": { "type": ["string", "null"] }
           }
+        },
+        "socialLinks": {
+          "type": "object",
+          "properties": {
+            "facebook": { "type": ["string"] },
+            "twitter": { "type": ["string"] },
+            "instagram": { "type": ["string"] },
+            "linkedin": { "type": ["string"] },
+            "website": { "type": ["string"] }
+          }
         }
       }
     }

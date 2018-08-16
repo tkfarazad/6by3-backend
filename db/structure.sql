@@ -172,7 +172,8 @@ CREATE TABLE public.coaches (
     updated_at timestamp without time zone NOT NULL,
     deleted_at timestamp without time zone,
     certifications text[],
-    featured boolean DEFAULT false NOT NULL
+    featured boolean DEFAULT false NOT NULL,
+    social_links jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -1000,3 +1001,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180813152308_create_favo
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_featured_to_videos.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy_policy_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816062340_allow_null_to_password_digest_on_users.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180816132226_add_social_links_to_coaches.rb');

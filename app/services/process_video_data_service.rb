@@ -10,6 +10,7 @@ class ProcessVideoDataService
 
   tee :store_original_video
   tee :build_tmp_file_path
+  tee :mkdir
   try :read_data, catch: Errno::ENOENT # https://github.com/streamio/streamio-ffmpeg/blob/master/lib/ffmpeg/movie.rb#L22
   map :build_updated_data
   try :update, catch: Sequel::InvalidOperation
@@ -28,6 +29,10 @@ class ProcessVideoDataService
       TMP_THUMBNAIL_FORMAT,
       filename: SecureRandom.uuid
     )
+  end
+
+  def mkdir
+    FileUtils.mkdir_p(File.dirname(tmp_file_path))
   end
 
   def read_data(video)

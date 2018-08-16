@@ -39,6 +39,7 @@ RSpec.describe 'Users' do
 
         with_options scope: %i[data attributes] do
           parameter :fullname
+          parameter :privacyPolicyAccepted
         end
 
         let(:type) { 'users' }
@@ -63,13 +64,17 @@ RSpec.describe 'Users' do
         end
 
         context 'when params are valid', :authenticated_user do
+          let(:user) { authenticated_user }
           let(:fullname) { FFaker::Name.name }
+          let(:privacyPolicyAccepted) { true }
 
           example 'Responds with 200' do
             do_request
 
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/user')
+            expect(user.reload.privacy_policy_accepted).to eq true
+            expect(user.reload.fullname).to eq fullname
           end
         end
       end

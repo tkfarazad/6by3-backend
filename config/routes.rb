@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount SC::Webhooks::Engine => '/'
+
   concern :avatarable do
     resource :avatar, only: %i[create update destroy], controller: :avatar
   end

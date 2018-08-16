@@ -14,6 +14,6 @@ class UpdateEntityOperation < BaseOperation
   attr_reader :record
 
   def update_record(params)
-    record.update(params)
+    record.set(params).save
   end
 end

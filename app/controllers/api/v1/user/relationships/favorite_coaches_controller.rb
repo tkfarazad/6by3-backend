@@ -2,6 +2,15 @@
 
 module Api::V1::User::Relationships
   class FavoriteCoachesController < ::Api::V1::ApplicationController
+    def index
+      api_action do |m|
+        m.success do |coaches, meta|
+          render jsonapi: coaches,
+                 meta: meta
+        end
+      end
+    end
+
     def create
       api_action do |m|
         m.success do

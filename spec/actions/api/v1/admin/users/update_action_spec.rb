@@ -32,9 +32,9 @@ RSpec.describe Api::V1::Admin::Users::UpdateAction do
         end
       end
 
-      it 'returns nil' do
+      it 'returns user' do
         expect(call).to be_success
-        expect(call.success).to be_nil
+        expect(call.success.id).to eq(user.id)
       end
     end
   end

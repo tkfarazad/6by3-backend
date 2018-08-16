@@ -32,9 +32,9 @@ RSpec.describe Api::V1::Admin::Coaches::UpdateAction do
         end
       end
 
-      it 'returns nil' do
+      it 'returns coach' do
         expect(call).to be_success
-        expect(call.success).to be_nil
+        expect(call.success.id).to eq(coach.id)
       end
     end
   end

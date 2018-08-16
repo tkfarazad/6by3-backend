@@ -31,6 +31,8 @@ RSpec.describe 'Viewed Videos endpoint' do
               expect(response_body).to match_response_schema('v1/videos/index')
 
               expect(parsed_body[:data].count).to eq 2
+              expect(parsed_body[:data][0][:id]).to eq_id video2.id
+              expect(parsed_body[:data][1][:id]).to eq_id video1.id
             end
           end
         end

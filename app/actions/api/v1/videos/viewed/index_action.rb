@@ -16,6 +16,7 @@ module Api::V1::Videos::Viewed
                                .select_all(:videos)
                                .join(:video_views, video_id: :id)
                                .where(Sequel[:video_views][:user_id] => current_user.id)
+                               .order(Sequel.desc(:created_at))
     end
 
     def build_response

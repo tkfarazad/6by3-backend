@@ -57,5 +57,17 @@ RSpec.describe Api::V1::Users::CreateAction do
         expect(call.failure).to be_kind_of(Sequel::UniqueConstraintViolation)
       end
     end
+
+    context 'when user with the same email already exists but with empty password_digest' do
+      let!(:user) { create(:user, :empty_password, email: email) }
+
+      it 'actualizes user' do
+        expect(SendConfirmationLetterJob).to receive(:perform_later)
+
+        expect { call }.to(change { user.reload.password_digest })
+
+        is_expected.to be_success
+      end
+    end
   end
 end

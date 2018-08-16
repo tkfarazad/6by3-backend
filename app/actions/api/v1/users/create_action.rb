@@ -7,8 +7,16 @@ module Api::V1::Users
     try :create, catch: Sequel::Error
     tee :send_confirmation_letter
 
+    private
+
     def create(input)
-      ::User.create(input)
+      user = ::User.find(email: input.fetch(:email))
+
+      if user && user.password_digest.nil?
+        user.set(input).save
+      else
+        ::User.create(input)
+      end
     end
 
     def send_confirmation_letter(user)

@@ -34,5 +34,9 @@ FactoryBot.define do
       reset_password_token { SecureRandom.uuid }
       reset_password_requested_at { Time.current }
     end
+
+    trait :empty_password do
+      password_digest nil
+    end
   end
 end

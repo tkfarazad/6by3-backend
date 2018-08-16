@@ -39,9 +39,18 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       end
 
       context 'when user exists' do
-        let!(:user) { create(:user, email: email) }
+        context 'when email unconfirmed' do
+          let!(:user) { create(:user, :unconfirmed, email: email) }
+
+          it 'returns failure' do
+            expect(call).to be_failure
+            expect(call.failure).to eq(:email_not_confirmed)
+          end
+        end
 
         context 'when password does not match' do
+          let!(:user) { create(:user, :confirmed, email: email) }
+
           it 'returns failure' do
             expect(call).to be_failure
             expect(call.failure).to eq(:password_not_matched)
@@ -49,7 +58,7 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
         end
 
         context 'when password matches' do
-          let!(:user) { create(:user, email: email, password: password, password_confirmation: password) }
+          let!(:user) { create(:user, :confirmed, email: email, password: password, password_confirmation: password) }
 
           it 'returns success' do
             expect(call).to be_success
@@ -76,7 +85,8 @@ RSpec.describe Api::V1::User::Tokens::CreateAction do
       end
 
       context 'when user exists' do
-        let!(:auth_token) { create(:auth_token, token: token) }
+        let!(:user) { create(:user, :confirmed) }
+        let!(:auth_token) { create(:auth_token, token: token, user: user) }
 
         it 'returns success' do
           expect(call).to be_success

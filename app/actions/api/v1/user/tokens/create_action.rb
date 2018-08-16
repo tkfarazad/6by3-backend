@@ -9,6 +9,7 @@ module Api::V1::User::Tokens
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     step :find
+    step :email_confirmed
     step :authenticate
     map :generate_token
 
@@ -25,6 +26,16 @@ module Api::V1::User::Tokens
         Failure(:user_not_found)
       else
         Success(input.merge!(user: user))
+      end
+    end
+
+    def email_confirmed(input)
+      user = input.fetch(:user)
+
+      if user.email_confirmed_at.present?
+        Success(input)
+      else
+        Failure(:email_not_confirmed)
       end
     end
 

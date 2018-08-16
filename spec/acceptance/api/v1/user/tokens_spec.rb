@@ -23,7 +23,7 @@ RSpec.describe 'User tokens' do
 
           context 'when authenticated has been succeded' do
             before do
-              create(:user, email: email, password: password, password_confirmation: password)
+              create(:user, :confirmed, email: email, password: password, password_confirmation: password)
             end
 
             example 'Responds with 201' do
@@ -49,8 +49,10 @@ RSpec.describe 'User tokens' do
           end
 
           context 'when authenticated has been succeded' do
+            let!(:user) { create(:user, :confirmed) }
+
             before do
-              create(:auth_token, token: token)
+              create(:auth_token, token: token, user: user)
             end
 
             example 'Responds with 201' do

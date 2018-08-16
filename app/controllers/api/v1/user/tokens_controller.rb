@@ -10,6 +10,10 @@ module Api::V1::User
           render json: {jwt: token}, status: :created
         end
 
+        m.failure(:email_confirmed) do
+          head 404
+        end
+
         m.failure(:authenticate) do
           head 404
         end

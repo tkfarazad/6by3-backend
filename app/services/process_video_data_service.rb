@@ -21,7 +21,7 @@ class ProcessVideoDataService
   def store_original_video(video)
     context[:original_video] = video
 
-    video.start_processing
+    video.start_processing if video.may_start_processing?
   end
 
   def build_tmp_file_path

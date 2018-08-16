@@ -43,6 +43,7 @@ class VideosFinder < BaseFinder
       .select_all(:videos)
       .join(:video_views, video_id: :id)
       .where(Sequel[:video_views][:created_at] => Time.now.beginning_of_week..Time.now.end_of_week)
+      .order(Sequel.desc(:views_count))
       .distinct
   end
 end

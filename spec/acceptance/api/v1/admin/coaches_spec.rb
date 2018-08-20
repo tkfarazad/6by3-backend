@@ -266,15 +266,7 @@ RSpec.describe 'Coaches' do
 
         context 'coach can have social links', :authenticated_admin do
           context 'passing all links at once' do
-            let(:social_links) do
-              {
-                facebook: FFaker::Social.facebook,
-                twitter: FFaker::Social.twitter,
-                instagram: FFaker::Social.instagram,
-                linkedin: FFaker::Social.linkedin,
-                website: FFaker::Social.website
-              }
-            end
+            let(:social_links) { FFaker::Social.all }
 
             example 'Responds with 200' do
               do_request
@@ -286,7 +278,7 @@ RSpec.describe 'Coaches' do
           end
 
           context 'one link is overided' do
-            let(:original_facebook_link) { coach.social_links[:facebook] }
+            let(:original_facebook_link) { coach.social_links['facebook'] }
             let(:social_links) do
               {
                 website: FFaker::Social.website

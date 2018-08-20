@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 class Coach < Sequel::Model
+  extend ::JsonHashColumn
+
   # Plugins
   plugin :association_pks
+
+  json_hash_column :social_links
 
   mount_uploader :avatar, ::AvatarUploader
 

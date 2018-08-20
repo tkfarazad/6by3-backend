@@ -49,5 +49,15 @@ module FFaker
     def website
       FFaker::Internet.http_url
     end
+
+    def all
+      {
+        facebook: facebook,
+        twitter: twitter,
+        instagram: instagram,
+        linkedin: linkedin,
+        website: website
+      }
+    end
   end
 end

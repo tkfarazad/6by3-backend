@@ -24,7 +24,7 @@ class BaseFinder
     scope.where(field => value)
   end
 
-  def filter_by_like(scope:, field:, value:)
-    scope.where(Sequel.like(field, "%#{value}%"))
+  def filter_by_ilike(scope:, field:, value:)
+    scope.where(Sequel.ilike(field, "%#{value}%"))
   end
 end

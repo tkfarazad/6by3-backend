@@ -13,8 +13,8 @@ RSpec.describe Filterable do
         apply_filters(scope, filter)
       end
 
-      def filter_by_like(scope:, field:, value:)
-        scope.where(Sequel.like(field, "%#{value}%"))
+      def filter_by_ilike(scope:, field:, value:)
+        scope.where(Sequel.ilike(field, "%#{value}%"))
       end
 
       def filter_by_eq(scope:, field:, value:)
@@ -56,9 +56,9 @@ RSpec.describe Filterable do
       expect(filter(filter: {email: user3.email})).to eq [user3]
     end
 
-    it 'filter by fullname with like' do
-      expect(filter(filter: {fullname: 'Aaa'})).to match_array [user1, user2]
-      expect(filter(filter: {fullname: 'Bbb'})).to match_array [user2, user3]
+    it 'filter by fullname with ilike' do
+      expect(filter(filter: {fullname: 'aaa'})).to match_array [user1, user2]
+      expect(filter(filter: {fullname: 'bbb'})).to match_array [user2, user3]
     end
   end
 

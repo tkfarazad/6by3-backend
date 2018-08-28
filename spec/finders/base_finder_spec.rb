@@ -57,6 +57,16 @@ RSpec.describe BaseFinder do
           find(params: {filter: {fullname: 'Aaa Aaa'}})
         ).to match_array [user1, user2]
       end
+
+      it 'when case insensitive' do
+        expect(
+          find(params: {filter: nil})
+        ).to match_array [user1, user2, user3, user4, user5]
+
+        expect(
+          find(params: {filter: {fullname: 'aaa aaa'}})
+        ).to match_array [user1, user2]
+      end
     end
 
     context 'paginate' do

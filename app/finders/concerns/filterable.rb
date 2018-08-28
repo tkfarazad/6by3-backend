@@ -24,7 +24,7 @@ module Filterable
         scope = send(method_name, scope: scope, field: field, value: value) if respond_to?(method_name, true)
       end
     else
-      scope = send('filter_by_like', scope: scope, field: field, value: search_params)
+      scope = send('filter_by_ilike', scope: scope, field: field, value: search_params)
     end
 
     scope

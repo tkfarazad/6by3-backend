@@ -26,4 +26,11 @@ class UserMailer < ApplicationMailer
 
     mail to: @user.email, subject: 'Reset password'
   end
+
+  def contact_us
+    @name = params.fetch(:name)
+    @message = params.fetch(:message)
+
+    mail to: 'info@6by3.tv', from: params.fetch(:email), subject: '6by3 - Contact Us'
+  end
 end

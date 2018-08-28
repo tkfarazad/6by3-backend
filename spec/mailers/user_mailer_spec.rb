@@ -40,4 +40,27 @@ RSpec.describe UserMailer, type: :mailer do
       expect(reset_password.body.encoded).to include(Rails.configuration.site_url)
     end
   end
+
+  describe '.contact_us' do
+    subject(:contact_us) do
+      described_class
+        .with(name: name, email: email, message: message)
+        .contact_us
+        .deliver_now
+    end
+
+    let(:name) { FFaker::Name.name }
+    let(:email) { FFaker::Internet.email }
+    let(:message) { FFaker::Book.description }
+
+    it 'sends email' do
+      expect { contact_us }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(contact_us.subject).to eq('6by3 - Contact Us')
+      expect(contact_us.to).to eq(['info@6by3.tv'])
+      expect(contact_us.from).to eq([email])
+
+      expect(contact_us.body.encoded).to include(name)
+      expect(contact_us.body.encoded).to include(message)
+    end
+  end
 end

@@ -10,6 +10,7 @@ module Api::V1::Admin
     alias update? index?
     alias create? index?
     alias destroy? index?
+    alias destroy_bulk? index?
 
     class Scope < Scope
       def resolve

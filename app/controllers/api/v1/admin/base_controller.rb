@@ -46,5 +46,13 @@ module Api::V1::Admin
         end
       end
     end
+
+    def destroy_bulk
+      api_action do |m|
+        m.success do
+          head :no_content
+        end
+      end
+    end
   end
 end

@@ -47,6 +47,10 @@ module Api::V1
           head 404
         end
 
+        m.failure(:find_all) do
+          head 404
+        end
+
         m.failure do |errors|
           responds_with_errors(errors, status: 422)
         end

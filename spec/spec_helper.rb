@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'stripe_mock'
+require 'timecop'
 require 'pundit/rspec'
 require './spec/support/simplecov_env'
 

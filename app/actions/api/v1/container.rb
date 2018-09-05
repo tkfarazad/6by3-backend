@@ -25,6 +25,12 @@ module Api
         end
       end
 
+      namespace 'entity_finder' do
+        register 'bulk' do
+          EntityFinder::Bulk.new
+        end
+      end
+
       namespace 'meta' do
         register 'paginate' do
           MetaBuilder::Paginate.new

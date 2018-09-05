@@ -221,6 +221,44 @@ RSpec.describe 'Videos' do
           end
         end
       end
+
+      delete 'Destroy video' do
+        parameter :data, type: :array, items: {type: :object}, required: true
+
+        let!(:video1) { create(:video) }
+        let!(:video2) { create(:video) }
+
+        let(:data) do
+          [
+            {type: 'videos', id: video1.id},
+            {type: 'videos', id: video2.id}
+          ]
+        end
+
+        context 'not authenticated' do
+          example 'Responds with 401' do
+            do_request
+
+            expect(status).to eq(401)
+          end
+        end
+
+        context 'not admin', :authenticated_user do
+          example 'Responds with 403' do
+            do_request
+
+            expect(status).to eq(403)
+          end
+        end
+
+        context 'is admin', :authenticated_admin do
+          example 'Responds with 204' do
+            do_request
+
+            expect(status).to eq(204)
+          end
+        end
+      end
     end
 
     route '/api/v1/admin/videos/:id', 'Admin Video endpoint' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Params
-  class DeserializeBulkJsonapi < BaseOperation
+  class DeserializeBulk < BaseOperation
     attr_accessor :deserializer
     private       :deserializer
 
@@ -16,7 +16,7 @@ module Params
       return [] unless input[:data].is_a?(Array)
 
       input[:data].each_with_object([]) do |entity, result|
-        result << ::Api::V1::BaseDeserializer.call(entity)
+        result << deserializer.call(entity)
       end
     end
   end

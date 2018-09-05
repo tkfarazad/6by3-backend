@@ -164,6 +164,44 @@ RSpec.describe 'Coaches' do
           end
         end
       end
+
+      delete 'Destroy coach' do
+        parameter :data, type: :array, items: {type: :object}, required: true
+
+        let!(:coach1) { create(:coach) }
+        let!(:coach2) { create(:coach) }
+
+        let(:data) do
+          [
+            {type: 'coaches', id: coach1.id},
+            {type: 'coaches', id: coach2.id}
+          ]
+        end
+
+        context 'not authenticated' do
+          example 'Responds with 401' do
+            do_request
+
+            expect(status).to eq(401)
+          end
+        end
+
+        context 'not admin', :authenticated_user do
+          example 'Responds with 403' do
+            do_request
+
+            expect(status).to eq(403)
+          end
+        end
+
+        context 'is admin', :authenticated_admin do
+          example 'Responds with 204' do
+            do_request
+
+            expect(status).to eq(204)
+          end
+        end
+      end
     end
 
     route '/api/v1/admin/coaches/:id', 'Admin Coach endpoint' do

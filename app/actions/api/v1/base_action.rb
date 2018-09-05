@@ -2,7 +2,7 @@
 
 module Api::V1
   class BaseAction
-    include Dry::Transaction(container: Container)
+    include Dry::Transaction(container: Container, step_adapters: CustomStepAdapters)
     include ::TransactionContext[:current_user]
 
     private

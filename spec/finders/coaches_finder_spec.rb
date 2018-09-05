@@ -27,9 +27,14 @@ RSpec.describe CoachesFinder do
     end
 
     context 'with sorting' do
-      it 'returns proper records' do
+      it 'by created date' do
         expect(find(params: {sort: 'created_at'})).to eq [coach1, coach2, coach3, coach4, coach5]
         expect(find(params: {sort: '-created_at'})).to eq [coach5, coach4, coach3, coach2, coach1]
+      end
+
+      it 'by fullname' do
+        expect(find(params: {sort: 'fullname'})).to eq [coach1, coach2, coach3, coach4, coach5]
+        expect(find(params: {sort: '-fullname'})).to eq [coach4, coach5, coach3, coach1, coach2]
       end
     end
   end

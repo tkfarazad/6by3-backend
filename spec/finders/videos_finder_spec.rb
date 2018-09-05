@@ -31,9 +31,19 @@ RSpec.describe VideosFinder do
     end
 
     context 'with sorting' do
-      it 'by sort' do
+      it 'by created date' do
         expect(find(params: {sort: 'created_at'})).to eq [video1, video2, video3, video4]
         expect(find(params: {sort: '-created_at'})).to eq [video4, video3, video2, video1]
+      end
+
+      it 'by name' do
+        expect(find(params: {sort: 'name'})).to eq [video1, video2, video3, video4]
+        expect(find(params: {sort: '-name'})).to eq [video3, video4, video1, video2]
+      end
+
+      it 'by duration' do
+        expect(find(params: {sort: 'duration'})).to eq [video1, video2, video3, video4]
+        expect(find(params: {sort: '-duration'})).to eq [video4, video3, video2, video1]
       end
 
       it 'by most_played' do

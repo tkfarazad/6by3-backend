@@ -8,7 +8,7 @@ class VideosFinder < BaseFinder
 
   AVAILABLE_EXCLUSION_KEYS = %i[deleted_at].freeze
   AVAILABLE_FILTERING_KEYS = %i[name featured duration coach category trending].freeze
-  AVAILABLE_SORTING_KEYS = %w[created_at -created_at views_count -views_count].freeze
+  AVAILABLE_SORTING_KEYS = %w[name -name duration -duration created_at -created_at views_count -views_count].freeze
 
   # List of filter params which should use custom filters instead of specified by program
   CUSTOM_FILTERS = {

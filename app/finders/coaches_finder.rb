@@ -8,7 +8,7 @@ class CoachesFinder < BaseFinder
 
   AVAILABLE_EXCLUSION_KEYS = %i[deleted_at].freeze
   AVAILABLE_FILTERING_KEYS = %i[fullname featured category].freeze
-  AVAILABLE_SORTING_KEYS = %w[created_at -created_at].freeze
+  AVAILABLE_SORTING_KEYS = %w[fullname -fullname created_at -created_at].freeze
 
   # List of filter params which should use custom filters instead of specified by program
   CUSTOM_FILTERS = {

@@ -28,9 +28,19 @@ RSpec.describe UsersFinder do
     end
 
     context 'with sorting' do
-      it 'returns proper records' do
+      it 'by created data' do
         expect(find(params: {sort: 'created_at'})).to eq [user1, user2, user3, user4, user5, user6]
         expect(find(params: {sort: '-created_at'})).to eq [user6, user5, user4, user3, user2, user1]
+      end
+
+      it 'by email' do
+        expect(find(params: {sort: 'email'})).to eq [user6, user4, user1, user5, user2, user3]
+        expect(find(params: {sort: '-email'})).to eq [user3, user2, user5, user1, user4, user6]
+      end
+
+      it 'by fullname' do
+        expect(find(params: {sort: 'fullname'})).to eq [user1, user2, user3, user4, user5, user6]
+        expect(find(params: {sort: '-fullname'})).to eq [user4, user5, user6, user3, user1, user2]
       end
     end
   end

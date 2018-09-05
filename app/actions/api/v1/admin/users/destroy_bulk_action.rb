@@ -6,7 +6,7 @@ module Api::V1::Admin::Users
     try :deserialize_bulk, with: 'params.deserialize_bulk', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :find_all, with: 'entity_finder.bulk', catch: Sequel::NoMatchingRow
-    array_map :destroy
+    array_map :destroy, transaction: true
 
     private
 

@@ -8,7 +8,7 @@ module SixByThree
     AVAILABLE_UPLOAD_VIDEO_EXTENSIONS = %w[mp4 avi mov mpeg].freeze
     AVAILABLE_UPLOAD_VIDEO_CONTENT_TYPES = %w[video/mp4 video/x-msvideo video/quicktime video/avi video/mpeg].freeze
 
-    VIDEO_FILE_SIZE_RANGE = 1..2.gigabytes
+    VIDEO_FILE_SIZE_RANGE = 1..10.gigabytes
 
     VALUE_PRESENT = :VALUE_PRESENT
 

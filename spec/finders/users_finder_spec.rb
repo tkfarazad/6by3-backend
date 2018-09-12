@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe UsersFinder do
-  let!(:user1) { create(:user, fullname: 'Aaa Aaa', email: 'ccc@gmail.com') }
-  let!(:user2) { create(:user, fullname: 'Aaa Aaa', email: 'eee@gmail.com') }
-  let!(:user3) { create(:user, fullname: 'Aaa Bbb', email: 'xxx@gmail.com') }
-  let!(:user4) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
-  let!(:user5) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
-  let!(:user6) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
+  let!(:user1) { create(:user, fullname: 'Aaa Aaa', email: 'ccc@gmail.com', plan_type: 'trial') }
+  let!(:user2) { create(:user, fullname: 'Aaa Aaa', email: 'eee@gmail.com', plan_type: 'free') }
+  let!(:user3) { create(:user, fullname: 'Aaa Bbb', email: 'xxx@gmail.com', plan_type: 'trial') }
+  let!(:user4) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'bbb@gmail.com', plan_type: 'paid') }
+  let!(:user5) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'ddd@gmail.com', plan_type: 'free') }
+  let!(:user6) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'aaa@gmail.com', plan_type: 'paid') }
 
   def find(params: {}, exclude: {})
     described_class.new(
@@ -41,6 +41,11 @@ RSpec.describe UsersFinder do
       it 'by fullname' do
         expect(find(params: {sort: 'fullname'})).to eq [user1, user2, user3, user4, user5, user6]
         expect(find(params: {sort: '-fullname'})).to eq [user4, user5, user6, user3, user1, user2]
+      end
+
+      it 'by plan_type' do
+        expect(find(params: {sort: 'plan_type'})).to eq [user2, user5, user1, user3, user4, user6]
+        expect(find(params: {sort: '-plan_type'})).to eq [user4, user6, user1, user3, user2, user5]
       end
     end
   end

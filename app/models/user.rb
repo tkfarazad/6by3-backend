@@ -5,6 +5,10 @@ class User < Sequel::Model
   plugin :association_pks
   plugin :sc_billing_stripe
 
+  FREE_PLAN_TYPE = 'free'
+  TRIAL_PLAN_TYPE = 'trial'
+  PAID_PLAN_TYPE = 'paid'
+
   mount_uploader :avatar, AvatarUploader
 
   one_to_many :video_views

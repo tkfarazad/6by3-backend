@@ -38,6 +38,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
               fullname
               privacyPolicyAccepted
               deletedAt
+              planType
             ]
           )
         end

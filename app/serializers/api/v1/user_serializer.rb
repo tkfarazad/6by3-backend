@@ -11,6 +11,7 @@ module Api::V1
     attribute :privacy_policy_accepted, if: -> { current_user_or_admin? }
     attribute :admin, if: -> { current_user_or_admin? }
     attribute :deleted_at, if: -> { current_user_or_admin? }
+    attribute :plan_type, if: -> { current_user_is_admin? }
 
     has_many :favorite_coaches do
       linkage always: true

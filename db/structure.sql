@@ -104,6 +104,17 @@ CREATE TYPE public.stripe_subscriptions_statuses AS ENUM (
 
 
 --
+-- Name: users_plan_types; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.users_plan_types AS ENUM (
+    'free',
+    'trial',
+    'paid'
+);
+
+
+--
 -- Name: videos_set_views_count(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -426,7 +437,8 @@ CREATE TABLE public.users (
     reset_password_requested_at timestamp without time zone,
     stripe_customer_id text,
     default_stripe_payment_source_id integer,
-    privacy_policy_accepted boolean DEFAULT false NOT NULL
+    privacy_policy_accepted boolean DEFAULT false NOT NULL,
+    plan_type public.users_plan_types
 );
 
 
@@ -837,6 +849,13 @@ CREATE INDEX stripe_subscriptions_user_id_index ON public.stripe_subscriptions U
 
 
 --
+-- Name: users_plan_type_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_plan_type_index ON public.users USING btree (plan_type);
+
+
+--
 -- Name: video_views_user_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1006,3 +1025,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816062340_allow_null_to_password_digest_on_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816132226_add_social_links_to_coaches.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912082045_add_interval_interval_count_and_trial_days_to_plans.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180912190441_add_plan_type_to_users.rb');

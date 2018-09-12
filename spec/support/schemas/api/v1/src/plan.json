@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "required": ["id", "type", "attributes", "relationships"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string" },
+    "attributes": {
+      "type": "object",
+      "required": [
+        "name",
+        "amount",
+        "currency",
+        "stripeId",
+        "interval",
+        "intervalCount",
+        "trialPeriodDays"
+      ],
+      "properties": {
+        "name": { "type" : "string" },
+        "amount": { "type" : "integer" },
+        "currency": { "type" : "string" },
+        "stripeId": { "type" : "string" },
+        "interval": { "type" : "string" },
+        "intervalCount": { "type" : "integer" },
+        "trialPeriodDays": { "type" : ["integer", null] }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "required": ["product"],
+      "properties": {
+        "product": { "type": "object" }
+      }
+    }
+  }
+}

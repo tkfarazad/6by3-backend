@@ -8,7 +8,10 @@ module Api::V1::SC::Billing::Stripe
                :name,
                :amount,
                :currency,
-               :stripe_id
+               :stripe_id,
+               :interval,
+               :interval_count,
+               :trial_period_days
 
     belongs_to :product
   end

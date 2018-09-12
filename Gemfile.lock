@@ -1,7 +1,7 @@
 GIT
   remote: https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/sc-billing.git
-  revision: d71b3841bfecc97b63f3d20bf06e78e6e3a80e94
-  ref: d71b384
+  revision: 58c47e3303829d8dc6bd0b6db854df97a1ff0d67
+  ref: 58c47e3
   specs:
     sc-billing (0.1.0)
       dry-auto_inject (>= 0.4)
@@ -13,6 +13,7 @@ GIT
       rails (>= 5.1, < 6.0)
       sequel (>= 5.0)
       stripe (>= 3.11)
+      transproc (>= 1.0)
 
 GIT
   remote: https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/sc-webhooks.git
@@ -394,6 +395,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     timecop (0.9.1)
+    transproc (1.0.2)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.0)

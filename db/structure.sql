@@ -297,7 +297,10 @@ CREATE TABLE public.stripe_plans (
     currency text NOT NULL,
     product_id integer NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "interval" text NOT NULL,
+    interval_count integer NOT NULL,
+    trial_period_days integer
 );
 
 
@@ -1002,3 +1005,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180814142242_add_feature
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180815101517_add_privacy_policy_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816062340_allow_null_to_password_digest_on_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816132226_add_social_links_to_coaches.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180912082045_add_interval_interval_count_and_trial_days_to_plans.rb');

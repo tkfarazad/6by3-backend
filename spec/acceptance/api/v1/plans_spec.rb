@@ -17,6 +17,7 @@ RSpec.describe do
 
           example_request 'Responds with 200' do
             expect(parsed_body[:data].count).to eq 2
+            expect(response_body).to match_json_schema('v1/plan_list')
           end
         end
       end

@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": { "$ref": "src/plan.json" }
+    }
+  }
+}

@@ -42,6 +42,14 @@ RSpec.describe do
               expect(status).to eq(422)
             end
           end
+
+          context 'when params are invalid' do
+            let(:plan_id) { plan.id }
+
+            example_request 'Responds with 400' do
+              expect(status).to eq(400)
+            end
+          end
         end
       end
     end

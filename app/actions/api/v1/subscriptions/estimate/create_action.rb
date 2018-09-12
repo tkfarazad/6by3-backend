@@ -2,7 +2,7 @@
 
 module Api::V1::Subscriptions::Estimate
   class CreateAction < ::Api::V1::Subscriptions::CreateAction
-    map :deserialize, with: 'params.deserialize'
+    try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
     map :prepare_subscription_params

@@ -11,7 +11,25 @@ RSpec.describe 'Email confirmation' do
         let(:token) { SecureRandom.hex }
         let(:email) { FFaker::Internet.email }
 
+        context 'when user does not exist' do
+          example 'Responds with 404' do
+            do_request
+
+            expect(status).to eq(404)
+            expect(response_body).to match_response_schema('v1/error')
+          end
+        end
+
         context 'when token is invalid' do
+          let!(:user) do
+            create(
+              :user,
+              :unconfirmed,
+              email_confirmation_token: token,
+              email_confirmation_requested_at: Time.current - 5.days
+            )
+          end
+
           example 'Responds with 422' do
             do_request
 

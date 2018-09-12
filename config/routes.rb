@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
       resource :contact_us, only: :create, controller: :contact_us_email
       resource :confirm_email, only: :create, controller: :confirm_email
+      resource :resend_confirm_email, only: :create, controller: :resend_confirm_email
       resource :reset_password, only: :create, controller: :reset_password
       resource :change_password, only: :create, controller: :change_password
     end

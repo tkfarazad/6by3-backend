@@ -2,13 +2,16 @@
 
 module Api::V1::ConfirmEmail
   class CreateAction < ::Api::V1::BaseAction
-    CONFIRMATION_TOKEN_LIFETIME = 3.days
+    CONFIRMATION_TOKEN_LIFETIME = 1.day
 
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     map :find_user
+    step :check_not_found
     step :check_processable
     map :confirm
+
+    private
 
     def deserialize(input)
       super(input, skip_validation: true)
@@ -18,14 +21,16 @@ module Api::V1::ConfirmEmail
       ::User.find(email_confirmation_token: input.fetch(:token))
     end
 
+    def check_not_found(user)
+      return Failure(error(I18n.t('errors.confirm_email.create.token_invalid'))) if user.nil?
+
+      Success(user)
+    end
+
     def check_processable(user)
-      if user.nil?
-        Failure(error(I18n.t('errors.confirm_email.create.token_invalid')))
-      elsif token_expired?(user)
-        Failure(error(I18n.t('errors.confirm_email.create.token_expired')))
-      else
-        Success(user)
-      end
+      return Failure(error(I18n.t('errors.confirm_email.create.token_expired'))) if token_expired?(user)
+
+      Success(user)
     end
 
     def confirm(user)

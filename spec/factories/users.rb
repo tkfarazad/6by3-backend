@@ -27,7 +27,7 @@ FactoryBot.define do
     trait :unconfirmed do
       email_confirmed_at nil
       email_confirmation_token { SecureRandom.uuid }
-      email_confirmation_requested_at { Time.current - 1.day }
+      email_confirmation_requested_at { Time.current - 10.seconds }
     end
 
     trait :reset_password_requested do

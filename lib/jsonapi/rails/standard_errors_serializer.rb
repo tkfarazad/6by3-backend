@@ -2,7 +2,7 @@
 
 module JSONAPI
   module Rails
-    class SequelErrorsSerializer
+    class StandardErrorsSerializer
       attr_reader :error
       private :error
 

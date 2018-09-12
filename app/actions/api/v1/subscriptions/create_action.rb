@@ -12,17 +12,23 @@ module Api::V1::Subscriptions
     def find(input)
       plan = ::SC::Billing::Stripe::Plan.with_pk!(input.fetch(:plan_id))
 
-      input[:plan] = plan
-
-      input
+      input.merge!(plan: plan)
     end
 
-    # TODO: add coupons
     def create(input)
+      subscription_params = prepare_subscription_params(input)
+
       SC::Billing::Stripe::Subscriptions::CreateOperation
         .new
-        .call(current_user, items: [{plan: input.fetch(:plan).stripe_id}])
+        .call(current_user, subscription_params)
         .to_result
+    end
+
+    def prepare_subscription_params(input)
+      {
+        items: [{plan: input.fetch(:plan).stripe_id}],
+        coupon: input[:coupon]
+      }
     end
   end
 end

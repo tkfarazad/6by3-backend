@@ -14,7 +14,7 @@ RSpec.describe do
           parameter :type, method: :plan_type
         end
 
-        let(:coupon) { 'coupon' }
+        let(:coupon) { stripe_helper.create_coupon.id }
         let(:type) { 'subscriptions' }
         let(:plan_type) { 'plans' }
         let(:plan_id) { plan.id.to_s }
@@ -29,8 +29,18 @@ RSpec.describe do
           let(:stripe_subscription) { Stripe::Subscription.create(customer: stripe_customer.id) }
           let(:authenticated_user) { create(:user, stripe_customer_id: stripe_customer.id) }
 
-          example_request 'Responds with 201' do
-            expect(status).to eq(201)
+          context 'when coupon is valid' do
+            example_request 'Responds with 201' do
+              expect(status).to eq(201)
+            end
+          end
+
+          context 'when coupon is invalid' do
+            let(:coupon) { 'coupon' }
+
+            example_request 'Responds with 422' do
+              expect(status).to eq(422)
+            end
           end
         end
       end

@@ -6,6 +6,14 @@ RSpec.describe ActualizeUserPlanTypeService do
       described_class.new.call(subscription)
     end
 
+    context 'when subscription is nil' do
+      let(:subscription) { nil }
+
+      it 'does not raise error' do
+        expect { call }.not_to raise_error
+      end
+    end
+
     context 'when user has trialing subscription status' do
       let(:user) { create(:user) }
       let(:subscription) { create(:stripe_subscription, :trialing, user: user) }

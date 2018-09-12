@@ -2,6 +2,8 @@
 
 class ActualizeUserPlanTypeService
   def call(subscription)
+    return if subscription.nil?
+
     if subscription.trialing?
       actualize_by_subscription(subscription)
     else

@@ -5,6 +5,7 @@ module Api::V1::Subscriptions
     map :deserialize, with: 'params.deserialize'
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
+    map :prepare_subscription_params
     step :create
 
     private
@@ -15,20 +16,18 @@ module Api::V1::Subscriptions
       input.merge!(plan: plan)
     end
 
-    def create(input)
-      subscription_params = prepare_subscription_params(input)
-
-      SC::Billing::Stripe::Subscriptions::CreateOperation
-        .new
-        .call(current_user, subscription_params)
-        .to_result
-    end
-
     def prepare_subscription_params(input)
       {
         items: [{plan: input.fetch(:plan).stripe_id}],
         coupon: input[:coupon]
       }
+    end
+
+    def create(subscription_params)
+      SC::Billing::Stripe::Subscriptions::CreateOperation
+        .new
+        .call(current_user, subscription_params)
+        .to_result
     end
   end
 end

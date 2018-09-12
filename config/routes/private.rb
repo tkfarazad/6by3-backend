@@ -14,6 +14,9 @@ end
 resources :subscriptions, only: %i[create] do
   scope module: :subscriptions do
     resource :cancel, only: %i[create], controller: :cancel
+    collection do
+      resource :estimate, only: %i[create], controller: :estimate
+    end
   end
 end
 

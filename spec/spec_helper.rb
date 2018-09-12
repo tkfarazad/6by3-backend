@@ -3,6 +3,7 @@
 require 'stripe_mock'
 require 'timecop'
 require 'pundit/rspec'
+require 'aasm/rspec'
 require './spec/support/simplecov_env'
 
 SimpleCovEnv.start!

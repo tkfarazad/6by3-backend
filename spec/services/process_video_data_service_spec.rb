@@ -18,6 +18,8 @@ RSpec.describe ProcessVideoDataService do
         .and(change { video.thumbnail.present? }.from(false).to(true))
       )
 
+      expect(video.state).to eq('processed')
+
       expect(pusher_events.count).to eq(1)
       expect(pusher_events.first[:channels]).to eq ["videos.#{video.id}"]
       expect(pusher_events.first[:event]).to eq 'processing'

@@ -43,6 +43,17 @@ RSpec.describe do
             end
           end
 
+          context 'when card is invalid' do
+            before do
+              error = Stripe::CardError.new('Some error', nil, 402)
+              StripeMock.prepare_error(error, :create_subscription)
+            end
+
+            example_request 'Responds with 422' do
+              expect(status).to eq(422)
+            end
+          end
+
           context 'when params are invalid' do
             let(:plan_id) { plan.id }
 

@@ -55,6 +55,20 @@ RSpec.describe do
             end
           end
 
+          context 'when card is invalid' do
+            before do
+              allow(::Stripe::Invoice).to(
+                receive(:upcoming)
+                  .with(any_args)
+                  .and_raise(Stripe::CardError.new('Some error', nil, 402))
+              )
+            end
+
+            example_request 'Responds with 422' do
+              expect(status).to eq(422)
+            end
+          end
+
           context 'when params are invalid' do
             let(:plan_id) { plan.id }
 

@@ -15,6 +15,7 @@ JSONAPI::Rails.configure do |config|
   end
 
   config.jsonapi_errors_class.tap do |h|
+    h[:'Stripe::CardError'] = JSONAPI::Rails::StandardErrorsSerializer
     h[:'Stripe::InvalidRequestError'] = JSONAPI::Rails::StandardErrorsSerializer
     h[:'Sequel::NoMatchingRow'] = JSONAPI::Rails::StandardErrorsSerializer
     h[:'Sequel::UniqueConstraintViolation'] = JSONAPI::Rails::StandardErrorsSerializer

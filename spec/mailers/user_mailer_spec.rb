@@ -14,7 +14,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it 'sends email' do
       expect { confirmation }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(confirmation.subject).to eq('Email confirmation')
+      expect(confirmation.subject).to eq('Confirm Your Email')
       expect(confirmation.to).to eq([user.email])
       expect(confirmation.body.encoded).to include(user.email_confirmation_token)
       expect(confirmation.body.encoded).to include(Rails.configuration.site_url)

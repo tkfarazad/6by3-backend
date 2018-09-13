@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
     @confirmation_link = "#{site_url}/confirm?#{params.to_query}"
 
-    mail to: @user.email, subject: 'Email confirmation'
+    mail to: @user.email, subject: 'Confirm Your Email'
   end
 
   def reset_password

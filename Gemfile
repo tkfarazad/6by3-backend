@@ -55,7 +55,7 @@ gem 'redis', '~> 4.0'
 gem 'sidekiq', '~> 5.1'
 
 gem 'sc-webhooks', sc_gem: 'sc-webhooks'
-gem 'sc-billing', sc_gem: 'sc-billing', ref: '59786ed'
+gem 'sc-billing', sc_gem: 'sc-billing', ref: '03018ef'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -54,5 +54,7 @@ class ProcessVideoDataService
     File.delete(tmp_file_path) if File.exist?(tmp_file_path)
 
     video.end_processing
+
+    video.save
   end
 end

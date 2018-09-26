@@ -8,7 +8,7 @@ module CustomPredicates
   end
 
   predicate(:file?) do |value|
-    value.instance_of?(ActionDispatch::Http::UploadedFile)
+    value.instance_of?(ActionDispatch::Http::UploadedFile) || value.instance_of?(Rack::Test::UploadedFile)
   end
 
   predicate(:allowed_image_mime_type?) do |content_type|

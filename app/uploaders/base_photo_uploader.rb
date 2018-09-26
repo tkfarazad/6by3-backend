@@ -8,6 +8,6 @@ class BasePhotoUploader < ::BaseUploader
   end
 
   def size_range
-    1..2.megabytes
+    ::SixByThree::Constants::PHOTO_FILE_SIZE_RANGE
   end
 end

@@ -6,6 +6,6 @@ class ThumbnailUploader < ::BasePhotoUploader
   end
 
   def size_range
-    1..5.megabytes
+    ::SixByThree::Constants::THUMBNAIL_FILE_SIZE_RANGE
   end
 end

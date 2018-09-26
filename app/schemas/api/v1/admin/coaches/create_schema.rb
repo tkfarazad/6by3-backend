@@ -3,7 +3,7 @@
 module Api::V1::Admin::Coaches
   CreateSchema = Dry::Validation.Params(BaseSchema) do
     required(:fullname).filled(:str?)
-    optional(:avatar).filled(:image?)
+    optional(:avatar).filled(:image?, size?: ::SixByThree::Constants::PHOTO_FILE_SIZE_RANGE)
     optional(:featured).filled(:bool?)
     optional(:personal_info).filled(:str?)
     optional(:certifications).each(:str?)

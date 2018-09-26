@@ -21,6 +21,7 @@ class ProcessVideoDataService
   def store_original_video(video)
     context[:original_video] = video
 
+    video.reset_state if video.processed?
     video.start_processing if video.may_start_processing?
   end
 

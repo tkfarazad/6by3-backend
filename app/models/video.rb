@@ -25,6 +25,10 @@ class Video < Sequel::Model
     event :end_processing, after: :notify_processed do
       transitions from: :processing, to: :processed
     end
+
+    event :reset_state do
+      transitions from: :processed, to: :can_be_processed
+    end
   end
 
   def notify_processed

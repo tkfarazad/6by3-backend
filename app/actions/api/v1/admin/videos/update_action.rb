@@ -2,7 +2,7 @@
 
 module Api::V1::Admin::Videos
   class UpdateAction < ::Api::V1::BaseAction
-    include ::TransactionContext[:video]
+    include ::TransactionContext[:original_video, :updated_url]
 
     try :find, catch: Sequel::NoMatchingRow
     step :authorize
@@ -14,7 +14,8 @@ module Api::V1::Admin::Videos
     private
 
     def find(input)
-      context[:video] = ::Video.with_pk!(input.fetch(:id))
+      context[:updated_url] = input[:url]
+      context[:original_video] = ::Video.with_pk!(input.fetch(:id))
 
       input
     end
@@ -24,11 +25,11 @@ module Api::V1::Admin::Videos
     end
 
     def update(input)
-      ::UpdateEntityOperation.new(video).call(input)
+      ::UpdateEntityOperation.new(original_video).call(input)
     end
 
     def enqueue_process_video(video)
-      ::ProcessVideoDataJob.perform_later(video_id: video.id) if video
+      ::ProcessVideoDataJob.perform_later(video_id: video.id) if updated_url
     end
   end
 end

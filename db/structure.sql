@@ -426,7 +426,6 @@ CREATE TABLE public.users (
     password_digest text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    fullname text,
     avatar text,
     admin boolean DEFAULT false NOT NULL,
     deleted_at timestamp without time zone,
@@ -438,7 +437,9 @@ CREATE TABLE public.users (
     stripe_customer_id text,
     default_stripe_payment_source_id integer,
     privacy_policy_accepted boolean DEFAULT false NOT NULL,
-    plan_type public.users_plan_types
+    plan_type public.users_plan_types,
+    first_name text,
+    last_name text
 );
 
 
@@ -1026,3 +1027,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180816062340_allow_null_
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180816132226_add_social_links_to_coaches.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912082045_add_interval_interval_count_and_trial_days_to_plans.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912190441_add_plan_type_to_users.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20180926145052_split_fullname_from_users.rb');

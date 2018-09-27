@@ -38,7 +38,8 @@ RSpec.describe 'Users' do
         parameter :type, scope: :data, required: true
 
         with_options scope: %i[data attributes] do
-          parameter :fullname
+          parameter :first_name
+          parameter :last_name
           parameter :privacyPolicyAccepted
         end
 
@@ -53,7 +54,8 @@ RSpec.describe 'Users' do
         end
 
         context 'when params are invalid', :authenticated_user do
-          let(:fullname) { nil }
+          let(:first_name) { nil }
+          let(:last_name) { nil }
 
           example 'Responds with 400' do
             do_request
@@ -65,7 +67,8 @@ RSpec.describe 'Users' do
 
         context 'when params are valid', :authenticated_user do
           let(:user) { authenticated_user }
-          let(:fullname) { FFaker::Name.name }
+          let(:first_name) { FFaker::Name.first_name }
+          let(:last_name) { FFaker::Name.last_name }
           let(:privacyPolicyAccepted) { true }
 
           example 'Responds with 200' do
@@ -74,7 +77,8 @@ RSpec.describe 'Users' do
             expect(status).to eq(200)
             expect(response_body).to match_response_schema('v1/user')
             expect(user.reload.privacy_policy_accepted).to eq true
-            expect(user.reload.fullname).to eq fullname
+            expect(user.reload.first_name).to eq first_name
+            expect(user.reload.last_name).to eq last_name
           end
         end
       end

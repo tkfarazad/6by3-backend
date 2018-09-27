@@ -6,10 +6,11 @@
     "type": { "type": "string" },
     "attributes": {
       "type": "object",
-      "required": ["email", "fullname"],
+      "required": ["email", "firstName", "lastName"],
       "properties": {
         "email": { "type" : "string" },
-        "fullname": { "type" : "string" },
+        "firstName": { "type" : "string" },
+        "lastName": { "type" : "string" },
         "avatar": {
           "type": "object",
           "required": ["url"],

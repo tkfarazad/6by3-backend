@@ -6,7 +6,8 @@ module Api::V1::Admin::Users
 
     optional(:filter).schema do
       optional(:email).filled(:str?)
-      optional(:fullname).filled(:str?)
+      optional(:first_name).filled(:str?)
+      optional(:last_name).filled(:str?)
     end
 
     optional(:page).schema do

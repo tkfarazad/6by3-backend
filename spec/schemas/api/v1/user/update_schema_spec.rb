@@ -2,20 +2,33 @@
 
 RSpec.describe Api::V1::User::UpdateSchema do
   describe 'attributes' do
-    describe 'fullname' do
-      def schema(fullname)
-        described_class.call(fullname: fullname)
-      end
+    def schema(**options)
+      described_class.call(options)
+    end
 
+    describe 'first_name' do
       it 'returns failure' do
-        result = schema('')
+        result = schema(first_name: '')
 
         expect(result).to be_failure
-        expect(result.errors).to eq(fullname: ['must be filled'])
+        expect(result.errors).to eq(first_name: ['must be filled'])
       end
 
       it 'returns success' do
-        expect(schema(FFaker::Name.name)).to be_success
+        expect(schema(first_name: FFaker::Name.first_name)).to be_success
+      end
+    end
+
+    describe 'last_name' do
+      it 'returns failure' do
+        result = schema(last_name: '')
+
+        expect(result).to be_failure
+        expect(result.errors).to eq(last_name: ['must be filled'])
+      end
+
+      it 'returns success' do
+        expect(schema(last_name: FFaker::Name.last_name)).to be_success
       end
     end
   end

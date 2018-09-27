@@ -19,7 +19,8 @@ RSpec.describe 'Users' do
 
         with_options scope: :filter do
           parameter :email
-          parameter :fullname
+          parameter :first_name
+          parameter :last_name
         end
 
         context 'not authenticated' do
@@ -238,7 +239,8 @@ RSpec.describe 'Users' do
         parameter :type, scope: :data, required: true
 
         with_options scope: %i[data attributes] do
-          parameter :fullname
+          parameter :first_name
+          parameter :last_name
         end
 
         let(:type) { 'users' }
@@ -247,7 +249,8 @@ RSpec.describe 'Users' do
         let(:id) { user.id }
 
         context 'not authenticated' do
-          let(:fullname) { FFaker::Name.name }
+          let(:first_name) { FFaker::Name.first_name }
+          let(:last_name) { FFaker::Name.last_name }
 
           example 'Responds with 401' do
             do_request
@@ -257,7 +260,8 @@ RSpec.describe 'Users' do
         end
 
         context 'not admin', :authenticated_user do
-          let(:fullname) { FFaker::Name.name }
+          let(:first_name) { FFaker::Name.first_name }
+          let(:last_name) { FFaker::Name.last_name }
 
           example 'Responds with 403' do
             do_request
@@ -267,7 +271,8 @@ RSpec.describe 'Users' do
         end
 
         context 'params are invalid', :authenticated_admin do
-          let(:fullname) { nil }
+          let(:first_name) { nil }
+          let(:last_name) { nil }
 
           example 'Responds with 422' do
             do_request
@@ -278,7 +283,8 @@ RSpec.describe 'Users' do
         end
 
         context 'params are valid', :authenticated_admin do
-          let(:fullname) { FFaker::Name.name }
+          let(:first_name) { FFaker::Name.first_name }
+          let(:last_name) { FFaker::Name.last_name }
 
           example 'Responds with 200' do
             do_request

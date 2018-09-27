@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe Api::V1::User::UpdateAction do
-  let!(:current_user) { create(:user, fullname: fullname) }
+  let!(:current_user) { create(:user, first_name: first_name) }
   let(:action) { described_class.new(context: {current_user: current_user}) }
 
-  let(:fullname) { FFaker::Name.name }
-  let(:new_fullname) { FFaker::Name.name }
+  let(:first_name) { FFaker::Name.first_name }
+  let(:new_first_name) { FFaker::Name.first_name }
 
   describe '#call' do
     subject(:call) do
@@ -13,14 +13,14 @@ RSpec.describe Api::V1::User::UpdateAction do
     end
 
     let(:input) do
-      jsonapi_params(type: 'users', attributes: {fullname: new_fullname})
+      jsonapi_params(type: 'users', attributes: {first_name: new_first_name})
     end
 
     context 'when self' do
       let!(:user) { current_user }
 
       it 'grants access' do
-        expect { call }.to change(user, :fullname).from(fullname).to(new_fullname)
+        expect { call }.to change(user, :first_name).from(first_name).to(new_first_name)
       end
     end
 

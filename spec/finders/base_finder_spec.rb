@@ -7,8 +7,8 @@ class DummyClass < BaseFinder
   include Paginatable
 
   AVAILABLE_EXCLUSION_KEYS = %i[deleted_at].freeze
-  AVAILABLE_FILTERING_KEYS = %i[fullname].freeze
-  AVAILABLE_SORTING_KEYS = %w[fullname -fullname email -email created_at -created_at].freeze
+  AVAILABLE_FILTERING_KEYS = %i[first_name last_name].freeze
+  AVAILABLE_SORTING_KEYS = %w[first_name -first_name last_name -last_name email -email created_at -created_at].freeze
 
   def filter_by(scope:, field:, value:)
     scope.where("#{field}": value)
@@ -16,11 +16,11 @@ class DummyClass < BaseFinder
 end
 
 RSpec.describe BaseFinder do
-  let!(:user1) { create(:user, fullname: 'Aaa Aaa', email: 'ccc@gmail.com') }
-  let!(:user2) { create(:user, fullname: 'Aaa Aaa', email: 'eee@gmail.com') }
-  let!(:user3) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'bbb@gmail.com') }
-  let!(:user4) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'ddd@gmail.com') }
-  let!(:user5) { create(:user, :deleted, fullname: 'Bbb Bbb', email: 'aaa@gmail.com') }
+  let!(:user1) { create(:user, first_name: 'Aa', last_name: 'Aa', email: 'ccc@gmail.com') }
+  let!(:user2) { create(:user, first_name: 'Ab', last_name: 'Ab', email: 'eee@gmail.com') }
+  let!(:user3) { create(:user, :deleted, first_name: 'De', last_name: 'De', email: 'bbb@gmail.com') }
+  let!(:user4) { create(:user, :deleted, first_name: 'Df', last_name: 'Df', email: 'ddd@gmail.com') }
+  let!(:user5) { create(:user, :deleted, first_name: 'Dg', last_name: 'Dg', email: 'aaa@gmail.com') }
 
   def find(params: {}, exclude: {})
     DummyClass.new(
@@ -54,7 +54,7 @@ RSpec.describe BaseFinder do
         ).to match_array [user1, user2, user3, user4, user5]
 
         expect(
-          find(params: {filter: {fullname: 'Aaa Aaa'}})
+          find(params: {filter: {first_name: 'A'}})
         ).to match_array [user1, user2]
       end
 
@@ -64,7 +64,7 @@ RSpec.describe BaseFinder do
         ).to match_array [user1, user2, user3, user4, user5]
 
         expect(
-          find(params: {filter: {fullname: 'aaa aaa'}})
+          find(params: {filter: {first_name: 'a'}})
         ).to match_array [user1, user2]
       end
     end
@@ -107,22 +107,22 @@ RSpec.describe BaseFinder do
   context 'with filtering' do
     context 'without sorting' do
       it 'returns proper records' do
-        expect(find(params: {filter: {fullname: 'Aaa Aaa'}})).to match_array [user1, user2]
-        expect(find(params: {filter: {fullname: 'Bbb Bbb'}})).to match_array [user3, user4, user5]
+        expect(find(params: {filter: {first_name: 'A'}})).to match_array [user1, user2]
+        expect(find(params: {filter: {last_name: 'D'}})).to match_array [user3, user4, user5]
       end
     end
 
     context 'with asc sorting order' do
       it 'returns proper records' do
-        expect(find(params: {filter: {fullname: 'Aaa Aaa'}, sort: 'created_at'})).to eq [user1, user2]
-        expect(find(params: {filter: {fullname: 'Bbb Bbb'}, sort: 'email'})).to eq [user5, user3, user4]
+        expect(find(params: {filter: {first_name: 'A'}, sort: 'created_at'})).to eq [user1, user2]
+        expect(find(params: {filter: {last_name: 'D'}, sort: 'email'})).to eq [user5, user3, user4]
       end
     end
 
     context 'with desc sorting order' do
       it 'returns proper records' do
-        expect(find(params: {filter: {fullname: 'Aaa Aaa'}, sort: '-created_at'})).to eq [user2, user1]
-        expect(find(params: {filter: {fullname: 'Bbb Bbb'}, sort: '-email'})).to eq [user4, user3, user5]
+        expect(find(params: {filter: {first_name: 'A'}, sort: '-created_at'})).to eq [user2, user1]
+        expect(find(params: {filter: {last_name: 'D'}, sort: '-email'})).to eq [user4, user3, user5]
       end
     end
   end

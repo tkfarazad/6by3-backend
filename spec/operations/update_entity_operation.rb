@@ -2,7 +2,7 @@
 
 RSpec.describe UpdateEntityOperation do
   let(:initial_data) { FFaker::Name.name }
-  let!(:record) { create(:user, fullname: initial_data) }
+  let!(:record) { create(:coach, fullname: initial_data) }
 
   describe '#call' do
     subject { described_class.new(record).call(input) }

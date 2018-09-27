@@ -6,7 +6,8 @@ module Api::V1
 
     attributes :email,
                :avatar,
-               :fullname
+               :first_name,
+               :last_name
 
     attribute :privacy_policy_accepted, if: -> { current_user_or_admin? }
     attribute :admin, if: -> { current_user_or_admin? }

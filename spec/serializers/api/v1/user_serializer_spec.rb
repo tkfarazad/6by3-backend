@@ -19,7 +19,8 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
             %i[
               email
               avatar
-              fullname
+              firstName
+              lastName
             ]
           )
         end
@@ -35,7 +36,8 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
               email
               avatar
               admin
-              fullname
+              firstName
+              lastName
               privacyPolicyAccepted
               deletedAt
               planType
@@ -62,7 +64,8 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
             email
             avatar
             admin
-            fullname
+            firstName
+            lastName
             privacyPolicyAccepted
             deletedAt
           ]

@@ -21,9 +21,9 @@ RSpec.describe Api::V1::Admin::Users::IndexAction do
     end
 
     context 'with filters' do
-      let(:input) { {filter: {fullname: user.fullname}} }
+      let(:input) { {filter: {first_name: user.first_name, last_name: user.last_name}} }
 
-      it 'returns all users with given fullname' do
+      it 'returns all users with given first and last names' do
         expect(subject).to be_success
         expect(subject.success[0]).to match_array [user]
       end

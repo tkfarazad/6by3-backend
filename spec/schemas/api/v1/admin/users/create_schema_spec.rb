@@ -2,14 +2,73 @@
 
 RSpec.describe Api::V1::Admin::Users::CreateSchema do
   describe 'attributes' do
-    describe 'email' do
-      def schema(email)
-        described_class.call(password: '123456', password_confirmation: '123456', email: email)
+    def schema(**options)
+      described_class.call(options)
+    end
+
+    describe 'first name' do
+      def first_name_schema(first_name)
+        schema(
+          password: '123456',
+          password_confirmation: '123456',
+          email: FFaker::Internet.email,
+          last_name: FFaker::Name.last_name,
+          first_name: first_name
+        )
       end
 
-      it { expect(schema('email@example.com')).to be_success }
+      it 'returns success' do
+        expect(first_name_schema(FFaker::Name.first_name)).to be_success
+      end
+
       it 'returns failure' do
-        result = schema('email')
+        result = first_name_schema('')
+
+        expect(result).to be_failure
+        expect(result.errors).to eq(first_name: ['must be filled'])
+      end
+    end
+
+    describe 'last name' do
+      def last_name_schema(last_name)
+        schema(
+          password: '123456',
+          password_confirmation: '123456',
+          email: FFaker::Internet.email,
+          first_name: FFaker::Name.first_name,
+          last_name: last_name
+        )
+      end
+
+      it 'returns success' do
+        expect(last_name_schema(FFaker::Name.last_name)).to be_success
+      end
+
+      it 'returns failure' do
+        result = last_name_schema('')
+
+        expect(result).to be_failure
+        expect(result.errors).to eq(last_name: ['must be filled'])
+      end
+    end
+
+    describe 'email' do
+      def email_schema(email)
+        schema(
+          first_name: FFaker::Name.first_name,
+          last_name: FFaker::Name.last_name,
+          password: '123456',
+          password_confirmation: '123456',
+          email: email
+        )
+      end
+
+      it 'returns success' do
+        expect(email_schema(FFaker::Internet.email)).to be_success
+      end
+
+      it 'returns failure' do
+        result = email_schema('email')
 
         expect(result).to be_failure
         expect(result.errors).to eq(email: ['email is invalid email'])
@@ -17,14 +76,22 @@ RSpec.describe Api::V1::Admin::Users::CreateSchema do
     end
 
     describe 'password' do
-      def schema(password, confirmation)
-        described_class.call(email: 'email@example.com', password: password, password_confirmation: confirmation)
+      def password_schema(password, confirmation)
+        schema(
+          first_name: FFaker::Name.first_name,
+          last_name: FFaker::Name.last_name,
+          email: FFaker::Internet.email,
+          password: password,
+          password_confirmation: confirmation
+        )
       end
 
-      it { expect(schema('123456', '123456')).to be_success }
+      it 'returns success' do
+        expect(password_schema('123456', '123456')).to be_success
+      end
 
       it 'returns failure' do
-        result = schema(nil, nil)
+        result = password_schema(nil, nil)
 
         expect(result).to be_failure
         expect(result.errors).to eq(
@@ -33,7 +100,7 @@ RSpec.describe Api::V1::Admin::Users::CreateSchema do
       end
 
       it 'returns failure' do
-        result = schema('123', '123')
+        result = password_schema('123', '123')
 
         expect(result).to be_failure
         expect(result.errors).to eq(
@@ -42,7 +109,7 @@ RSpec.describe Api::V1::Admin::Users::CreateSchema do
       end
 
       it 'returns failure' do
-        result = schema('123456', '234567')
+        result = password_schema('123456', '234567')
 
         expect(result).to be_failure
         expect(result.errors).to eq(password_confirmation: ['must be equal to 123456'])

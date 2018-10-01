@@ -8,12 +8,16 @@ RSpec.describe 'Users' do
 
         with_options scope: %i[data attributes] do
           parameter :email, required: true
+          parameter :firstName, required: true
+          parameter :lastName, required: true
           parameter :password, required: true
           parameter :passwordConfirmation, required: true
         end
 
         let(:type) { 'users' }
         let(:email) { FFaker::Internet.email }
+        let(:firstName) { FFaker::Name.first_name }
+        let(:lastName) { FFaker::Name.last_name }
         let(:password) { FFaker::Internet.password }
         let(:passwordConfirmation) { password }
 

@@ -14,12 +14,16 @@ RSpec.describe Api::V1::Users::CreateAction do
         type: 'users',
         attributes: {
           email: email,
+          first_name: first_name,
+          last_name: last_name,
           password: password,
           password_confirmation: password_confirmation
         }
       )
     end
     let(:email) { FFaker::Internet.email }
+    let(:first_name) { FFaker::Name.first_name }
+    let(:last_name) { FFaker::Name.last_name }
     let(:password) { FFaker::Internet.password }
     let(:password_confirmation) { password }
 
@@ -35,6 +39,8 @@ RSpec.describe Api::V1::Users::CreateAction do
       it 'returns failure' do
         expect(call).to be_failure
         expect(call.failure).to eq(
+          first_name: ['is missing'],
+          last_name: ['is missing'],
           email: ['is missing', ' is invalid email'],
           password: ['is missing', 'size cannot be less than 6']
         )

@@ -5,7 +5,8 @@ RSpec.describe 'Featured Videos endpoint' do
     let!(:video1) { create(:video, :featured) }
     let!(:video2) { create(:video, :featured) }
     let!(:video3) { create(:video, :featured) }
-    let!(:video4) { create(:video) }
+    let!(:video4) { create(:video, :featured, :deleted) }
+    let!(:video5) { create(:video) }
 
     route '/api/v1/videos/featured', 'Featured Videos endpoint' do
       get 'Get all featured videos' do

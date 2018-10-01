@@ -10,7 +10,10 @@ module Api::V1::Videos::Featured
     def find_videos
       ::VideosFinder
         .new(initial_scope: Video.dataset)
-        .call(filter: {featured: {eq: true}})
+        .call(
+          filter: {featured: {eq: true}},
+          exclude: {deleted_at: ::SixByThree::Constants::VALUE_PRESENT}
+        )
     end
 
     def build_response(videos)

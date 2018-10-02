@@ -2,14 +2,19 @@
 
 class SendConfirmationLetterService
   def call(user)
-    Sequel::Model.db.transaction do
-      touch_user(user)
-      auth_token = generate_auth_token(user)
-      send_letter(user, auth_token)
-    end
+    auth_token = create_auth_token(user)
+
+    send_letter(user, auth_token)
   end
 
   private
+
+  def create_auth_token(user)
+    Sequel::Model.db.transaction do
+      touch_user(user)
+      generate_auth_token(user)
+    end
+  end
 
   def touch_user(user)
     user.update(

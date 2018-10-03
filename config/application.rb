@@ -19,7 +19,10 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-AwsSsmEnv.load(path: "/six-by-three-#{ENV['RAILS_ENV']}", recursive: true) if defined?(AwsSsmEnv)
+if defined?(AwsSsmEnv)
+  postfix = Rails.env.staging? ? 'staging' : 'prod'
+  AwsSsmEnv.load(path: "/six-by-three-#{postfix}", recursive: true)
+end
 
 module App
   class Application < Rails::Application

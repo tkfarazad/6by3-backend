@@ -1,19 +1,18 @@
-env: production 
-cluster:
-lb_target_group_arn:
-ecs_lb_role: production_ecs_lb_role
-backend_image_name:
-backend_image_repository:
-nginx_image_name:
-nginx_image_repository:
-task_role_arn:
+env: production
+aws_region: us-east-1
+cluster: six-by-three-prod
+backend_image_name: 6by3-backend
+backend_image_repository: 328211036245.dkr.ecr.us-east-1.amazonaws.com/6by3-backend
+nginx_image_name: 6by3-nginx
+nginx_image_repository: 328211036245.dkr.ecr.us-east-1.amazonaws.com/6by3-nginx
+task_role_arn: arn:aws:iam::328211036245:role/ecs/six-by-three-prod_default_task
 nginx_cpu: 64
 nginx_memory: 64
 backend_cpu: 384
-backend_desired_count: 2
-backend_memory: 1024
+backend_memory: 768
+backend_desired_count: 1
 background_cpu: 384
+background_memory: 768
 background_desired_count: 1
-background_memory: 1024
 run_command_cpu: 256
-run_command_memory: 768
+run_command_memory: 512

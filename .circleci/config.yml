@@ -129,7 +129,14 @@ jobs:
       - run: sudo pip install --upgrade awscli
       - run: sudo pip install ansible==2.5.5
       - run: sudo pip install -U docker-py==1.10.6
-      - run: ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/release-deploy.yml -i ansible/staging --extra-vars "branch=master aws_profile=default" -v
+      - run:
+          name: Deploy to AWS
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/release-deploy.yml -i ansible/staging --extra-vars "branch=master aws_profile=default" -v
+            elif [ "${CIRCLE_BRANCH}" == "production" ]; then
+              ANSIBLE_CONFIG=ansible/ansible.cfg ansible-playbook ansible/release-deploy.yml -i ansible/production --extra-vars "branch=production aws_profile=default" -v
+            fi
 
 workflows:
   version: 2
@@ -147,4 +154,6 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - production

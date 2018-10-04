@@ -29,32 +29,27 @@ RSpec.describe do
           let(:stripe_subscription) { Stripe::Subscription.create(customer: stripe_customer.id) }
           let(:authenticated_user) { create(:user, stripe_customer_id: stripe_customer.id) }
 
-          context 'when coupon is valid' do
+          let(:create_operation) { instance_double('SC::Billing::Stripe::Subscriptions::CreateOperation') }
+
+          before do
+            allow(SC::Billing::Stripe::Subscriptions::CreateOperation).to receive(:new).and_return(create_operation)
+          end
+
+          context 'when subscription was created successfully' do
+            before do
+              subscription = create(:stripe_subscription)
+              allow(create_operation).to receive(:call).and_return(Dry::Monads::Result::Success.new(subscription))
+            end
+
             example_request 'Responds with 201' do
               expect(status).to eq(201)
             end
           end
 
-          context 'when coupon is invalid' do
-            let(:coupon) { 'coupon' }
-
-            example_request 'Responds with 422' do
-              expect(status).to eq(422)
-            end
-          end
-
-          context 'when coupon is not applicable' do
-            let(:plan) { create(:stripe_plan, :not_applicable, stripe_id: stripe_plan.id) }
-
-            example_request 'Responds with 422' do
-              expect(status).to eq(422)
-            end
-          end
-
-          context 'when card is invalid' do
+          context 'when subscription was not created' do
             before do
-              error = Stripe::CardError.new('Some error', nil, 402)
-              StripeMock.prepare_error(error, :create_subscription)
+              error = Stripe::InvalidRequestError.new('Some error', nil)
+              allow(create_operation).to receive(:call).and_return(Dry::Monads::Result::Failure.new(error))
             end
 
             example_request 'Responds with 422' do

@@ -20,7 +20,7 @@ RSpec.describe do
         let(:plan_id) { plan.id.to_s }
 
         let(:stripe_plan) { stripe_helper.create_plan }
-        let(:plan) { create(:stripe_plan, stripe_id: stripe_plan.id) }
+        let(:plan) { create(:stripe_plan, :applicable, stripe_id: stripe_plan.id) }
 
         it_behaves_like '401 when user is not authenticated'
 
@@ -37,6 +37,14 @@ RSpec.describe do
 
           context 'when coupon is invalid' do
             let(:coupon) { 'coupon' }
+
+            example_request 'Responds with 422' do
+              expect(status).to eq(422)
+            end
+          end
+
+          context 'when coupon is not applicable' do
+            let(:plan) { create(:stripe_plan, :not_applicable, stripe_id: stripe_plan.id) }
 
             example_request 'Responds with 422' do
               expect(status).to eq(422)

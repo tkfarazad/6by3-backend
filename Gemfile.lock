@@ -1,7 +1,7 @@
 GIT
   remote: https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/sc-billing.git
-  revision: 03018ef87d69f9c235caddc973ca2fa1f1dd855f
-  ref: 03018ef
+  revision: d81f998c1bd9ced016337cd087fe81988251f65c
+  ref: d81f998
   specs:
     sc-billing (0.1.0)
       dry-auto_inject (>= 0.4)

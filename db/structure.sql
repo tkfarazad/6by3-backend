@@ -311,7 +311,8 @@ CREATE TABLE public.stripe_plans (
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     "interval" text NOT NULL,
     interval_count integer NOT NULL,
-    trial_period_days integer
+    trial_period_days integer,
+    applicable boolean NOT NULL
 );
 
 
@@ -1028,3 +1029,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180816132226_add_social_
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912082045_add_interval_interval_count_and_trial_days_to_plans.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912190441_add_plan_type_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180926145052_split_fullname_from_users.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20181004140305_add_applicable_to_stripe_plans.rb');

@@ -12,7 +12,8 @@ RSpec.describe do
 
         context 'authenticated user', :authenticated_user do
           before do
-            create_list(:stripe_plan, 2)
+            create_list(:stripe_plan, 2, :applicable)
+            create(:stripe_plan, :not_applicable)
           end
 
           example_request 'Responds with 200' do

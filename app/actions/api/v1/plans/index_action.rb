@@ -7,7 +7,7 @@ module Api::V1::Plans
     private
 
     def build_response
-      [::SC::Billing::Stripe::Plan.all, nil]
+      [::SC::Billing::Stripe::Plan.applicable.all, nil]
     end
   end
 end

@@ -5,6 +5,7 @@ module Api::V1::Subscriptions
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
+    check :check_processable
     map :prepare_subscription_params
     step :create
 
@@ -14,6 +15,10 @@ module Api::V1::Subscriptions
       plan = ::SC::Billing::Stripe::Plan.with_pk!(input.fetch(:plan_id))
 
       input.merge!(plan: plan)
+    end
+
+    def check_processable(input)
+      input.fetch(:plan).applicable?
     end
 
     def prepare_subscription_params(input)

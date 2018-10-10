@@ -5,7 +5,7 @@ module Api::V1::Users
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :create, catch: Sequel::Error
-    tee :send_confirmation_letter
+    tee :enqueue_jobs
 
     private
 
@@ -19,8 +19,9 @@ module Api::V1::Users
       end
     end
 
-    def send_confirmation_letter(user)
+    def enqueue_jobs(user)
       SendConfirmationLetterJob.perform_later(user_id: user.id)
+      CreateCustomerJob.perform_later(user_id: user.id)
     end
   end
 end

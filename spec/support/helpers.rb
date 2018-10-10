@@ -10,12 +10,13 @@ module Helpers
       end
     end
 
-    def jsonapi_params(type: nil, attributes: {})
+    def jsonapi_params(type: nil, attributes: {}, relationships: {})
       {
         _jsonapi: {
           data: {
             type: type,
-            attributes: attributes
+            attributes: attributes,
+            relationships: relationships
           }
         }
       }.with_indifferent_access
@@ -64,6 +65,7 @@ module Helpers
       data = parsed_body[:data]
 
       return data[index][:attributes][name] if index
+
       data[:attributes][name]
     end
   end

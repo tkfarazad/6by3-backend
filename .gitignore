@@ -26,3 +26,5 @@ coverage/
 doc/
 
 *.orig
+
+.dir-locals.el

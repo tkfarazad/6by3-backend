@@ -28,6 +28,7 @@ RSpec.describe Api::V1::Users::CreateAction do
 
     it 'creates user' do
       expect(SendConfirmationLetterJob).to receive(:perform_later)
+      expect(CreateCustomerJob).to receive(:perform_later)
 
       expect { call }.to change(User, :count).by(1)
     end

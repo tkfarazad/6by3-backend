@@ -23,8 +23,8 @@ RSpec.describe do
           end
 
           context 'when user does not have stripe_customer_id' do
-            example_request 'Responds with 201' do
-              expect(status).to eq(201)
+            example_request 'Responds with 422', document: false do
+              expect(status).to eq(422)
             end
           end
 

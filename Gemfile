@@ -56,7 +56,7 @@ gem 'sidekiq', '~> 5.1'
 gem 'sidekiq-statistic', '~> 1.3.0', github: 'davydovanton/sidekiq-statistic'
 
 gem 'sc-webhooks', sc_gem: 'sc-webhooks'
-gem 'sc-billing', sc_gem: 'sc-billing', ref: '048f1c8'
+gem 'sc-billing', sc_gem: 'sc-billing', ref: '3e33de1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

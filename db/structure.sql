@@ -399,7 +399,9 @@ CREATE TABLE public.stripe_subscriptions (
     trial_end_at timestamp without time zone,
     stripe_data jsonb NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    cancel_at_period_end boolean NOT NULL,
+    canceled_at timestamp without time zone
 );
 
 
@@ -1030,3 +1032,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20180912082045_add_interva
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180912190441_add_plan_type_to_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20180926145052_split_fullname_from_users.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181004140305_add_applicable_to_stripe_plans.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20181016062659_add_canceled_fields_to_subscriptions.rb');

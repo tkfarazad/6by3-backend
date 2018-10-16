@@ -10,6 +10,8 @@ module Api::V1::SC::Billing::Stripe
                :trial_start_at,
                :trial_end_at,
                :status,
+               :cancel_at_period_end,
+               :canceled_at,
                :created_at,
                :updated_at
 

@@ -18,6 +18,10 @@ class User < Sequel::Model
                right_key: :coach_id,
                delay_pks: :always
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def self.from_token_payload(payload)
     find(id: payload.fetch('sub'))
   end

@@ -15,4 +15,23 @@ class UserMailerPreview < ActionMailer::Preview
 
     UserMailer.with(user_id: user.id).reset_password
   end
+
+  def contact_us
+    user = ::FactoryBot.create(:user)
+    message = ::FFaker::Book.description
+
+    UserMailer.with(user_id: user.id, message: message).contact_us
+  end
+
+  def customer_deleted_user_mail
+    user = ::FactoryBot.create(:user)
+
+    UserMailer.with(user_id: user.id, name: user.first_name).customer_deleted_user_mail
+  end
+
+  def customer_deleted_admin_mail
+    user = ::FactoryBot.create(:user)
+
+    UserMailer.with(user_id: user.id, name: user.full_name).customer_deleted_admin_mail
+  end
 end

@@ -2,7 +2,11 @@
 
 module Api::V1::Subscriptions
   CreateSchema = Dry::Validation.Params do
-    required(:plan_id).filled(:int?)
-    optional(:coupon).filled(:str?)
+    configure do
+      config.type_specs = true
+    end
+
+    required(:plan_id, :int).filled(:int?)
+    optional(:coupon, Types::Coupon).filled(:str?)
   end
 end

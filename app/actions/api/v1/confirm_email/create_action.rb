@@ -10,6 +10,7 @@ module Api::V1::ConfirmEmail
     step :check_not_found
     step :check_processable
     map :confirm
+    tee :enqueue_jobs
 
     private
 
@@ -38,6 +39,10 @@ module Api::V1::ConfirmEmail
         email_confirmed_at: Time.current,
         email_confirmation_token: nil
       )
+    end
+
+    def enqueue_jobs(user)
+      CreateCustomerJob.perform_later(user_id: user.id)
     end
 
     def token_expired?(user)

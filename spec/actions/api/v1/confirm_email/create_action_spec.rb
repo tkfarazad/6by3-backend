@@ -48,6 +48,8 @@ RSpec.describe Api::V1::ConfirmEmail::CreateAction do
       end
 
       it 'marks email as confirmed' do
+        expect(CreateCustomerJob).to receive(:perform_later)
+
         expect { call }.to(
           change { user.reload.email_confirmed_at.to_i }.to(Time.current.to_i)
           .and(change { user.reload.email_confirmation_token }.to(nil))

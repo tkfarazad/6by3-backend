@@ -8,4 +8,8 @@ namespace :six_by_three do
       )
     end
   end
+
+  task actualize_user_plan_types: :environment do
+    ActualizeUserPlanTypesJob.perform_later
+  end
 end

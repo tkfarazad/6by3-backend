@@ -32,6 +32,9 @@ db-migrate:
 bash:
 	${DOCKER_COMPOSE_RUN} -e "RAILS_ENV=${RAILS_ENV}" app bash
 
+job:
+	${DOCKER_COMPOSE_RUN} sidekiq
+
 compose:
 	${DOCKER_COMPOSE} ${CMD}
 

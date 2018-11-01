@@ -31,7 +31,7 @@ class UserMailer < ApplicationMailer
     @name = params.fetch(:name)
     @message = params.fetch(:message)
 
-    mail to: 'support@6by3studio.com', subject: '6by3 - Contact Us'
+    mail to: 'support@6by3studio.com', from: params.fetch(:email), subject: '6by3 - Contact Us'
   end
 
   def monthly_subscription_paid
@@ -46,5 +46,12 @@ class UserMailer < ApplicationMailer
     @price = params.fetch(:price)
 
     mail to: params.fetch(:email), subject: 'Your Annual Purchase'
+  end
+
+  def free_trial_start
+    @first_payment_date = params.fetch(:first_payment_date)
+    @next_payment_date = params.fetch(:next_payment_date)
+
+    mail to: params.fetch(:email), subject: 'Enjoy your 7 day free trial'
   end
 end

@@ -66,7 +66,7 @@ RSpec.describe AdminMailer, type: :mailer do
     end
 
     let(:user) { create(:user) }
-    let(:price) { rand(100) }
+    let(:price) { rand(100).to_s }
 
     it 'sends email' do
       expect { user_first_monthly_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -87,7 +87,7 @@ RSpec.describe AdminMailer, type: :mailer do
     end
 
     let(:user) { create(:user) }
-    let(:price) { rand(100) }
+    let(:price) { rand(100).to_s }
 
     it 'sends email' do
       expect { user_first_annual_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -108,8 +108,8 @@ RSpec.describe AdminMailer, type: :mailer do
     end
 
     let(:user) { create(:user) }
-    let(:price) { rand(100) }
-    let(:subscription_type) { %w(annual monthly).sample }
+    let(:price) { rand(100).to_s }
+    let(:subscription_type) { %w[annual monthly].sample }
 
     it 'sends email' do
       expect { subscription_cancelled }.to change { ActionMailer::Base.deliveries.count }.by(1)

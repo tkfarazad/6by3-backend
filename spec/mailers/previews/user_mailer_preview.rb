@@ -50,4 +50,10 @@ class UserMailerPreview < ActionMailer::Preview
       .with(email: user.email, name: user.first_name, price: rand(100))
       .annual_subscription_paid
   end
+
+  def free_trial_start
+    UserMailer
+      .with(first_payment_date: Time.current.next_week, next_payment_date: Time.current.next_week.next_month)
+      .free_trial_start
+  end
 end

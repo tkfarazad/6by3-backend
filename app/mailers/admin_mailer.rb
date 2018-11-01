@@ -29,7 +29,6 @@ class AdminMailer < ApplicationMailer
     mail to: 'support@6by3studio.com', subject: 'Monthly subscription fee successfully charged'
   end
 
-
   def user_first_annual_transaction
     @name = params.fetch(:name)
     @email = params.fetch(:email)

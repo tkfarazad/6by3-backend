@@ -15,17 +15,28 @@ SC::Billing.configure do |config| # rubocop:disable Metrics/BlockLength
     'customer.source.deleted',
     'customer.subscription.created',
     'customer.subscription.updated',
-    'customer.subscription.deleted'
+    'customer.subscription.deleted',
+    'invoice.payment_succeeded'
   ]
   config.event_hooks = {
     'customer.subscription.created' => {
       'after' => ActualizeUserPlanTypeService
     },
     'customer.subscription.updated' => {
-      'after' => ActualizeUserPlanTypeService
+      'after' => [
+        ActualizeUserPlanTypeService,
+        Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperation
+      ]
     },
     'customer.subscription.deleted' => {
       'after' => ActualizeUserPlanTypeService
+    },
+    'customer.created' => {
+      'after' => Billing::Stripe::Webhooks::Customers::Subscriptions::CreateOperation
     }
+  }
+
+  config.custom_event_handlers = {
+    'invoice.payment_succeeded' => Billing::Stripe::Webhooks::Invoices::Payment::CreateOperation
   }
 end

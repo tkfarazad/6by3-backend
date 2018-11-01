@@ -31,6 +31,20 @@ class UserMailer < ApplicationMailer
     @name = params.fetch(:name)
     @message = params.fetch(:message)
 
-    mail to: 'support@6by3studio.com', from: params.fetch(:email), subject: '6by3 - Contact Us'
+    mail to: 'support@6by3studio.com', subject: '6by3 - Contact Us'
+  end
+
+  def monthly_subscription_paid
+    @name = params.fetch(:first_name)
+    @price = params.fetch(:price)
+
+    mail to: params.fetch(:email), subject: 'Your Monthly Purchase'
+  end
+
+  def annual_subscription_paid
+    @name = params.fetch(:first_name)
+    @price = params.fetch(:price)
+
+    mail to: params.fetch(:email), subject: 'Your Annual Purchase'
   end
 end

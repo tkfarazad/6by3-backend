@@ -34,4 +34,20 @@ class UserMailerPreview < ActionMailer::Preview
 
     UserMailer.with(user_id: user.id, name: user.full_name).customer_deleted_admin_mail
   end
+
+  def monthly_subscription_paid
+    user = ::FactoryBot.create(:user)
+
+    UserMailer
+      .with(email: user.email, name: user.first_name, price: rand(100))
+      .monthly_subscription_paid
+  end
+
+  def annual_subscription_paid
+    user = ::FactoryBot.create(:user)
+
+    UserMailer
+      .with(email: user.email, name: user.first_name, price: rand(100))
+      .annual_subscription_paid
+  end
 end

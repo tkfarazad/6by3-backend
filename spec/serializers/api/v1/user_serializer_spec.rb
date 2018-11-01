@@ -49,6 +49,7 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
           expect(result.dig(:data, :relationships).keys).to match_array(
             %i[
               favoriteCoaches
+              subscriptions
             ]
           )
         end

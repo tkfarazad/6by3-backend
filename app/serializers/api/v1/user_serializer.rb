@@ -19,6 +19,6 @@ module Api::V1
     end
     has_many :payment_sources, if: -> { current_user? }
     belongs_to :default_payment_source, if: -> { current_user? }
-    has_many :subscriptions, if: -> { current_user? }
+    has_many :subscriptions, if: -> { current_user_or_admin? }
   end
 end

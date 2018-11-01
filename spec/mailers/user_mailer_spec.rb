@@ -56,7 +56,7 @@ RSpec.describe UserMailer, type: :mailer do
     it 'sends email' do
       expect { contact_us }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(contact_us.subject).to eq('6by3 - Contact Us')
-      expect(contact_us.to).to eq(['info@6by3.tv'])
+      expect(contact_us.to).to eq(['support@6by3studio.com'])
       expect(contact_us.from).to eq([email])
 
       expect(contact_us.body.encoded).to include(name)

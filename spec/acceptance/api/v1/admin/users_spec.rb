@@ -158,7 +158,7 @@ RSpec.describe 'Users' do
         end
       end
 
-      delete 'Destroy user' do
+      delete 'Destroy users' do
         parameter :data, type: :array, items: {type: :object}, required: true
 
         let!(:user1) { create(:user) }
@@ -299,8 +299,16 @@ RSpec.describe 'Users' do
         end
       end
 
-      delete 'Destroy user' do
-        let!(:user) { create(:user) }
+      delete 'Destroy user', :stripe do
+        let!(:stripe_customer) { Stripe::Customer.create(source: stripe_helper.generate_card_token) }
+        let!(:plan) { stripe_helper.create_plan }
+        let!(:stripe_subscription) do
+          Stripe::Subscription.create(customer: stripe_customer.id, items: [plan: plan.id])
+        end
+        let!(:user) { create(:user, stripe_customer_id: stripe_customer.id) }
+        let!(:subscription) do
+          create(:stripe_subscription, :active, user: user, stripe_id: stripe_subscription.id)
+        end
         let(:id) { user.id }
 
         context 'not authenticated' do

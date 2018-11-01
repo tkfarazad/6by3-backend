@@ -15,10 +15,18 @@ module Api::V1
 
       if options.fetch(:transaction, false) == true
         Sequel::Model.db.transaction do
-          perform.call
+          Success(perform.call)
         end
       else
-        perform.call
+        Success(perform.call)
+      end
+    }
+
+    register :array_tee, lambda { |operation, _, args|
+      parameters = args[0]
+
+      parameters.each do |arg|
+        operation.call(arg)
       end
 
       Success(parameters)

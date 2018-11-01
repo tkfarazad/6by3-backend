@@ -4,7 +4,6 @@ RSpec.describe 'Users' do
   resource 'Admin users' do
     let!(:user1) { create(:user) }
     let!(:user2) { create(:user) }
-    let!(:user3) { create(:user, :deleted) } # NOTE: Deleted records are not returned by default
 
     route '/api/v1/admin/users', 'Admin Users endpoint' do
       get 'All users' do

@@ -6,7 +6,6 @@ module Api::V1::Admin::Users
 
     step :authorize
     step :validate, with: 'params.validate'
-    map :build_finder_params, with: 'params.finder.build'
     tee :find_users
     map :build_meta, with: 'meta.paginate'
     map :build_response

@@ -5,14 +5,12 @@
 version: 2
 
 references:
-  install_pg_tools: &install_pg_tools
+  install_ffmpeg: &install_ffmpeg
     run:
-      name: Install pg tools
+      name: Install ffmpeg
       command: |
-        echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
-        wget --no-check-certificate -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo -u root apt-key add -
-        sudo apt-get update
-        sudo apt-get install postgresql-client-10 ffmpeg
+        apt-get update -yqq
+        apt-get install -yqq --no-install-recommends ffmpeg
 
   install_bundler: &install_bundler
     run:
@@ -46,7 +44,7 @@ references:
 
 defaults: &defaults
   docker:
-    - image: circleci/ruby:2.5.1
+    - image: startupcraftio/ruby:2.5.3
       environment:
         - RAILS_ENV: test
         - BUNDLE_JOBS: 3
@@ -69,7 +67,7 @@ jobs:
     steps:
       - add_ssh_keys
       - checkout
-      - *install_pg_tools
+      - *install_ffmpeg
       - *install_bundler
       - *restore_cache
       - *install_dependencies
@@ -93,7 +91,7 @@ jobs:
     steps:
       - add_ssh_keys
       - checkout
-      - *install_pg_tools
+      - *install_ffmpeg
       - *install_bundler
       - *restore_cache
       - *install_dependencies

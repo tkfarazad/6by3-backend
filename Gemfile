@@ -6,8 +6,6 @@ git_source(:sc_gem) do |repo_name|
   "https://758835560c03253fbb10a045b7fa54f6c54f31d8:x-oauth-basic@github.com/StartupCraft/#{repo_name}.git"
 end
 
-ruby '2.5.1'
-
 gem 'rails', '~> 5.2.0'
 gem 'puma', '~> 3.11'
 

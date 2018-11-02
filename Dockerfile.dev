@@ -1,4 +1,4 @@
-FROM startupcraftio/ruby:2.5
+FROM startupcraftio/ruby:2.5.3
 
 # And clean all the stuff
 RUN apt-get update -yqq \

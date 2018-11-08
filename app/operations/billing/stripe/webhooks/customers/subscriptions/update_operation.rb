@@ -2,13 +2,14 @@
 
 module Billing::Stripe::Webhooks::Customers::Subscriptions
   class UpdateOperation
-    def call(event, user)
+    def call(event, subscription)
       customer_data = event.data.object
+
       return unless customer_data.cancel_at_period_end
 
       plan = customer_data.items.data.first.plan
 
-      notify(user, plan)
+      notify(subscription.user, plan)
     end
 
     private

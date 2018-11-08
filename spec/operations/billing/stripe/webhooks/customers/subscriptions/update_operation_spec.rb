@@ -2,15 +2,16 @@
 
 RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperation, :stripe do
   subject(:subscription_updated) do
-    described_class.new.call(event_updated, user)
+    described_class.new.call(event_updated, subscription)
   end
 
   subject(:subscription_cancelled) do
-    described_class.new.call(event_cancelled, user)
+    described_class.new.call(event_cancelled, subscription)
   end
 
   let(:email) { FFaker::Internet.email }
   let!(:user) { create(:user, email: email, stripe_customer_id: event_cancelled.data.object.id) }
+  let(:subscription) { create(:stripe_subscription, user: user) }
   let(:event_updated) do
     StripeMock.mock_webhook_event('customer.subscription.updated')
   end

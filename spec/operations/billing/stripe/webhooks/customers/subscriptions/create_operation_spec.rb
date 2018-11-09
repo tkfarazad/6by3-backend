@@ -9,11 +9,9 @@ RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::CreateOperat
   let(:event) { StripeMock.mock_webhook_event('customer.created') }
 
   context 'when customer created' do
-    it 'creates subscription' do
-      expect(result.subject).to eq('New User Registered on Free 7 Days Trial')
-      expect(result.to).to eq(['support@6by3studio.com'])
-      expect(result.body.encoded).to include(user.full_name)
-      expect(result.body.encoded).to include(user.email)
+    it 'enqueues email' do
+      have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+        .with('AdminMailer', 'free_trial_user_created', 'deliver_now', hash_including(:email, :name))
     end
   end
 end

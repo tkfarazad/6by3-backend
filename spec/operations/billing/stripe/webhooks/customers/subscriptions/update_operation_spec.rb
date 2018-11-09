@@ -30,12 +30,13 @@ RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperat
     end
 
     it 'subscription was cancelled' do
-      expect(subscription_cancelled.subject).to eq('Subscription Cancelled')
-      expect(subscription_cancelled.to).to eq(['support@6by3studio.com'])
-      expect(subscription_cancelled.body.encoded).to include(user.full_name)
-      expect(subscription_cancelled.body.encoded).to include(user.email)
-      expect(subscription_cancelled.body.encoded).to include('1.0')
-      expect(subscription_cancelled.body.encoded).to include('Monthly')
+      have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+        .with(
+          'AdminMailer',
+          'subscription_cancelled',
+          'deliver_now',
+          hash_including(:email, :name, :price, :subscription_type)
+        )
     end
   end
 end

@@ -16,6 +16,8 @@ SC::Billing.configure do |config| # rubocop:disable Metrics/BlockLength
     'customer.subscription.created',
     'customer.subscription.updated',
     'customer.subscription.deleted',
+    'invoice.created',
+    'invoice.updated',
     'invoice.payment_succeeded'
   ]
   config.event_hooks = {
@@ -33,10 +35,9 @@ SC::Billing.configure do |config| # rubocop:disable Metrics/BlockLength
     },
     'customer.created' => {
       'after' => Billing::Stripe::Webhooks::Customers::Subscriptions::CreateOperation
+    },
+    'invoice.payment_succeeded' => {
+      'after' => Billing::Stripe::Webhooks::Invoices::PaymentSucceededOperation
     }
-  }
-
-  config.custom_event_handlers = {
-    'invoice.payment_succeeded' => Billing::Stripe::Webhooks::Invoices::Payment::CreateOperation
   }
 end

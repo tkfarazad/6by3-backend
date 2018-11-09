@@ -54,7 +54,7 @@ gem 'sidekiq', '~> 5.1'
 gem 'sidekiq-statistic', '~> 1.3.0', github: 'davydovanton/sidekiq-statistic'
 
 gem 'sc-webhooks', sc_gem: 'sc-webhooks'
-gem 'sc-billing', sc_gem: 'sc-billing', ref: 'bcd127a'
+gem 'sc-billing', sc_gem: 'sc-billing', ref: '8e61099'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,7 +63,7 @@ group :development, :test do
 
   gem 'dotenv-rails', '~> 2.2'
   gem 'rspec-rails', '~> 3.7'
-  gem 'ffaker', '~> 2.9'
+  gem 'ffaker', '~> 2.10'
   gem 'factory_bot_rails', '~> 4.8', require: false
   gem 'rubocop', '~> 0.55'
 

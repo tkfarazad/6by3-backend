@@ -2,7 +2,9 @@
 
 module Billing::Stripe::Webhooks::Customers::Subscriptions
   class UpdateOperation
-    def call(event, subscription)
+    def call(**params)
+      event = params.fetch(:event)
+      subscription = params.fetch(:subscription)
       customer_data = event.data.object
 
       return unless customer_data.cancel_at_period_end

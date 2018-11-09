@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class ActualizeUserPlanTypeService
-  def call(subscription)
+  def call(**params)
+    subscription = params.fetch(:subscription)
     return if subscription.nil?
 
     if subscription.trialing?

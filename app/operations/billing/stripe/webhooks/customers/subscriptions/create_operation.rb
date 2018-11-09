@@ -2,8 +2,8 @@
 
 module Billing::Stripe::Webhooks::Customers::Subscriptions
   class CreateOperation
-    def call(_event, user)
-      notify(user)
+    def call(**params)
+      notify(params.fetch(:user))
     end
 
     private

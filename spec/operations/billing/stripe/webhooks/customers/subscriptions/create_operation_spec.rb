@@ -2,7 +2,7 @@
 
 RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::CreateOperation, :stripe do
   subject(:result) do
-    described_class.new.call(event, user)
+    described_class.new.call(event: event, user: user)
   end
 
   let!(:user) { create(:user) }

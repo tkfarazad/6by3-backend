@@ -3,7 +3,7 @@
 RSpec.describe ActualizeUserPlanTypeService do
   describe '#call' do
     subject(:call) do
-      described_class.new.call(subscription)
+      described_class.new.call(subscription: subscription)
     end
 
     context 'when subscription is nil' do

@@ -17,7 +17,7 @@ RSpec.describe ActualizeUserPlanTypeJob do
     it 'calls service' do
       perform
 
-      expect(service).to have_received(:call).with(subscription)
+      expect(service).to have_received(:call).with(subscription: subscription)
     end
   end
 end

@@ -2,11 +2,11 @@
 
 RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperation, :stripe do
   subject(:subscription_updated) do
-    described_class.new.call(event_updated, subscription)
+    described_class.new.call(event: event_updated, subscription: subscription)
   end
 
   subject(:subscription_cancelled) do
-    described_class.new.call(event_cancelled, subscription)
+    described_class.new.call(event: event_cancelled, subscription: subscription)
   end
 
   let(:email) { FFaker::Internet.email }

@@ -21,6 +21,7 @@ module Api::V1::Users
 
     def enqueue_jobs(user)
       SendConfirmationLetterJob.perform_later(user_id: user.id)
+      CreateCustomerJob.perform_later(user_id: user.id)
     end
   end
 end

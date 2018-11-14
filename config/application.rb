@@ -60,5 +60,6 @@ module App
     end
 
     config.site_url = ENV.fetch('SITE_URL')
+    config.support_email_addresses = ENV.fetch('SUPPORT_EMAIL_ADDRESSES')
   end
 end

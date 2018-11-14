@@ -32,7 +32,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it 'sends email' do
       expect { customer_deleted_admin_mail }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(customer_deleted_admin_mail.subject).to eq('6by3 Subscription Cancelled by Admin')
-      expect(customer_deleted_admin_mail.to).to eq(['support@6by3studio.com'])
+      expect(customer_deleted_admin_mail.to).to eq(['test@email.com'])
       expect(customer_deleted_admin_mail.body.encoded).to include(user.full_name)
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it 'sends email' do
       expect { free_trial_user_created }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(free_trial_user_created.subject).to eq('New User Registered on Free 7 Days Trial')
-      expect(free_trial_user_created.to).to eq(['support@6by3studio.com'])
+      expect(free_trial_user_created.to).to eq(['test@email.com'])
       expect(free_trial_user_created.body.encoded).to include(user.full_name)
       expect(free_trial_user_created.body.encoded).to include(user.email)
     end
@@ -71,7 +71,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it 'sends email' do
       expect { user_first_monthly_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(user_first_monthly_transaction.subject).to eq('Monthly subscription fee successfully charged')
-      expect(user_first_monthly_transaction.to).to eq(['support@6by3studio.com'])
+      expect(user_first_monthly_transaction.to).to eq(['test@email.com'])
       expect(user_first_monthly_transaction.body.encoded).to include(user.full_name)
       expect(user_first_monthly_transaction.body.encoded).to include(user.email)
       expect(user_first_monthly_transaction.body.encoded).to include(price)
@@ -92,7 +92,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it 'sends email' do
       expect { user_first_annual_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(user_first_annual_transaction.subject).to eq('Annual subscription fee successfully charged')
-      expect(user_first_annual_transaction.to).to eq(['support@6by3studio.com'])
+      expect(user_first_annual_transaction.to).to eq(['test@email.com'])
       expect(user_first_annual_transaction.body.encoded).to include(user.full_name)
       expect(user_first_annual_transaction.body.encoded).to include(user.email)
       expect(user_first_annual_transaction.body.encoded).to include(price)
@@ -114,7 +114,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it 'sends email' do
       expect { subscription_cancelled }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(subscription_cancelled.subject).to eq('Subscription Cancelled')
-      expect(subscription_cancelled.to).to eq(['support@6by3studio.com'])
+      expect(subscription_cancelled.to).to eq(['test@email.com'])
       expect(subscription_cancelled.body.encoded).to include(user.full_name)
       expect(subscription_cancelled.body.encoded).to include(user.email)
       expect(subscription_cancelled.body.encoded).to include(price)

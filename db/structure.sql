@@ -694,14 +694,6 @@ ALTER TABLE ONLY public.stripe_invoice_items
 
 
 --
--- Name: stripe_invoice_items stripe_invoice_items_stripe_id_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.stripe_invoice_items
-    ADD CONSTRAINT stripe_invoice_items_stripe_id_key UNIQUE (stripe_id);
-
-
---
 -- Name: stripe_invoices stripe_invoices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1198,3 +1190,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20181004140305_add_applica
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181016062659_add_canceled_fields_to_subscriptions.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181113065836_create_stripe_invoices.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181113071410_create_stripe_invoice_items.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20181115055422_drop_stripe_id_unique_contstraint_on_stripe_invoice_items.rb');

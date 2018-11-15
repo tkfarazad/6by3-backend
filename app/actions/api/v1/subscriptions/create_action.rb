@@ -2,6 +2,9 @@
 
 module Api::V1::Subscriptions
   class CreateAction < ::Api::V1::BaseAction
+    TRIAL_STATUS = SC::Billing::Stripe::Subscription::TRIAL_STATUS
+    ACTIVE_STATUS = SC::Billing::Stripe::Subscription::ACTIVE_STATUS
+
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
     try :find, catch: Sequel::NoMatchingRow
@@ -18,7 +21,7 @@ module Api::V1::Subscriptions
     end
 
     def check_processable(input)
-      input.fetch(:plan).applicable?
+      plan_applicable?(input) && without_active_subscription?
     end
 
     def prepare_subscription_params(input)
@@ -33,6 +36,17 @@ module Api::V1::Subscriptions
         .new
         .call(current_user, subscription_params)
         .to_result
+    end
+
+    def plan_applicable?(input)
+      input.fetch(:plan).applicable?
+    end
+
+    def without_active_subscription?
+      SC::Billing::Stripe::Subscription
+        .where(user: current_user)
+        .where(status: [TRIAL_STATUS, ACTIVE_STATUS])
+        .empty?
     end
   end
 end

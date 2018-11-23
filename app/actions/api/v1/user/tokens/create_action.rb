@@ -2,6 +2,8 @@
 
 module Api::V1::User::Tokens
   class CreateAction < ::Api::V1::BaseAction
+    include ::TransactionContext[:request]
+
     AUTH_TOKEN_LIFETIME = 5.days
 
     private_constant :AUTH_TOKEN_LIFETIME
@@ -11,6 +13,7 @@ module Api::V1::User::Tokens
     step :find
     step :email_confirmed
     step :authenticate
+    tee :locate_user
     map :generate_token
 
     private
@@ -47,6 +50,12 @@ module Api::V1::User::Tokens
       else
         Failure(:password_not_matched)
       end
+    end
+
+    def locate_user(user)
+      return if user.city.present? || user.country.present?
+
+      ::LocateUserJob.perform_later(user_id: user.id, ip_addr: request.remote_ip)
     end
 
     def generate_token(user)

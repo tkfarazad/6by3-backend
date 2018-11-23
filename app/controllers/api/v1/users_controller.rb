@@ -5,7 +5,7 @@ module Api::V1
     skip_before_action :authenticate_user, only: %i[create]
 
     def create
-      api_action do |m|
+      api_action(context: {request: request}) do |m|
         m.success do
           head 202
         end

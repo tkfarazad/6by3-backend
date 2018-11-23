@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Api::V1::User::Tokens::CreateAction do
-  let(:action) { described_class.new }
+  let(:request) { FFaker::Internet.request }
+  let(:action) { described_class.new(context: {request: request}) }
 
   describe '#call' do
     subject(:call) do

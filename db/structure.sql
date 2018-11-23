@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 10.3 (Debian 10.3-1.pgdg90+1)
--- Dumped by pg_dump version 10.5 (Debian 10.5-2.pgdg90+1)
+-- Dumped by pg_dump version 10.5 (Debian 10.5-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -513,7 +513,9 @@ CREATE TABLE public.users (
     privacy_policy_accepted boolean DEFAULT false NOT NULL,
     plan_type public.users_plan_types,
     first_name text,
-    last_name text
+    last_name text,
+    city text,
+    country text
 );
 
 
@@ -1191,3 +1193,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20181016062659_add_cancele
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181113065836_create_stripe_invoices.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181113071410_create_stripe_invoice_items.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181115055422_drop_stripe_id_unique_contstraint_on_stripe_invoice_items.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20181121121003_add_city_and_country_to_user.rb');

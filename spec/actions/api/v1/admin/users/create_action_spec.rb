@@ -2,7 +2,8 @@
 
 RSpec.describe Api::V1::Users::CreateAction do
   let!(:user) { create(:user, :admin) }
-  let(:action) { described_class.new(context: {current_user: user}) }
+  let(:request) { FFaker::Internet.request }
+  let(:action) { described_class.new(context: {current_user: user, request: request}) }
 
   describe '#call' do
     subject(:call) do

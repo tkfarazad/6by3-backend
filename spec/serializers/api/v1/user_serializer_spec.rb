@@ -41,6 +41,8 @@ RSpec.describe Api::V1::UserSerializer, type: :serializer do
               privacyPolicyAccepted
               deletedAt
               planType
+              city
+              country
             ]
           )
         end

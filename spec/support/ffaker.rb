@@ -60,4 +60,26 @@ module FFaker
       }
     end
   end
+
+  # NOTE: Overriding default faker behaviour to be able
+  # test user city and country based on the request ip address location
+  module Internet
+    def ip_v4_address
+      '154.36.196.233'
+    end
+
+    def ip_v4_city
+      'Washington'
+    end
+
+    def ip_v4_country
+      'US'
+    end
+
+    def request(ip_addr: ip_v4_address)
+      OpenStruct.new(
+        remote_ip: ip_addr
+      )
+    end
+  end
 end

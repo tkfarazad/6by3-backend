@@ -24,6 +24,9 @@ gem 'dry-monads', '~> 1.0'
 gem 'dry-container', '~> 0.6'
 gem 'dry-transaction', '~> 0.11'
 
+# Object geocoding (by street, IP address and other)
+gem 'geocoder', '~> 1.5'
+
 # Continuation of the acts-as-state-machine
 gem 'aasm', '~> 5.0'
 # Wrapper for pusher

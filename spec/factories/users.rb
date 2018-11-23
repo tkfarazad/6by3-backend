@@ -10,6 +10,8 @@ FactoryBot.define do
     avatar { fixture_file_upload('spec/fixtures/files/image.png', 'image/png') }
     password { FFaker::Internet.password }
     password_confirmation { password }
+    city { FFaker::Address.city }
+    country { FFaker::Address.country }
 
     trait :admin do
       admin true

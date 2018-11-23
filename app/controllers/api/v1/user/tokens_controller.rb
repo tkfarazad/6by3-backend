@@ -5,7 +5,7 @@ module Api::V1::User
     skip_before_action :authenticate_user
 
     def create
-      api_action do |m|
+      api_action(context: {request: request}) do |m|
         m.success do |token|
           render json: {jwt: token}, status: :created
         end

@@ -13,7 +13,7 @@ RSpec.describe AdminMailer, type: :mailer do
 
     it 'sends email' do
       expect { customer_deleted_user_mail }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(customer_deleted_user_mail.subject).to eq('6by3 Subscription Cancelled by Admin')
+      expect(customer_deleted_user_mail.subject).to eq('6by3 Studio Subscription Cancelled by Administrator')
       expect(customer_deleted_user_mail.to).to eq([user.email])
       expect(customer_deleted_user_mail.body.encoded).to include(user.first_name)
     end

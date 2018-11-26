@@ -13,18 +13,20 @@ class UserMailer < ApplicationMailer
 
     @confirmation_link = "#{site_url}/confirm?#{params.to_query}"
 
-    mail to: @user.email, subject: 'Confirm Your Email'
+    mail to: @user.email, subject: 'Welcome to 6by3! Confirm Your Email.'
   end
 
   def reset_password
     @user = User.with_pk!(params.fetch(:user_id))
+    @name = @user.full_name
+
     params = {
       reset_token: @user.reset_password_token
     }
 
     @change_password_link = "#{site_url}/change_password?#{params.to_query}"
 
-    mail to: @user.email, subject: 'Reset password'
+    mail to: @user.email, subject: 'Password Reset'
   end
 
   def contact_us
@@ -32,6 +34,12 @@ class UserMailer < ApplicationMailer
     @message = params.fetch(:message)
 
     mail to: 'support@6by3studio.com', from: params.fetch(:email), subject: '6by3 - Contact Us'
+  end
+
+  def free_user_created
+    @name = params.fetch(:name)
+
+    mail to: params.fetch(:email), subject: 'Your Free Account with 6by3'
   end
 
   def monthly_subscription_paid
@@ -53,5 +61,12 @@ class UserMailer < ApplicationMailer
     @next_payment_date = params.fetch(:next_payment_date)
 
     mail to: params.fetch(:email), subject: 'Enjoy your 7 day free trial'
+  end
+
+  def subscription_cancelled
+    @name = params.fetch(:name)
+    @end_date = params.fetch(:end_date)
+
+    mail to: params.fetch(:email), subject: '6by3 Cancellation Confirmation'
   end
 end

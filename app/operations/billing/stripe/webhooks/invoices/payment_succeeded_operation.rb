@@ -7,6 +7,8 @@ module Billing::Stripe::Webhooks::Invoices
       'year' => 'user_first_annual_transaction'
     }.freeze
 
+    private_constant :DELIVERY_METHOD_BY_INTERVAL
+
     def call(invoice:, **_extra_args)
       return unless first_paid_invoice?(invoice)
       return if invoice_for_free_usage?(invoice)

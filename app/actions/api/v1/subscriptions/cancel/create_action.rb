@@ -7,6 +7,7 @@ module Api::V1::Subscriptions::Cancel
     try  :find, catch: Sequel::NoMatchingRow
     step :authorize
     step :cancel
+    tee :notify
 
     private
 
@@ -20,6 +21,19 @@ module Api::V1::Subscriptions::Cancel
 
     def cancel(subscription)
       ::SC::Billing::Stripe::Subscriptions::CancelOperation.new.call(subscription).to_result
+    end
+
+    def notify(subscription)
+      user = subscription.user
+
+      ::UserMailer
+        .with(
+          email: user.email,
+          name: user.full_name,
+          end_date: subscription.current_period_end_at.strftime('%B %d, %Y')
+        )
+        .subscription_cancelled
+        .deliver_later
     end
   end
 end

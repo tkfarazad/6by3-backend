@@ -17,7 +17,7 @@ module Api::V1::Users
       if user && user.password_digest.nil?
         ::UpdateEntityOperation.new(user).call(input)
       else
-        ::User.create(input)
+        ::User.create(input.merge(created_in: User::USERS_CREATED_IN_SIGNUP_TYPE))
       end
     end
 

@@ -4,6 +4,11 @@ SC::Billing.configure do |config| # rubocop:disable Metrics/BlockLength
   config.stripe_api_key = ENV.fetch('STRIPE_API_KEY')
   config.stripe_webhook_secret = ENV.fetch('STRIPE_WEBHOOK_SECRET')
   config.user_model_name = 'User'
+
+  config.registration_source[:follow?] = true
+  config.registration_source.enum_name = :users_created_in_types
+  config.registration_source.field_name = :created_in
+
   config.available_events = [
     'customer.created',
     'customer.updated',

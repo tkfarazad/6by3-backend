@@ -104,6 +104,17 @@ CREATE TYPE public.stripe_subscriptions_statuses AS ENUM (
 
 
 --
+-- Name: users_created_in_types; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.users_created_in_types AS ENUM (
+    'admin',
+    'signup',
+    'stripe'
+);
+
+
+--
 -- Name: users_plan_types; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -515,7 +526,8 @@ CREATE TABLE public.users (
     first_name text,
     last_name text,
     city text,
-    country text
+    country text,
+    created_in public.users_created_in_types
 );
 
 
@@ -1194,3 +1206,4 @@ INSERT INTO "schema_migrations" ("filename") VALUES ('20181113065836_create_stri
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181113071410_create_stripe_invoice_items.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181115055422_drop_stripe_id_unique_contstraint_on_stripe_invoice_items.rb');
 INSERT INTO "schema_migrations" ("filename") VALUES ('20181121121003_add_city_and_country_to_user.rb');
+INSERT INTO "schema_migrations" ("filename") VALUES ('20181128112520_add_created_in_to_users.rb');

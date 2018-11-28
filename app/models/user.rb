@@ -9,6 +9,9 @@ class User < Sequel::Model
   TRIAL_PLAN_TYPE = 'trial'
   PAID_PLAN_TYPE = 'paid'
 
+  USERS_CREATED_IN_ADMIN_TYPE = 'admin'
+  USERS_CREATED_IN_SIGNUP_TYPE = 'signup'
+
   mount_uploader :avatar, AvatarUploader
 
   one_to_many :video_views

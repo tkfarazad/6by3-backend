@@ -33,6 +33,8 @@ RSpec.describe Api::V1::Users::CreateAction do
       expect(LocateUserJob).to receive(:perform_later)
 
       expect { call }.to change(User, :count).by(1)
+      expect(call).to be_success
+      expect(call.success.created_in).to eq(User::USERS_CREATED_IN_SIGNUP_TYPE)
     end
 
     context 'when params are invalid' do

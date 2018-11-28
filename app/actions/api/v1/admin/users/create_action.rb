@@ -10,7 +10,7 @@ module Api::V1::Admin::Users
     private
 
     def create(input)
-      ::User.create(input)
+      ::User.create(input.merge(created_in: User::USERS_CREATED_IN_ADMIN_TYPE))
     end
   end
 end

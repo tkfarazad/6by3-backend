@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Api::V1::Users::CreateAction do
+RSpec.describe Api::V1::Admin::Users::CreateAction do
   let!(:user) { create(:user, :admin) }
   let(:request) { FFaker::Internet.request }
   let(:action) { described_class.new(context: {current_user: user, request: request}) }
@@ -30,6 +30,8 @@ RSpec.describe Api::V1::Users::CreateAction do
 
     it 'creates user' do
       expect { call }.to change(User, :count).by(1)
+      expect(call).to be_success
+      expect(call.success.created_in).to eq(User::USERS_CREATED_IN_ADMIN_TYPE)
     end
 
     context 'when params are invalid' do

@@ -46,7 +46,6 @@ RSpec.describe AdminMailer, type: :mailer do
     end
 
     let(:user) { create(:user) }
-    let(:price) { rand(100) }
 
     it 'sends email' do
       expect { free_trial_user_created }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -57,11 +56,11 @@ RSpec.describe AdminMailer, type: :mailer do
     end
   end
 
-  describe '.user_first_monthly_transaction' do
-    subject(:user_first_monthly_transaction) do
+  describe '.user_first_monthly_subscription_paid' do
+    subject(:user_first_monthly_subscription_paid) do
       described_class
         .with(name: user.full_name, email: user.email, price: price)
-        .user_first_monthly_transaction
+        .user_first_monthly_subscription_paid
         .deliver_now
     end
 
@@ -69,20 +68,20 @@ RSpec.describe AdminMailer, type: :mailer do
     let(:price) { rand(100).to_s }
 
     it 'sends email' do
-      expect { user_first_monthly_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(user_first_monthly_transaction.subject).to eq('Monthly subscription fee successfully charged')
-      expect(user_first_monthly_transaction.to).to eq(['test@email.com'])
-      expect(user_first_monthly_transaction.body.encoded).to include(user.full_name)
-      expect(user_first_monthly_transaction.body.encoded).to include(user.email)
-      expect(user_first_monthly_transaction.body.encoded).to include(price)
+      expect { user_first_monthly_subscription_paid }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(user_first_monthly_subscription_paid.subject).to eq('Monthly subscription fee successfully charged')
+      expect(user_first_monthly_subscription_paid.to).to eq(['test@email.com'])
+      expect(user_first_monthly_subscription_paid.body.encoded).to include(user.full_name)
+      expect(user_first_monthly_subscription_paid.body.encoded).to include(user.email)
+      expect(user_first_monthly_subscription_paid.body.encoded).to include(price)
     end
   end
 
-  describe '.user_first_annual_transaction' do
-    subject(:user_first_annual_transaction) do
+  describe '.user_first_annual_subscription_paid' do
+    subject(:user_first_annual_subscription_paid) do
       described_class
         .with(name: user.full_name, email: user.email, price: price)
-        .user_first_annual_transaction
+        .user_first_annual_subscription_paid
         .deliver_now
     end
 
@@ -90,12 +89,12 @@ RSpec.describe AdminMailer, type: :mailer do
     let(:price) { rand(100).to_s }
 
     it 'sends email' do
-      expect { user_first_annual_transaction }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(user_first_annual_transaction.subject).to eq('Annual subscription fee successfully charged')
-      expect(user_first_annual_transaction.to).to eq(['test@email.com'])
-      expect(user_first_annual_transaction.body.encoded).to include(user.full_name)
-      expect(user_first_annual_transaction.body.encoded).to include(user.email)
-      expect(user_first_annual_transaction.body.encoded).to include(price)
+      expect { user_first_annual_subscription_paid }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(user_first_annual_subscription_paid.subject).to eq('Annual subscription fee successfully charged')
+      expect(user_first_annual_subscription_paid.to).to eq(['test@email.com'])
+      expect(user_first_annual_subscription_paid.body.encoded).to include(user.full_name)
+      expect(user_first_annual_subscription_paid.body.encoded).to include(user.email)
+      expect(user_first_annual_subscription_paid.body.encoded).to include(price)
     end
   end
 

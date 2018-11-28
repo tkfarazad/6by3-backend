@@ -2,18 +2,28 @@
 
 module Billing::Stripe::Webhooks::Invoices
   class PaymentSucceededOperation
-    DELIVERY_METHOD_BY_INTERVAL = {
-      'month' => 'user_first_monthly_transaction',
-      'year' => 'user_first_annual_transaction'
+    ADMIN_DELIVERY_METHOD_BY_INTERVAL = {
+      'month' => 'user_first_monthly_subscription_paid',
+      'year' => 'user_first_annual_subscription_paid'
     }.freeze
 
-    private_constant :DELIVERY_METHOD_BY_INTERVAL
+    USER_DELIVERY_METHOD_BY_INTERVAL = {
+      'month' => 'monthly_subscription_paid',
+      'year' => 'annual_subscription_paid'
+    }.freeze
+
+    private_constant :ADMIN_DELIVERY_METHOD_BY_INTERVAL, :USER_DELIVERY_METHOD_BY_INTERVAL
 
     def call(invoice:, **_extra_args)
-      return unless first_paid_invoice?(invoice)
       return if invoice_for_free_usage?(invoice)
 
-      notify(invoice)
+      user = invoice.user
+      plan = invoice.items.first.plan
+
+      notify_user(user, plan)
+
+      return unless first_paid_invoice?(invoice)
+      notify_admin(user, plan)
     end
 
     private
@@ -30,17 +40,25 @@ module Billing::Stripe::Webhooks::Invoices
       invoice.amount_paid.zero? && invoice.paid?
     end
 
-    def notify(invoice)
-      user = invoice.user
-      plan = invoice.items.first.plan
-
+    def notify_admin(user, plan)
       ::AdminMailer
         .with(
           email: user.email,
           name: user.full_name,
           price: plan.amount / 100.0
         )
-        .send(DELIVERY_METHOD_BY_INTERVAL.fetch(plan.interval))
+        .send(ADMIN_DELIVERY_METHOD_BY_INTERVAL.fetch(plan.interval))
+        .deliver_later
+    end
+
+    def notify_user(user, plan)
+      ::UserMailer
+        .with(
+          email: user.email,
+          name: user.first_name,
+          price: plan.amount / 100.0
+        )
+        .send(USER_DELIVERY_METHOD_BY_INTERVAL.fetch(plan.interval))
         .deliver_later
     end
   end

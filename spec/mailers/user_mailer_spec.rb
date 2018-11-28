@@ -59,6 +59,71 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe '.monthly_subscription_paid' do
+    subject(:monthly_subscription_paid) do
+      described_class
+        .with(email: user.email, name: user.first_name, price: price)
+        .monthly_subscription_paid
+        .deliver_now
+    end
+
+    let(:user) { create(:user) }
+    let(:price) { rand(100).to_s }
+
+    it 'sends email' do
+      expect { monthly_subscription_paid }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(monthly_subscription_paid.subject).to eq('Your Monthly Purchase')
+      expect(monthly_subscription_paid.to).to eq([user.email])
+      expect(monthly_subscription_paid.body.encoded).to include(user.first_name)
+      expect(monthly_subscription_paid.body.encoded).to include(price)
+    end
+  end
+
+  describe '.annual_subscription_paid' do
+    subject(:annual_subscription_paid) do
+      described_class
+        .with(email: user.email, name: user.first_name, price: price)
+        .annual_subscription_paid
+        .deliver_now
+    end
+
+    let(:user) { create(:user) }
+    let(:price) { rand(100).to_s }
+
+    it 'sends email' do
+      expect { annual_subscription_paid }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(annual_subscription_paid.subject).to eq('Your Annual Purchase')
+      expect(annual_subscription_paid.to).to eq([user.email])
+      expect(annual_subscription_paid.body.encoded).to include(user.first_name)
+      expect(annual_subscription_paid.body.encoded).to include(price)
+    end
+  end
+
+  describe '.free_trial_start' do
+    subject(:free_trial_start) do
+      described_class
+        .with(
+          email: user.email,
+          first_payment_date: first_payment_date,
+          next_payment_date: next_payment_date
+        )
+        .free_trial_start
+        .deliver_now
+    end
+
+    let(:user) { create(:user) }
+    let(:first_payment_date) { Time.now.strftime('%B %d, %Y') }
+    let(:next_payment_date) { 1.year.from_now.strftime('%B %d, %Y') }
+
+    it 'sends email' do
+      expect { free_trial_start }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(free_trial_start.subject).to eq('Enjoy your 7 day free trial')
+      expect(free_trial_start.to).to eq([user.email])
+      expect(free_trial_start.body.encoded).to include(first_payment_date)
+      expect(free_trial_start.body.encoded).to include(next_payment_date)
+    end
+  end
+
   describe '.contact_us' do
     subject(:contact_us) do
       described_class

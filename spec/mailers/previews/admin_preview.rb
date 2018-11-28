@@ -23,22 +23,22 @@ class AdminPreview < ActionMailer::Preview
       .free_trial_user_created
   end
 
-  def user_first_monthly_transaction
+  def user_first_monthly_subscription_paid
     user = ::FactoryBot.create(:user)
 
     # TODO: Add some price
     AdminMailer
       .with(email: user.email, full_name: user.full_name, price: 1)
-      .user_first_monthly_transaction
+      .user_first_monthly_subscription_paid
   end
 
-  def user_first_annual_transaction
+  def user_first_annual_subscription_paid
     user = ::FactoryBot.create(:user)
 
     # TODO: Add some price
     AdminMailer
       .with(email: user.email, full_name: user.full_name, price: 1)
-      .user_first_annual_transaction
+      .user_first_annual_subscription_paid
   end
 
   def subscription_cancelled

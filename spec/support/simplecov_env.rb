@@ -7,8 +7,6 @@ module SimpleCovEnv
   module_function
 
   def start!
-    # return unless ENV['SIMPLECOV']
-
     configure_profile
     configure_job
     configure_formatters
@@ -32,13 +30,13 @@ module SimpleCovEnv
 
       add_filter 'config/initializers/'
       add_filter 'app/jobs'
-      add_filter 'app/mailers'
 
       add_group 'Actions', 'app/actions'
       add_group 'Controllers', 'app/controllers'
       add_group 'Deserializers', 'app/deserializers'
       add_group 'Finders', 'app/finders'
       add_group 'Models', 'app/models'
+      add_group 'Mailers', 'app/mailers'
       add_group 'Operations', 'app/operations'
       add_group 'Policies', 'app/policies'
       add_group 'Schemas', 'app/schemas'

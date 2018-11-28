@@ -18,7 +18,6 @@ Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec::Matchers.define_negated_matcher :not_change, :change
-RSpec::Matchers.define_negated_matcher :not_have_enqueued_job, :have_enqueued_job
 JsonMatchers.schema_root = "spec/support/schemas/api"
 
 RSpec.configure do |config|

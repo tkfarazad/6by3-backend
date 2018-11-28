@@ -30,13 +30,15 @@ RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperat
     end
 
     it 'subscription was cancelled' do
-      have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
-        .with(
-          'AdminMailer',
-          'subscription_cancelled',
-          'deliver_now',
-          hash_including(:email, :name, :price, :subscription_type)
-        )
+      expect { subscription_cancelled }.to(
+        have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+          .with(
+            'AdminMailer',
+            'subscription_cancelled',
+            'deliver_now',
+            hash_including(:email, :name, :price, :subscription_type)
+          )
+      )
     end
   end
 end

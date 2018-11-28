@@ -23,7 +23,7 @@ class AdminMailer < ApplicationMailer
     mail subject: 'New User Registered on Free 7 Days Trial'
   end
 
-  def user_first_monthly_transaction
+  def user_first_monthly_subscription_paid
     @name = params.fetch(:name)
     @email = params.fetch(:email)
     @price = params.fetch(:price)
@@ -31,7 +31,7 @@ class AdminMailer < ApplicationMailer
     mail subject: 'Monthly subscription fee successfully charged'
   end
 
-  def user_first_annual_transaction
+  def user_first_annual_subscription_paid
     @name = params.fetch(:name)
     @email = params.fetch(:email)
     @price = params.fetch(:price)

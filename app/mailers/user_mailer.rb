@@ -43,14 +43,14 @@ class UserMailer < ApplicationMailer
   end
 
   def monthly_subscription_paid
-    @name = params.fetch(:first_name)
+    @name = params.fetch(:name)
     @price = params.fetch(:price)
 
     mail to: params.fetch(:email), subject: 'Your Monthly Purchase'
   end
 
   def annual_subscription_paid
-    @name = params.fetch(:first_name)
+    @name = params.fetch(:name)
     @price = params.fetch(:price)
 
     mail to: params.fetch(:email), subject: 'Your Annual Purchase'

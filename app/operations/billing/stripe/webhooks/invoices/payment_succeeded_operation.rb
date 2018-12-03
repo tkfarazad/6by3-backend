@@ -41,24 +41,32 @@ module Billing::Stripe::Webhooks::Invoices
     end
 
     def notify_admin(user, plan)
+      method = ADMIN_DELIVERY_METHOD_BY_INTERVAL[plan.interval]
+
+      return unless method
+
       ::AdminMailer
         .with(
           email: user.email,
           name: user.full_name,
           price: plan.amount / 100.0
         )
-        .send(ADMIN_DELIVERY_METHOD_BY_INTERVAL.fetch(plan.interval))
+        .send(method)
         .deliver_later
     end
 
     def notify_user(user, plan)
+      method = USER_DELIVERY_METHOD_BY_INTERVAL[plan.interval]
+
+      return unless method
+
       ::UserMailer
         .with(
           email: user.email,
           name: user.first_name,
           price: plan.amount / 100.0
         )
-        .send(USER_DELIVERY_METHOD_BY_INTERVAL.fetch(plan.interval))
+        .send(method)
         .deliver_later
     end
   end

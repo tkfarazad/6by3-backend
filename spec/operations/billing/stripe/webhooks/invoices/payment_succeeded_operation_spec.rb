@@ -17,7 +17,7 @@ RSpec.describe Billing::Stripe::Webhooks::Invoices::PaymentSucceededOperation, :
       context 'when invoice is free(for trial)' do
         let(:invoice) { create(:stripe_invoice, amount_paid: 0, paid: true) }
 
-        it 'sends email' do
+        it 'does not sends email' do
           expect { call }.not_to(
             have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
           )
@@ -78,7 +78,7 @@ RSpec.describe Billing::Stripe::Webhooks::Invoices::PaymentSucceededOperation, :
       context 'when invoice is free(for trial)' do
         let(:invoice) { create(:stripe_invoice, amount_paid: 0, paid: true) }
 
-        it 'sends email' do
+        it 'does not sends email' do
           expect { call }.not_to(
             have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
           )
@@ -127,6 +127,19 @@ RSpec.describe Billing::Stripe::Webhooks::Invoices::PaymentSucceededOperation, :
               )
           )
         end
+      end
+    end
+
+    context 'when plan interval is uknown' do
+      before do
+        plan = create(:stripe_plan, interval: 'day')
+        create(:stripe_invoice_item, invoice: invoice, plan: plan)
+      end
+
+      it 'does not sends email' do
+        expect { call }.not_to(
+          have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+        )
       end
     end
   end

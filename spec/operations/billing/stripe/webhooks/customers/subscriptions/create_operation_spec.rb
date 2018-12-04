@@ -33,14 +33,6 @@ RSpec.describe Billing::Stripe::Webhooks::Customers::Subscriptions::CreateOperat
                 'free_trial_start',
                 'deliver_now',
                 hash_including(:email, :first_payment_date, :next_payment_date)
-              ).and(
-                have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
-                  .with(
-                    'AdminMailer',
-                    'free_trial_user_created',
-                    'deliver_now',
-                    hash_including(:email, :name)
-                  )
               )
           )
         end

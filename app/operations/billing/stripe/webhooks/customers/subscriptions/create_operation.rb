@@ -12,7 +12,6 @@ module Billing::Stripe::Webhooks::Customers::Subscriptions
         payment_dates = build_payment_dates(subscription, plan)
 
         notify_user_free_trial_user_created(user, payment_dates)
-        notify_admin_free_trial_user_created(user)
       end
 
       notify_free_user_created(user) if plan.free?
@@ -38,16 +37,6 @@ module Billing::Stripe::Webhooks::Customers::Subscriptions
           next_payment_date: next_payment_date
         )
         .free_trial_start
-        .deliver_later
-    end
-
-    def notify_admin_free_trial_user_created(user)
-      ::AdminMailer
-        .with(
-          email: user.email,
-          name: user.full_name
-        )
-        .free_trial_user_created
         .deliver_later
     end
 

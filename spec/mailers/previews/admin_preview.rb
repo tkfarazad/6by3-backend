@@ -15,14 +15,6 @@ class AdminPreview < ActionMailer::Preview
     AdminMailer.with(user_id: user.id, name: user.full_name).customer_deleted_admin_mail
   end
 
-  def free_trial_user_created
-    user = ::FactoryBot.create(:user)
-
-    AdminMailer
-      .with(email: user.email, full_name: user.full_name)
-      .free_trial_user_created
-  end
-
   def user_first_monthly_subscription_paid
     user = ::FactoryBot.create(:user)
 

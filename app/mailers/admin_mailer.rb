@@ -16,13 +16,6 @@ class AdminMailer < ApplicationMailer
     mail subject: '6by3 Subscription Cancelled by Admin'
   end
 
-  def free_trial_user_created
-    @name = params.fetch(:name)
-    @email = params.fetch(:email)
-
-    mail subject: 'New User Registered on Free 7 Days Trial'
-  end
-
   def user_first_monthly_subscription_paid
     @name = params.fetch(:name)
     @email = params.fetch(:email)

@@ -37,25 +37,6 @@ RSpec.describe AdminMailer, type: :mailer do
     end
   end
 
-  describe '.free_trial_user_created' do
-    subject(:free_trial_user_created) do
-      described_class
-        .with(name: user.full_name, email: user.email)
-        .free_trial_user_created
-        .deliver_now
-    end
-
-    let(:user) { create(:user) }
-
-    it 'sends email' do
-      expect { free_trial_user_created }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(free_trial_user_created.subject).to eq('New User Registered on Free 7 Days Trial')
-      expect(free_trial_user_created.to).to eq(['test@email.com'])
-      expect(free_trial_user_created.body.encoded).to include(user.full_name)
-      expect(free_trial_user_created.body.encoded).to include(user.email)
-    end
-  end
-
   describe '.user_first_monthly_subscription_paid' do
     subject(:user_first_monthly_subscription_paid) do
       described_class

@@ -21,6 +21,11 @@ RSpec.describe Api::V1::PaymentSources::CreateAction, :stripe do
     let(:token) { stripe_helper.generate_card_token }
 
     it 'returns success' do
+      expect { call }.to(
+        have_enqueued_job(Customerio::IdentifyUserJob).with(user_id: current_user.id)
+          .and(have_enqueued_job(Customerio::TrackJob).with(user_id: current_user.id, event: 'card-added'))
+      )
+
       expect(call).to be_success
     end
 

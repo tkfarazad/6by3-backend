@@ -23,10 +23,10 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.with(user_id: user.id, message: message).contact_us
   end
 
-  def customer_deleted_user_mail
+  def customer_deleted
     user = ::FactoryBot.create(:user)
 
-    UserMailer.with(user_id: user.id, name: user.first_name).customer_deleted_user_mail
+    UserMailer.with(user_id: user.id, name: user.first_name).customer_deleted
   end
 
   def monthly_subscription_paid

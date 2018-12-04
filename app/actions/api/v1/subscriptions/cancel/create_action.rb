@@ -2,8 +2,6 @@
 
 module Api::V1::Subscriptions::Cancel
   class CreateAction < ::Api::V1::BaseAction
-    include ::TransactionContext[:mailer_params]
-
     try  :find, catch: Sequel::NoMatchingRow
     step :authorize
     step :cancel

@@ -168,4 +168,22 @@ RSpec.describe UserMailer, type: :mailer do
       expect(subscription_cancelled.body.encoded).to include(human_readable_end_data)
     end
   end
+
+  describe '.customer_deleted' do
+    subject(:customer_deleted) do
+      described_class
+        .with(user_id: user.id, name: user.first_name)
+        .customer_deleted
+        .deliver_now
+    end
+
+    let(:user) { create(:user) }
+
+    it 'sends email' do
+      expect { customer_deleted }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect(customer_deleted.subject).to eq('6by3 Studio Subscription Cancelled by Administrator')
+      expect(customer_deleted.to).to eq([user.email])
+      expect(customer_deleted.body.encoded).to include(user.first_name)
+    end
+  end
 end

@@ -25,9 +25,9 @@ module Api::V1::Admin::Users
     end
 
     def notify(user)
-      ::AdminMailer
+      ::UserMailer
         .with(user_id: user.id, name: user.full_name)
-        .customer_deleted_user_mail
+        .customer_deleted
         .deliver_later
     end
   end

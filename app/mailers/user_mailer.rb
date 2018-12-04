@@ -69,4 +69,11 @@ class UserMailer < ApplicationMailer
 
     mail to: params.fetch(:email), subject: '6by3 Cancellation Confirmation'
   end
+
+  def customer_deleted
+    @name = params.fetch(:name)
+    @user = User.with_pk!(params.fetch(:user_id))
+
+    mail to: @user.email, from: 'support@6by3studio.com', subject: '6by3 Studio Subscription Cancelled by Administrator'
+  end
 end

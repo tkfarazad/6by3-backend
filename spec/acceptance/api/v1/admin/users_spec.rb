@@ -308,8 +308,6 @@ RSpec.describe 'Users' do
         let!(:subscription) do
           create(:stripe_subscription, :active, user: user, stripe_id: stripe_subscription.id)
         end
-        let(:event1) { StripeMock.mock_webhook_event('invoice.payment_succeeded') }
-        let(:event2) { StripeMock.mock_webhook_event('invoice.payment_succeeded') }
         let(:id) { user.id }
 
         context 'not authenticated' do

@@ -2,10 +2,13 @@
 
 module Api::V1::Subscriptions::Cancel
   class CreateAction < ::Api::V1::BaseAction
-    try  :find, catch: Sequel::NoMatchingRow
+    CUSTOMERIO_EVENT = 'free-trial-cancelled'
+
+    try :find, catch: Sequel::NoMatchingRow
     step :authorize
     step :cancel
     tee :notify
+    tee :enqueue_jobs
 
     private
 
@@ -32,6 +35,12 @@ module Api::V1::Subscriptions::Cancel
         )
         .subscription_cancelled
         .deliver_later
+    end
+
+    def enqueue_jobs(subscription)
+      return unless subscription.trialing? || subscription.plans.first.free?
+
+      ::Customerio::TrackJob.perform_later(user_id: current_user.id, event: CUSTOMERIO_EVENT)
     end
   end
 end

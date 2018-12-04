@@ -2,7 +2,7 @@
 
 module SixByThree
   module Constants
-    AVAILABLE_UPLOAD_IMAGE_EXTENSIONS = %w[png jpeg].freeze
+    AVAILABLE_UPLOAD_IMAGE_EXTENSIONS = %w[png jpg jpeg].freeze
     AVAILABLE_UPLOAD_IMAGE_CONTENT_TYPES = %w[image/png image/jpeg].freeze
 
     AVAILABLE_UPLOAD_VIDEO_EXTENSIONS = %w[mp4 avi mov mpeg].freeze

@@ -8,3 +8,4 @@ staging:
   - subscriptions
   - default
   - mailers
+  - customerio

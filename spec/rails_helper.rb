@@ -13,6 +13,9 @@ require 'json_matchers/rspec'
 require 'dry/container/stub'
 require 'webrick'
 require 'sc/billing/factories'
+require 'dry/container/stub'
+
+Container.enable_stubs!
 
 Dir[Rails.root.join('spec/shared_contexts/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -61,6 +64,8 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
+
+    Container.unstub
   end
 end
 

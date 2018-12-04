@@ -31,6 +31,7 @@ RSpec.describe Api::V1::Users::CreateAction do
       expect(SendConfirmationLetterJob).to receive(:perform_later)
       expect(CreateCustomerJob).to receive(:perform_later)
       expect(LocateUserJob).to receive(:perform_later)
+      expect(Customerio::IdentifyUserJob).to receive(:perform_later)
 
       expect { call }.to change(User, :count).by(1)
       expect(call).to be_success

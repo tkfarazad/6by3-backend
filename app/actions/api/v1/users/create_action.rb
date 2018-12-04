@@ -25,6 +25,7 @@ module Api::V1::Users
       ::SendConfirmationLetterJob.perform_later(user_id: user.id)
       ::CreateCustomerJob.perform_later(user_id: user.id)
       ::LocateUserJob.perform_later(user_id: user.id, ip_addr: request.remote_ip)
+      ::Customerio::IdentifyUserJob.perform_later(user_id: user.id)
     end
   end
 end

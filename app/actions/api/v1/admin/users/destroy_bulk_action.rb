@@ -31,11 +31,6 @@ module Api::V1::Admin::Users
         .with(user_id: user.id, name: user.full_name)
         .customer_deleted_user_mail
         .deliver_later
-
-      ::AdminMailer
-        .with(user_id: user.id, name: user.full_name)
-        .customer_deleted_admin_mail
-        .deliver_later
     end
   end
 end

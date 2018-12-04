@@ -15,14 +15,5 @@ module SixByThree
     VALUE_PRESENT = :VALUE_PRESENT
 
     PUSHER_CHANNELS = [/^private-users\.\d+$/].freeze
-
-    STRIPE = {
-      SUBSCRIPTION_TYPES: {
-        day: 'Daily',
-        week: 'Weekly',
-        month: 'Monthly',
-        year: 'Annual'
-      }
-    }.freeze
   end
 end

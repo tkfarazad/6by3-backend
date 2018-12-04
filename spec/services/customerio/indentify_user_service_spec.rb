@@ -17,7 +17,7 @@ RSpec.describe Customerio::IdentifyUserService, :customerio do
 
       expect(customerio_client).to(
         have_received(:identify).with(
-          hash_including(:id, :email, :created_at, :email_confirmed, :credit_card_added)
+          hash_including(:id, :email, :created_at, :email_confirmed, :card_added)
         )
       )
     end

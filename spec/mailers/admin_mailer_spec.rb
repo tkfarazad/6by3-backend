@@ -36,27 +36,4 @@ RSpec.describe AdminMailer, type: :mailer do
       expect(customer_deleted_admin_mail.body.encoded).to include(user.full_name)
     end
   end
-
-  describe '.subscription_cancelled' do
-    subject(:subscription_cancelled) do
-      described_class
-        .with(name: user.full_name, email: user.email, price: price, subscription_type: subscription_type)
-        .subscription_cancelled
-        .deliver_now
-    end
-
-    let(:user) { create(:user) }
-    let(:price) { rand(100).to_s }
-    let(:subscription_type) { %w[annual monthly].sample }
-
-    it 'sends email' do
-      expect { subscription_cancelled }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(subscription_cancelled.subject).to eq('Subscription Cancelled')
-      expect(subscription_cancelled.to).to eq(['test@email.com'])
-      expect(subscription_cancelled.body.encoded).to include(user.full_name)
-      expect(subscription_cancelled.body.encoded).to include(user.email)
-      expect(subscription_cancelled.body.encoded).to include(price)
-      expect(subscription_cancelled.body.encoded).to include(subscription_type)
-    end
-  end
 end

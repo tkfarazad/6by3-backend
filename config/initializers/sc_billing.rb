@@ -34,10 +34,7 @@ SC::Billing.configure do |config| # rubocop:disable Metrics/BlockLength
       ]
     },
     'customer.subscription.updated' => {
-      'after' => [
-        ActualizeUserPlanTypeService,
-        Billing::Stripe::Webhooks::Customers::Subscriptions::UpdateOperation
-      ]
+      'after' => ActualizeUserPlanTypeService
     },
     'customer.subscription.deleted' => {
       'after' => ActualizeUserPlanTypeService

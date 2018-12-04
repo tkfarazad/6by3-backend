@@ -15,13 +15,4 @@ class AdminMailer < ApplicationMailer
 
     mail subject: '6by3 Subscription Cancelled by Admin'
   end
-
-  def subscription_cancelled
-    @name = params.fetch(:name)
-    @email = params.fetch(:email)
-    @price = params.fetch(:price)
-    @subscription_type = params.fetch(:subscription_type)
-
-    mail subject: 'Subscription Cancelled'
-  end
 end

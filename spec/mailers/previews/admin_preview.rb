@@ -14,14 +14,4 @@ class AdminPreview < ActionMailer::Preview
 
     AdminMailer.with(user_id: user.id, name: user.full_name).customer_deleted_admin_mail
   end
-
-  def subscription_cancelled
-    user = ::FactoryBot.create(:user)
-
-    # TODO: Add some price
-    # TODO: subscription_type: (Monthly or Annual)
-    AdminMailer
-      .with(email: user.email, full_name: user.full_name, price: 1, subscription_type: 'annual')
-      .subscription_cancelled
-  end
 end

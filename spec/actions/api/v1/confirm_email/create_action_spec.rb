@@ -50,7 +50,9 @@ RSpec.describe Api::V1::ConfirmEmail::CreateAction do
       it 'marks email as confirmed' do
         expect { call }.to(
           change { user.reload.email_confirmed_at.to_i }.to(Time.current.to_i)
-          .and(change { user.reload.email_confirmation_token }.to(nil))
+            .and(change { user.reload.email_confirmation_token }.to(nil))
+            .and(have_enqueued_job(Customerio::IdentifyUserJob).with(user_id: user.id))
+            .and(have_enqueued_job(Customerio::TrackJob).with(user_id: user.id, event: 'email-confirmed'))
         )
       end
 

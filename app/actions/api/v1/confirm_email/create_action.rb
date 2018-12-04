@@ -3,6 +3,7 @@
 module Api::V1::ConfirmEmail
   class CreateAction < ::Api::V1::BaseAction
     CONFIRMATION_TOKEN_LIFETIME = 1.day
+    CUSTOMERIO_EVENT = 'email-confirmed'
 
     try :deserialize, with: 'params.deserialize', catch: JSONAPI::Parser::InvalidDocument
     step :validate, with: 'params.validate'
@@ -10,6 +11,7 @@ module Api::V1::ConfirmEmail
     step :check_not_found
     step :check_processable
     map :confirm
+    tee :enqueue_jobs
 
     private
 
@@ -38,6 +40,11 @@ module Api::V1::ConfirmEmail
         email_confirmed_at: Time.current,
         email_confirmation_token: nil
       )
+    end
+
+    def enqueue_jobs(user)
+      ::Customerio::IdentifyUserJob.perform_later(user_id: user.id)
+      ::Customerio::TrackJob.perform_later(user_id: user.id, event: CUSTOMERIO_EVENT)
     end
 
     def token_expired?(user)

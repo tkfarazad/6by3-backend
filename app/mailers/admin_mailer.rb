@@ -16,14 +16,6 @@ class AdminMailer < ApplicationMailer
     mail subject: '6by3 Subscription Cancelled by Admin'
   end
 
-  def user_first_monthly_subscription_paid
-    @name = params.fetch(:name)
-    @email = params.fetch(:email)
-    @price = params.fetch(:price)
-
-    mail subject: 'Monthly subscription fee successfully charged'
-  end
-
   def user_first_annual_subscription_paid
     @name = params.fetch(:name)
     @email = params.fetch(:email)

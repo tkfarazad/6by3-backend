@@ -37,27 +37,6 @@ RSpec.describe AdminMailer, type: :mailer do
     end
   end
 
-  describe '.user_first_monthly_subscription_paid' do
-    subject(:user_first_monthly_subscription_paid) do
-      described_class
-        .with(name: user.full_name, email: user.email, price: price)
-        .user_first_monthly_subscription_paid
-        .deliver_now
-    end
-
-    let(:user) { create(:user) }
-    let(:price) { rand(100).to_s }
-
-    it 'sends email' do
-      expect { user_first_monthly_subscription_paid }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(user_first_monthly_subscription_paid.subject).to eq('Monthly subscription fee successfully charged')
-      expect(user_first_monthly_subscription_paid.to).to eq(['test@email.com'])
-      expect(user_first_monthly_subscription_paid.body.encoded).to include(user.full_name)
-      expect(user_first_monthly_subscription_paid.body.encoded).to include(user.email)
-      expect(user_first_monthly_subscription_paid.body.encoded).to include(price)
-    end
-  end
-
   describe '.user_first_annual_subscription_paid' do
     subject(:user_first_annual_subscription_paid) do
       described_class

@@ -3,7 +3,6 @@
 module Billing::Stripe::Webhooks::Invoices
   class PaymentSucceededOperation
     ADMIN_DELIVERY_METHOD_BY_INTERVAL = {
-      'month' => 'user_first_monthly_subscription_paid',
       'year' => 'user_first_annual_subscription_paid'
     }.freeze
 

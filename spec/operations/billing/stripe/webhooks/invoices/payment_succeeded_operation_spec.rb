@@ -33,18 +33,10 @@ RSpec.describe Billing::Stripe::Webhooks::Invoices::PaymentSucceededOperation, :
           expect { call }.to(
             have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
               .with(
-                'AdminMailer',
-                'user_first_monthly_subscription_paid',
+                'UserMailer',
+                'monthly_subscription_paid',
                 'deliver_now',
                 hash_including(:email, :name, :price)
-              ).and(
-                have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
-                  .with(
-                    'UserMailer',
-                    'monthly_subscription_paid',
-                    'deliver_now',
-                    hash_including(:email, :name, :price)
-                  )
               )
           )
         end

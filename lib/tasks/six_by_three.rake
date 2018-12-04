@@ -12,4 +12,10 @@ namespace :six_by_three do
   task actualize_user_plan_types: :environment do
     ActualizeUserPlanTypesJob.perform_later
   end
+
+  namespace :customerio do
+    task identify_users: :environment do
+      Customerio::IdentifyUsersJob.perform_later
+    end
+  end
 end

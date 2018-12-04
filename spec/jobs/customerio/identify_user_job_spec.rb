@@ -15,9 +15,11 @@ RSpec.describe Customerio::IdentifyUserJob do
     end
 
     it 'calls service' do
-      expect(identify_user_service).to receive(:call).with(user: user)
+      allow(identify_user_service).to receive(:call)
 
       perform
+
+      expect(identify_user_service).to have_received(:call).with(user: user)
     end
   end
 end

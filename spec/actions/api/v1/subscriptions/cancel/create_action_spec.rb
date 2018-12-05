@@ -7,7 +7,6 @@ RSpec.describe Api::V1::Subscriptions::Cancel::CreateAction, :stripe do
   let!(:plan) { create(:stripe_plan, stripe_id: event.data.object.id, amount: 0) }
   let(:stripe_subscription) { Stripe::Subscription.create(customer: stripe_customer.id, items: [plan: item_plan.id]) }
   let(:user) { create(:user, stripe_customer_id: stripe_customer.id) }
-  let(:subscription) { create(:stripe_subscription, :trialing, user: user, stripe_id: stripe_subscription.id) }
   let(:action) { described_class.new(context: {current_user: user}) }
 
   describe '#call' do
@@ -19,20 +18,42 @@ RSpec.describe Api::V1::Subscriptions::Cancel::CreateAction, :stripe do
       create(:stripe_subscribed_plan, subscription: subscription, plan: plan)
     end
 
-    it 'enqueues mailer and customer io jobs' do
-      expect { call }.to(
-        have_enqueued_job(Customerio::IdentifyUserJob).with(user_id: user.id)
-          .and(have_enqueued_job(Customerio::TrackJob).with(user_id: user.id, event: 'free-trial-cancelled'))
-          .and(
-            have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
-              .with(
-                'UserMailer',
-                'subscription_cancelled',
-                'deliver_now',
-                hash_including(:email, :name, :end_date)
-              )
-          )
-      )
+    context 'when subscription is trial' do
+      let(:subscription) { create(:stripe_subscription, :trialing, user: user, stripe_id: stripe_subscription.id) }
+
+      it 'enqueues mailer and customer io jobs' do
+        expect { call }.to(
+          have_enqueued_job(Customerio::TrackJob).with(user_id: user.id, event: 'free-trial-cancelled')
+            .and(
+              have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+                .with(
+                  'UserMailer',
+                  'subscription_cancelled',
+                  'deliver_now',
+                  hash_including(:email, :name, :end_date)
+                )
+            )
+        )
+      end
+    end
+
+    context 'when subscription is active' do
+      let(:subscription) { create(:stripe_subscription, :active, user: user, stripe_id: stripe_subscription.id) }
+
+      it 'enqueues mailer and customer io jobs' do
+        expect { call }.to(
+          have_enqueued_job(Customerio::TrackJob).with(user_id: user.id, event: 'active-cancelled')
+            .and(
+              have_enqueued_job(ActionMailer::Parameterized::DeliveryJob)
+                .with(
+                  'UserMailer',
+                  'subscription_cancelled',
+                  'deliver_now',
+                  hash_including(:email, :name, :end_date)
+                )
+            )
+        )
+      end
     end
   end
 end

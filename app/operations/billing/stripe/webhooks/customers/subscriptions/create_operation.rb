@@ -3,7 +3,7 @@
 module Billing::Stripe::Webhooks::Customers::Subscriptions
   class CreateOperation
     def call(**params)
-      subscription = fetch_subscription(params.fetch(:event))
+      subscription = params.fetch(:subscription)
 
       user = params.fetch(:user)
       plan = subscription.plans.first
@@ -19,10 +19,6 @@ module Billing::Stripe::Webhooks::Customers::Subscriptions
     end
 
     private
-
-    def fetch_subscription(event)
-      ::SC::Billing::Stripe::Subscription.first(stripe_id: event.data.object.id)
-    end
 
     def build_payment_dates(subscription, plan)
       subscription_end_at = subscription.current_period_end_at

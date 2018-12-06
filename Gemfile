@@ -57,7 +57,7 @@ gem 'sidekiq', '~> 5.1'
 gem 'sidekiq-statistic', '~> 1.3.0', github: 'davydovanton/sidekiq-statistic'
 
 gem 'sc-webhooks', sc_gem: 'sc-webhooks'
-gem 'sc-billing', sc_gem: 'sc-billing', ref: 'e5928a2'
+gem 'sc-billing', sc_gem: 'sc-billing', ref: '6d58e01'
 
 gem 'customerio', '~> 2.2'
 

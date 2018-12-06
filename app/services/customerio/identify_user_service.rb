@@ -8,6 +8,8 @@ module Customerio
       client.identify(
         id: user.id,
         email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
         created_at: user.created_at.to_i,
         email_confirmed: user.email_confirmed_at.present?,
         card_added: card_added?(user)

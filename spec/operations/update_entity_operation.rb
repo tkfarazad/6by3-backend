@@ -13,7 +13,16 @@ RSpec.describe UpdateEntityOperation do
 
       it 'record is updated' do
         expect { subject }.to change(record, :fullname).from(initial_data).to(updated_data)
+        expect(subject).to eq(record)
         expect(record.updated_at).not_to eq(record.created_at)
+      end
+    end
+
+    context 'when nothing to update' do
+      let(:input) { {} }
+
+      it 'returns record' do
+        expect(subject).to eq(record)
       end
     end
   end

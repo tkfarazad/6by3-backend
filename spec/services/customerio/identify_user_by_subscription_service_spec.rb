@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe Customerio::IdentifyUserService, :customerio do
+RSpec.describe Customerio::IdentifyUserBySubscriptionService, :customerio do
   let(:service) { described_class.new }
 
   describe '#call' do
     subject(:call) do
-      service.call(user: user)
+      service.call(subscription: subscription)
     end
 
-    let(:user) { create(:user) }
+    let(:subscription) { create(:stripe_subscription) }
 
     it 'identifies user in customerio' do
       allow(customerio_client).to receive(:identify)
@@ -29,6 +29,18 @@ RSpec.describe Customerio::IdentifyUserService, :customerio do
           )
         )
       )
+    end
+
+    context 'when subscription is nil' do
+      let(:subscription) { nil }
+
+      it 'does not identify user in customerio' do
+        allow(customerio_client).to receive(:identify)
+
+        call
+
+        expect(customerio_client).not_to have_received(:identify)
+      end
     end
   end
 end
